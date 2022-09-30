@@ -13,6 +13,7 @@
             }
             $handler = fopen('php://input','r');
             $this->request = stream_get_contents($handler);
+            //echo ($this->request);
             $this->validateRequest();
 
             if('generateToken' != $this->serviceName){
@@ -39,10 +40,12 @@
             $this->param = $data["param"];
         }
 
-        public function processApi(){
+
+        //** hay que modificar para crear la clase segun la api */
+        public function processApi($className){
             try{
-                $api = new InsoelUsuariosApi();
-                $rMethod = new ReflectionMethod("InsoelUsuariosApi",$this->serviceName);
+                $api = new $className();
+                $rMethod = new ReflectionMethod($className,$this->serviceName);
                 if(!method_exists($api,$this->serviceName)){
                     $this->throwError(API_DOST_NOT_EXIST,"Api does not exist.");
                 }
