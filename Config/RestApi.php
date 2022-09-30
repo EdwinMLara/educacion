@@ -27,12 +27,13 @@
              * el segundo argumento es el nombre a buscar dentro de la tabla 
              */
             $usuario = $this->service->getByField("username",$username);
+
             try{
                 $payload = [
                     'iat' => time(),
                     'iss' => 'localhost',
-                    'exp' => time()+(20*60), //son segundo para que no se olvide
-                    'userId' => $usuario->id_usuario
+                    'exp' => time()+(100*60), //son segundo para que no se olvide
+                    'userId' => $usuario->idUsuarios
                 ];
 
                 $token = JWT::encode($payload,SECRET_KEY);
