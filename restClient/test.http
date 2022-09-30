@@ -1,0 +1,97 @@
+### solo se pueden realizar peticiones tipo post, revisar las comas que dividen atributtos del json
+
+### Solicitar un token en funcion del usuario
+POST http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
+content-type: application/json
+
+{
+    "name": "generateToken",
+    "param": {
+        "username" : "EdwinMLara",
+        "password" : "admin"
+    }
+}
+
+### una vez obtenido le token podemos realizar peticiones este es un ejemplo para crear un usuarios
+
+post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjM2OTA1NzUsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2MzY5NjU3NSwidXNlcklkIjoiMSJ9.jNQt0mKmcAj47Eg3g3aRfc2pCWhqa3rufaAqxVHfrhA
+
+{
+    "name":"addUser",
+    "param":{
+        "username" : "Prueba",
+        "password" : "admin2",
+        "tipoCuenta" : "2"
+    }
+}
+
+### solicitar los usuarios 
+
+post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjQyMDc2NTEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NDIxMzY1MSwidXNlcklkIjoiOCJ9.XMioSIIW9twmx_CE4m3QKtqiicmJNLwr4GuAYZRa8nk
+
+{
+    "name":"getUsers",
+    "param":{
+    }
+}
+
+### para actulizar los usuarios
+
+post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjM2OTA1NzUsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2MzY5NjU3NSwidXNlcklkIjoiMSJ9.jNQt0mKmcAj47Eg3g3aRfc2pCWhqa3rufaAqxVHfrhA
+
+{
+    "name":"updateUser",
+    "param":{
+        "idUsuarios":"4",
+        "username" : "Editing",
+        "password" : "adminEditing",
+        "tipoCuenta" : "2"
+    }
+}
+
+### para actulizar los usuarios
+
+post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjM4NzEzMjEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2Mzg3NzMyMSwidXNlcklkIjoiMSJ9.kM0oAFeoM3fpjddpW0f5G-v9GvtpfSPK-ypyiwvc3ZI
+
+{
+    "name":"deleteUser",
+    "param":{
+        "idUsuarios":"7"
+    }
+}
+
+### Es para obtener uun get paginado
+
+post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjQyMDY2OTMsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NDIxMjY5MywidXNlcklkIjoiOCJ9.jc5K92-YdJoSPMZMLaubGujEdUmmZjiss3exupYm8jo
+
+{
+    "name":"getUserPaginate",
+    "param":{
+        "page":"5",
+        "perPage":"5"
+    }
+}
+
+
+### Para Buscar 
+
+post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjQ1NTg3ODQsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NDU2NDc4NCwidXNlcklkIjoiOCJ9.BRHOmzTWqDXEZkcIOPKlEPpgSoRajXn5FwKO3KPKZjU
+
+{
+    "name":"getByNameLike",
+    "param":{
+        "buscar":"Ed"
+    }
+}
