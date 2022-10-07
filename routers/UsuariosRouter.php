@@ -92,7 +92,9 @@ class UsuariosRouter extends RestApi
 
         if ($usuarios = $this->service->getAll()) {
             $numUsuarios = count($usuarios);
-            $paginatesUsers = array_slice($usuarios, $page - 1, $perPage);
+            $inicio = ($page - 1)*$perPage;
+            $fin = $perPage;
+            $paginatesUsers = array_slice($usuarios, $inicio, $fin);
 
             $response = new stdClass();
             $response->total = $numUsuarios;
