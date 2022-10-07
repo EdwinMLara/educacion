@@ -1,16 +1,4 @@
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjQ1NjQwODQsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NDU3MDA4NCwidXNlcklkIjoiOCJ9.XZspAnrmF0qp-2H8CyP3BRdleeWroXePuYsI6IM0YWg"
-
-function getFormData($form) {
-    var unindexed_array = $form.serializeArray();
-    var indexed_array = {};
-
-    $.map(unindexed_array, function (n, i) {
-        indexed_array[n['name']] = n['value'];
-    });
-
-    return indexed_array;
-}
-
+/** revisar evento de buscar cuando no hay nada*/
 
 //Crear usuario
 $("#formAddUsuarios").validate({ // initialize the plugin
@@ -77,7 +65,7 @@ creo hay un error la paginar pocos pero necesito avanzar*/
 
 const paginar = (page) => {
     console.log("=============  Leer Usuarios Paginando =============");
-    let perPage = $("#selectPerPageUsuarios :selected").val();
+    let perPage = $("#selectPerPage :selected").val();
 
     let data = {
         name: "getUserPaginate",
@@ -86,97 +74,25 @@ const paginar = (page) => {
             perPage
         }
     }
+    request('/educacion/Api/apiUsuarios.php', data, function (res) {
+        console.log(res);
+        if (!res.hasOwnProperty('error')) {
+            let numDatos = res.response.result.total;
+            let usuarios = res.response.result.usuarios;
 
-    $.ajax({
-        url: '/educacion/Api/apiUsuarios.php',
-        type: "POST",
-        dataType: 'json',
-        data: JSON.stringify(data),
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', "Bearer " + token);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-        },
-        success: function (res) {
-            console.log(res);
-            if (!res.hasOwnProperty('error')) {
-                let numDatos = res.response.result.total;
-                let usuarios = res.response.result.usuarios;
+            let trHTML = '';
+            usuarios.forEach(user => {
+                trHTML += '<tr><td>' + user.idUsuarios + '</td><td>'
+                    + user.username + '</td><td>' + user.password
+                    + '</td><td>' + user.tipoCuenta + '</td><td>'
+                    + `<button type="button" onclick="location.href=\'./updateUsuarios.php?idUsuarios=${user.idUsuarios}&username=${user.username}\'" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></button>`
+                    + `<button type="button" onclick="deleteUsuario(${user.idUsuarios})" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>`
+                    + '</td></tr>';
+            });
 
-                let trHTML = '';
-                usuarios.forEach(user => {
-                    trHTML += '<tr><td>' + user.idUsuarios + '</td><td>'
-                        + user.username + '</td><td>' + user.password
-                        + '</td><td>' + user.tipoCuenta + '</td><td>'
-                        + `<button type="button" onclick="location.href=\'./updateUsuarios.php?idUsuarios=${user.idUsuarios}&username=${user.username}\'" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></button>`
-                        + `<button type="button" onclick="deleteUsuario(${user.idUsuarios})" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>`
-                        + '</td></tr>';
-                });
-
-                $('#bodyUsuariosTable').empty();
-                $('#bodyUsuariosTable').append(trHTML);
-
-                //Agregando paginador
-
-                let paginas = parseInt(numDatos / perPage);
-                let diferencia = 2;
-                let mostarPaginas = 3;
-                console.log(paginas);
-
-                if (paginas > 1) {
-                    let mostrandoHtml = '<div class="col-sm-12 col-md-5">'
-                        + '<div class="dataTables_info" id="dataTable_info">'
-                        + `Mostrando del ${(page - 1) * perPage} al ${(page * perPage) - 1} `
-                        + '</div></div>';
-
-                    let disabledPrevious = page === 1 ? 'disabled' : '';
-
-                    let paginadorHtml = '<div class="col-sm-12 col-md-7">'
-                        + '<div id="dataTables_paginate paging_simple_number" class="dataTables_paginate">'
-                        + '<ul class="pagination">'
-                        + `<li class="page-item ${disabledPrevious}" onclick="paginar(${page - 1})"><a class="page-link" href="#" tabindex="-1">Previous</a></li>`;
-
-                    if (paginas >= 4) {
-                        let puntos = `<li class="page-item disabled" disabled><a class="page-link" href="#">...</a></li>`;
-                        let fin = page + mostrandoHtml > paginas ? paginas : page + mostarPaginas;
-
-                        if (fin - page > diferencia) {
-
-                            for (let i = page; i < fin; i++) {
-                                let active = page === i ? 'active' : null;
-                                paginadorHtml += `<li class="page-item ${active}" onclick="paginar(${i})"><a class="page-link" href="#">${i}</a></li>`
-                            }
-                            paginadorHtml += puntos;
-
-                        } else {
-                            paginadorHtml += puntos;
-                            for (let i = page; i < fin; i++) {
-                                let active = page === i ? 'active' : null;
-                                paginadorHtml += `<li class="page-item ${active}" onclick="paginar(${i})"><a class="page-link" href="#">${i}</a></li>`
-                            }
-                        }
-
-
-                    } else {
-                        for (let i = 1; i <= paginas; i++) {
-                            let active = page === i ? 'active' : null;
-                            paginadorHtml += `<li class="page-item ${active}"><a class="page-link" href="#">${i}</a></li>`
-                        }
-                    }
-
-
-                    let disabledNext = page === paginas ? 'disabled' : '';
-                    mostrandoHtml += paginadorHtml + `<li class="page-item ${disabledNext}" onclick="paginar(${page + 1})"><a class="page-link" href="#">Next</a></li></ul> </div> </div>`;
-
-
-                    $(`#paginadorUsuarios`).empty();
-                    $(`#paginadorUsuarios`).append(mostrandoHtml);
-                }
-            } else {
-                alert(res.error.message);
-            }
-        },
-        error: function (xhr, resp, text) {
-            console.log(xhr, resp, text);
+            $('#bodyUsuariosTable').empty();
+            $('#bodyUsuariosTable').append(trHTML);
+            insertStrPaginador(numDatos,page,perPage);
         }
     });
 }
@@ -330,6 +246,6 @@ $("input[name=search]").on('change', function () {
 });
 
 
-$("#selectPerPageUsuarios").on('change', function () {
+$("#selectPerPage").on('change', function () {
     paginar(1);
 });
