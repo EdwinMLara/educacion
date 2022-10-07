@@ -1,15 +1,12 @@
 <?php
     require_once("../Config/RestApi.php");
     require_once("../Config/Service.php");
-    require_once("../Config/Encryptation.php");
     require_once("../Modelos/EscuelaInstitucion.php");
 
     class EscuelaInstitucionRouter extends RestApi{
-        private $key;
 
         public function __construct(){
             parent::__construct("escuelainstitucion");
-            $this->key = "esculaInstitucionKey";
         }
 
         public function addEscuela(){
@@ -23,15 +20,15 @@
             
             $arguments = array($nombre,$calle,$no,$colonia,$municipio,$telefono,$tipoInstitucion);
             if($this->service->create($arguments)){
-                $this->returnResponse('SUCESS_RESPONSE',"An school has been created.");
+                $this->returnResponse(SUCESS_RESPONSE,"An school has been created.");
             }else{
                 $this->throwError('CREATED_ERROR',"An error has been ocurred to create the object.");
             }
         }
 
-        public function getUsers(){
+        public function getEscuelas(){
             $usuarios = $this->service->getAll();
-            $this->returnResponse('SUCCES_RESPONSE',$usuarios);
+            $this->returnResponse(SUCESS_RESPONSE,$usuarios);
         }
     }
 ?>
