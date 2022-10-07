@@ -1,0 +1,11 @@
+### solicitar los escuelas 
+
+post http://localhost/educacion/Api/apiEscuelas.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjUxNjkzNzksImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTE3NTM3OSwidXNlcklkIjoiOCJ9.qtcR-s9o7zufJNNLuNea8IM-fuGtdR3-WoqXLsLaeSc
+
+{
+    "name":"getEscuelas",
+    "param":{
+    }
+}
