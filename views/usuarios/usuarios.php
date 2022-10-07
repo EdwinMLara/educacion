@@ -40,7 +40,7 @@ if ($login) {
                             <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_length" id="dataTables_length">
                                     <label>"Show"</label>
-                                    <select id="selectPerPageUsuarios" name="dataTable_length" class="custom-select custom-select-sm form-control form-control-sm">
+                                    <select id="selectPerPage" name="dataTable_length" class="custom-select custom-select-sm form-control form-control-sm">
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="15">15</option>
@@ -75,7 +75,7 @@ if ($login) {
                         </div>
 
                         <!-- paginador -->
-                        <div id="paginadorUsuarios" class="row">
+                        <div id="paginador" class="row">
                             
                         </div>
                     </div>
@@ -85,6 +85,8 @@ if ($login) {
         </div>
     <!-- /.container-fluid -->  
     </div>
+
+    <script src="/educacion/js/usuarios.js"></script>
 
 <?php
     // Cargando Fooder

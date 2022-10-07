@@ -22,7 +22,7 @@ if ($login) {
 ?>
 
     <div class="container-fluid">
-        <div id="alertAddUsuarios">
+        <div id="alert">
 
         </div>
         <!-- Page Heading -->
@@ -50,6 +50,7 @@ if ($login) {
                 Agregar
             </button>
         </form>
+        <script src="/educacion/js/usuarios.js"></script>
     <?php
     // Cargando Fooder
     require_once("../share/footer.php");
