@@ -22,17 +22,16 @@ if ($login) {
 ?>
 
     <div class="container-fluid">
-
-        <div id="alert">
+        <div id="alertUpdateUsuarios">
 
         </div>
-
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Agregar Instituciones</h1>
+            <h1 class="h3 mb-0 text-gray-800">Actulizar Datos de <?php echo $_GET["nombre"];?></h1>
         </div>
-
-        <form id="formAddEscuelas">
+        
+        <form id="formUpdateEscuela">
+            <input type="hidden"  name="idUsuarios" value="<?php echo $_GET["idEscuela"];?>">
             <div class="form-group">
                 <input type="text" class="form-control" name="nombre" placeholder="Nombre de la institucion...">
             </div>
@@ -44,7 +43,7 @@ if ($login) {
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
+                <div class="form-group">
                         <input type="text" class="form-control" name="no" placeholder="#">
                     </div>
                 </div>
@@ -57,7 +56,7 @@ if ($login) {
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                <div class="form-group">
                         <input type="text" class="form-control" name="municipio" placeholder="Municipio">
                     </div>
                 </div>
@@ -71,20 +70,16 @@ if ($login) {
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                <div class="form-group">
                         <input type="text" class="form-control" name="tipoInstitucion" placeholder="Tipo de Institucion">
                     </div>
                 </div>
             </div>
 
-
             <button type="submit" class="btn btn-primary btn-user btn-block">
-                Agregar
+                Actualizar
             </button>
         </form>
-
-        <script src="/educacion/js/escuelas.js"></script>
-
     <?php
     // Cargando Fooder
     require_once("../share/footer.php");
