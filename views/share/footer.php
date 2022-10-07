@@ -38,20 +38,10 @@
     </div>
 </div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="/educacion/vendor/jquery/jquery.min.js"></script>
-<script src="/educacion/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="/educacion/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Page level plugins
+<script src="/educacion/vendor/chart.js/Chart.min.js"></script> -->
 
-<!-- Custom scripts for all pages-->
-<script src="/educacion/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script src="/educacion/vendor/chart.js/Chart.min.js"></script>
-<script src="/educacion/js/jquery.validate.min.js"></script>
-<script src="/educacion/js/usuarios.js"></script>
 <!-- Page level custom scripts 
 <script src="/educacion/js/demo/chart-area-demo.js"></script>
 <script src="/educacion/js/demo/chart-pie-demo.js"></script>-->
