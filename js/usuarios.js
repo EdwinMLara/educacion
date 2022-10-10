@@ -92,7 +92,7 @@ const paginar = (page) => {
 
             $('#bodyUsuariosTable').empty();
             $('#bodyUsuariosTable').append(trHTML);
-            insertStrPaginador(numDatos,page,perPage);
+            insertStrPaginador(numDatos,page,perPage,"paginar");
         }
     });
 }
@@ -245,7 +245,3 @@ $("input[name=search]").on('change', function () {
     });
 });
 
-
-$("#selectPerPage").on('change', function () {
-    paginar(1);
-});
