@@ -1,4 +1,4 @@
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjUxNjkzNzksImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTE3NTM3OSwidXNlcklkIjoiOCJ9.qtcR-s9o7zufJNNLuNea8IM-fuGtdR3-WoqXLsLaeSc"
+const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0Mjc0MTUsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTQzMzQxNSwidXNlcklkIjoiOCJ9.umgQl6lGo8DFIK4yNvNaOivmEJl6kwcDUGG_uAtn-CQ"
 
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
@@ -17,7 +17,7 @@ function mostrarRequestAlerResult(status) {
     status === 200 ? $("#alert").append(trueResponse) : $("#alert").append(falseResponse);
 }
 
-function insertStrPaginador(numDatos,page,perPage) {
+function insertStrPaginador(numDatos,page,perPage,strNameFunctionPaginate) {
     let paginas = parseInt(numDatos / perPage);
     numDatos / perPage % 2 !== 0 ? paginas++ : null;
     let diferencia = 2;
@@ -35,7 +35,7 @@ function insertStrPaginador(numDatos,page,perPage) {
         let paginadorHtml = '<div class="col-sm-12 col-md-7">'
             + '<div id="dataTables_paginate paging_simple_number" class="dataTables_paginate">'
             + '<ul class="pagination">'
-            + `<li class="page-item ${disabledPrevious}" onclick="paginar(${page - 1})"><a class="page-link" href="#" tabindex="-1">Previous</a></li>`;
+            + `<li class="page-item ${disabledPrevious}" onclick="${strNameFunctionPaginate}(${page - 1})"><a class="page-link" href="#" tabindex="-1">Previous</a></li>`;
 
         if (paginas >= 4) {
             let puntos = `<li class="page-item disabled" disabled><a class="page-link" href="#">...</a></li>`;
@@ -45,7 +45,7 @@ function insertStrPaginador(numDatos,page,perPage) {
 
                 for (let i = page; i < fin; i++) {
                     let active = page === i ? 'active' : null;
-                    paginadorHtml += `<li class="page-item ${active}" onclick="paginar(${i})"><a class="page-link" href="#">${i}</a></li>`
+                    paginadorHtml += `<li class="page-item ${active}" onclick="${strNameFunctionPaginate}(${i})"><a class="page-link" href="#">${i}</a></li>`
                 }
                 paginadorHtml += puntos;
 
@@ -53,7 +53,7 @@ function insertStrPaginador(numDatos,page,perPage) {
                 paginadorHtml += puntos;
                 for (let i = page; i < fin; i++) {
                     let active = page === i ? 'active' : null;
-                    paginadorHtml += `<li class="page-item ${active}" onclick="paginar(${i})"><a class="page-link" href="#">${i}</a></li>`
+                    paginadorHtml += `<li class="page-item ${active}" onclick="${strNameFunctionPaginate}(${i})"><a class="page-link" href="#">${i}</a></li>`
                 }
             }
 
@@ -67,12 +67,17 @@ function insertStrPaginador(numDatos,page,perPage) {
 
 
         let disabledNext = page === paginas ? 'disabled' : '';
-        mostrandoHtml += paginadorHtml + `<li class="page-item ${disabledNext}" onclick="paginar(${page + 1})"><a class="page-link" href="#">Next</a></li></ul> </div> </div>`;
+        mostrandoHtml += paginadorHtml + `<li class="page-item ${disabledNext}" onclick="${strNameFunctionPaginate}(${page + 1})"><a class="page-link" href="#">Next</a></li></ul> </div> </div>`;
 
         $(`#paginador`).empty();
         $(`#paginador`).append(mostrandoHtml);
     }
 }
+
+
+$("#selectPerPage").on('change', function () {
+    paginar(1);
+});
 
 function request(url,data,callback){
     $.ajax({
