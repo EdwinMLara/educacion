@@ -2,10 +2,24 @@
 
 post http://localhost/educacion/Api/apiEscuelas.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjUxNjkzNzksImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTE3NTM3OSwidXNlcklkIjoiOCJ9.qtcR-s9o7zufJNNLuNea8IM-fuGtdR3-WoqXLsLaeSc
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0MTY0MzIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTQyMjQzMiwidXNlcklkIjoiOCJ9.qzTZ9r_KQO3lW-mgBXJ3t5y-Zsq7SdhDlIbKLdaDkTg
 
 {
     "name":"getEscuelas",
     "param":{
+    }
+}
+
+### Para solicitar escuelas paginadas
+
+post http://localhost/educacion/Api/apiEscuelas.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0MTY0MzIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTQyMjQzMiwidXNlcklkIjoiOCJ9.qzTZ9r_KQO3lW-mgBXJ3t5y-Zsq7SdhDlIbKLdaDkTg
+
+{
+    "name":"getEscuelasPaginate",
+    "param":{
+        "page":"2",
+        "perPage":"5"
     }
 }
