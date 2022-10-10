@@ -32,10 +32,10 @@ if ($login) {
 
         <form id="formAddUsuarios">
             <div class="form-group">
-                <input type="text" class="form-control" name="username" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Nombre de usuario...">
+                <input type="text" class="form-control" name="username" placeholder="Nombre de usuario...">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="password" id="exampleInputPassword" placeholder="Contraseña">
+                <input type="text" class="form-control" name="password" placeholder="Contraseña">
             </div>
 
             <div class="form-group">

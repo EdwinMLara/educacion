@@ -80,7 +80,7 @@ if ($login) {
 
 
                         <!-- /Paguinador row -->
-                        <div id="paginadorEscuelas" class="row">
+                        <div id="paginador" class="row">
                             
                         </div>
 
