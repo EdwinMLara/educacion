@@ -16,6 +16,9 @@ if (!$login) {
 if ($login) {
     // Cargando Header
     require_once("../share/header.php");
+    
+    // Cargando SideBar
+    require_once("./share/sideBar.php");
 
     // Cargando navbar
     require_once("../share/nav.php");
