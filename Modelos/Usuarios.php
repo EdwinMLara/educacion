@@ -21,7 +21,7 @@
                     break;
                 default:
                     echo $numArgs." No hay constructor de este tipo";
-            }
+            } 
         }
 
         public function __construct1(){}

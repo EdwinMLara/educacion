@@ -31,7 +31,6 @@
             $this->promedioReciente = $promedioReciente;
         }
 
-        
         public function __construct5($idAlumno,$nombre,$fechaNacimiento,$curp,$nivelEstudios,$promedioReciente){
             $this->idAlumno = $idAlumno;
             $this->nombre = $nombre;
