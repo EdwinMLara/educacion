@@ -15,7 +15,13 @@ if ($login) {
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Registrar Alumno Para solicitar Beca</h1>
+        <h1 class="h3 mb-0 text-gray-800">Solicitud de Beca Municipal URIANGATO gto.</h1>
+    </div>
+
+    <div class="m-4">
+        <?php
+            require_once("../share/solicitudHeader.php");
+        ?>
     </div>
 
     <form id="formAddUsuarios">
