@@ -21,5 +21,8 @@
     define('ACCESS_TOKEN_ERROS',                         301);
     define('JWT_PROCESSING_ERROR',                       302);
 
+    define('UNAUTHORIZED',                               401);
+
     define('CREATED_ERROR',                             1000);
+    define('UPDATED_ERROR',                             1001);
 ?>
