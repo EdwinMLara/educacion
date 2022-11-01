@@ -48,7 +48,8 @@ class Consulta extends ConexionBaseDatos{
             $query_values = substr($query_values, 0, -1);
             $query = $query.$query_properties.") VALUES ".$query_values.")";
             $this->con->query($query);
-            return ($this->con->affected_rows === 1) ? true : false;
+            $inserted = $this->con->insert_id;
+            return ($this->con->affected_rows === 1) ? $inserted : false;
         }
     }
 
@@ -78,6 +79,17 @@ class Consulta extends ConexionBaseDatos{
         }
     }
 
+    public function updatePropertyFromTableByValue($table,$property,$value,$propertyIdName,$id){
+        if($this->tableExists($table)){
+            $query = "UPDATE ".$this->deleteEspecialCharacters($table)." SET ";
+            $where = " WHERE ";
+            $query .= $property. " = " . $value . $where . $propertyIdName." = ".$id;
+            $this->con->query($query);
+            return ($this->con->affected_rows === 1) ? true : false;
+        }
+    }
+
+
     public function deleteByTable($table,$field,$id){
         if($this->tableExists($table)){
             if($this->propertyTableExists($table,$field)){
@@ -100,6 +112,8 @@ class Consulta extends ConexionBaseDatos{
                 $query .= " WHERE ".$this->deleteEspecialCharacters($field)." = '".$this->deleteEspecialCharacters($value)."'";
             
                 $results = $this->con->query($query);
+                if($results->num_rows == null)
+                    return null;
                 return $this->loopQuery($results);
             }else{
                 return null;
