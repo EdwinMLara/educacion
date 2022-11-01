@@ -1,0 +1,23 @@
+
+post http://localhost/educacion/Api/apiDatosPadre.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjYxMTc0NTIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NjEyMzQ1MiwidXNlcklkIjoiOCJ9.0S2aQJ7zicXc9IOfSJK8PB1CSehO9WbnOaMZg1sX1sg
+
+{
+    "name":"addDatosPadre",
+    "param":{
+        "nombre":"Edwin Miguel Lara Espinoza",
+        "telefono":"4451107150",
+        "fechaNacimiento":"1992-07-17",
+        "curp":"LAEE920717HMCRSD09",
+        "calle":"2da privada 5 de febrero",
+        "no":"87",
+        "colonia":"niños heroes",
+        "cp":"38850",
+        "municipio":"moroleon",
+        "gradoEstudios":"Maestria",
+        "trabajo6Meses":"si",
+        "motivoNoTrabajo":"null",
+        "seguroMedico":"Ninguno"
+    }
+}

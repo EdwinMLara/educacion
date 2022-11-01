@@ -1,0 +1,18 @@
+post http://localhost/educacion/Api/apiRequisitosAdicionales.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjY4OTYxNTYsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NjkwMjE1NiwidXNlcklkIjoiOCJ9.CMD9NBwnnXbUC5hUQ65fvdesyhK_1LYi03ukxTP-zDs
+
+{
+    "name":"addRequisitosAdicionales",
+    "param":{
+        "escuelaDentroMunicipio":"si",
+        "tiempoTranslado":"60",
+        "tipoTransporte":"caminando",
+        "tipoTechoCasa":"block",
+        "aguaEnCasa":"si",
+        "tipoMaterialPisoCasa":"concreto",
+        "tipoMaterialMurosCasa":"block",
+        "recibeOtroApoyo":"no",
+        "tipoApoyo":"ninguno"
+    }
+}

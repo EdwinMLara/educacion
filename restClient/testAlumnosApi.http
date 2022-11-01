@@ -1,0 +1,14 @@
+### solicitar los escuelas 
+
+post http://localhost/educacion/Api/apiAlumnos.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjY2MjU3NzgsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NjYzMTc3OCwidXNlcklkIjoiOCJ9.V-gFPJQ-eIUQMR3T9c2i552bwoiaKYa7SEwSd5JmQOs
+
+{
+    "name":"addAlumno",
+    "param":{
+        "nombre":"Abram Caliz de insert",
+        "fechaNacimiento":"1992-07-17",
+        "curp":"LAEE920717HMCRSD09"
+    }
+}

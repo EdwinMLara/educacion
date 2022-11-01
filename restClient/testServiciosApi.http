@@ -1,0 +1,18 @@
+post http://localhost/educacion/Api/apiServicios.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjYyMDIzMDQsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NjIwODMwNCwidXNlcklkIjoiOCJ9.B1jFsKX6uqKc1A_lUf2Y2O47aIlXrsyKZQ-Ri_laTAc
+
+{
+    "name":"addServicios",
+    "param":{
+        "callesPavimentadas":"si",
+        "drenaje":"si",
+        "biblioteca":"si",
+        "recoleccionBasura":"si",
+        "alumbradoPublico":"si",
+        "telefonoPublico":"si",
+        "transportePublico":"si",
+        "aguaPotable":"si",
+        "juegosOCanchas":"si"
+    }
+}

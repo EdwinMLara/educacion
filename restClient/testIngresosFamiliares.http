@@ -1,0 +1,14 @@
+post http://localhost/educacion/Api/apiIngresosFamiliares.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjYyMDIzMDQsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NjIwODMwNCwidXNlcklkIjoiOCJ9.B1jFsKX6uqKc1A_lUf2Y2O47aIlXrsyKZQ-Ri_laTAc
+
+{
+    "name":"addIngresosFamiliares",
+    "param":{
+        "ingresoPapa":"20",
+        "ingresoMama":"20",
+        "ingresoHermanos":"20",
+        "ingresoAbuelos":"20",
+        "personasDependientes":"5"
+    }
+}

@@ -1,5 +1,9 @@
 ### solo se pueden realizar peticiones tipo post, revisar las comas que dividen atributtos del json
 
+### error
+### cuando se crea el error no se puede crear el objeto es por error al escribir un attributo en el modelo
+
+
 ### Solicitar un token en funcion del usuario
 POST http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
 content-type: application/json
@@ -16,7 +20,7 @@ content-type: application/json
 
 post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjM2OTA1NzUsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2MzY5NjU3NSwidXNlcklkIjoiMSJ9.jNQt0mKmcAj47Eg3g3aRfc2pCWhqa3rufaAqxVHfrhA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0MTY0MzIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTQyMjQzMiwidXNlcklkIjoiOCJ9.qzTZ9r_KQO3lW-mgBXJ3t5y-Zsq7SdhDlIbKLdaDkTg
 
 {
     "name":"addUser",
@@ -31,7 +35,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjM2OTA1N
 
 post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjQyMDc2NTEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NDIxMzY1MSwidXNlcklkIjoiOCJ9.XMioSIIW9twmx_CE4m3QKtqiicmJNLwr4GuAYZRa8nk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0MTY0MzIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTQyMjQzMiwidXNlcklkIjoiOCJ9.qzTZ9r_KQO3lW-mgBXJ3t5y-Zsq7SdhDlIbKLdaDkTg
 
 {
     "name":"getUsers",
