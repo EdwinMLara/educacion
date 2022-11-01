@@ -1,9 +1,10 @@
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0Mjc0MTUsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTQzMzQxNSwidXNlcklkIjoiOCJ9.umgQl6lGo8DFIK4yNvNaOivmEJl6kwcDUGG_uAtn-CQ"
+const token = window.localStorage.getItem('token');
+console.log(token);
 
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
-
+    
     $.map(unindexed_array, function (n, i) {
         indexed_array[n['name']] = n['value'];
     });
@@ -79,7 +80,7 @@ $("#selectPerPage").on('change', function () {
     paginar(1);
 });
 
-function request(url,data,callback){
+async function request(url,data,callback){
     $.ajax({
         url,
         type: "POST",
@@ -95,3 +96,19 @@ function request(url,data,callback){
         }
     });
 }
+
+
+/**Forma de agregar un metodo al objeto validador con la finalidad de validar la curp
+ * utilizando una expresion regular
+ */
+$.validator.addMethod(
+    "regex",
+    function(value, element, regexp) {     
+            if (regexp.constructor != RegExp)
+                regexp = new RegExp(regexp);
+            else if (regexp.global)
+                regexp.lastIndex = 0;
+            return regexp.test(value);
+    },
+    "La curp no es valida"
+);
