@@ -40,6 +40,10 @@ class Service implements RepositoryCrud
         return $this->consulta->updateByTable($this->typeService, $object, $id);
     }
 
+    public function updateByValue($property,$value,$propertyIdName,$id){
+        return $this->consulta->updatePropertyFromTableByValue($this->typeService,$property,$value,$propertyIdName,$id);
+    }
+
     public function delete($field, $id)
     {
         try {
@@ -55,6 +59,8 @@ class Service implements RepositoryCrud
         $typeClass = ucfirst($this->typeService);
         try {
             $arguments = $this->consulta->findByFieldTable($this->typeService, $field, $value);
+            if($arguments == null)
+                return null;
             return new $typeClass($arguments[0]);
         } catch (Exception $e) {
             echo $e;
