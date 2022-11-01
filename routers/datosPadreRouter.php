@@ -8,7 +8,7 @@ class DatosPadreRouter extends RestApi{
         parent::__construct("datospadre");
     }
 
-    public function addDatosPare(){
+    public function addDatosPadre(){
         $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
         $telefeno = $this->validateParameter("telefono",$this->param["telefono"],STRING);
         $fechaNacimiento = $this->validateParameter("fechaNacimiento",$this->param["fechaNacimiento"],STRING);
@@ -24,10 +24,10 @@ class DatosPadreRouter extends RestApi{
         $seguroMedico = $this->validateParameter("seguroMedico",$this->param["seguroMedico"],STRING);
 
         $arguments = array($nombre,$telefeno,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico);
-        if ($this->service->create($arguments)) {
-            $this->returnResponse(SUCESS_RESPONSE, "Se ha registrado exitosamente.");
+        if ($result = $this->service->create($arguments)) {
+            $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
-            $this->throwError('CREATED_ERROR', "An error has been ocurred to register.");
+            $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
         }
     }
 }

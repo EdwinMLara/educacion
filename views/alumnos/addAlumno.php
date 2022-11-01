@@ -18,7 +18,7 @@ if ($login) {
         <h1 class="h3 mb-0 text-gray-800">Registrar Alumno Para solicitar Beca</h1>
     </div>
 
-    <form id="formAddUsuarios">
+    <form id="formAddAlumnos">
         <div class="form-group">
             <input type="text" class="form-control" name="nombre" placeholder="Nombre de estudiante">
         </div>
@@ -30,22 +30,10 @@ if ($login) {
             <input type="text" class="form-control" name="curp" placeholder="Curp">
         </div>
 
-        <div class="form-group">
-            <label>Nivel de Estudios</label>
-            <select class="form-control" name="nivelEstudios" aria-label="Floating label select example">
-                <option value="primaria">Primaria</option>
-                <option value="secundaria">Secundaria</option>
-                <option value="preparatoria">Preparatoria</option>
-                <option value="universidad">Univesidad</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <input type="text" class="form-control" name="promedioReciente" placeholder="Promedio Reciente">
-        </div>
-
         <button type="submit" class="btn btn-primary btn-user btn-block">
-            Registrar
+            Registrar Alumno
         </button>
     </form>
 </div>
+
+<script src="/educacion/js/alumnos.js"></script>

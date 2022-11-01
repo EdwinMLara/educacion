@@ -24,74 +24,95 @@ if ($login) {
         ?>
     </div>
 
-    <form id="formAddSerivios">
+    <input type="hidden" id="folio" value="<?php echo $_GET["folio"];?>">
+
+
+    <form id="formAddServicios">
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="callesPavimentadas" aria-label="Checkbox for following text input">
-                    <label>Calles pavimentadas</label>
-                </div>
+                <label>Cuenta con calle pavimentadas</label>
+                <select class="form-control" name="callesPavimentadas" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="drenaje" aria-label="Checkbox for following text input">
-                    <label>Drenaje</label>
-                </div>
+                <label>Cuenta con drenaje</label>
+                <select class="form-control" name="drenaje" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="biblioteca" aria-label="Checkbox for following text input">
-                    <label>Biblioteca</label>
-                </div>
+                <label>Cuenta con biblioteca</label>
+                <select class="form-control" name="biblioteca" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="recolecionBasura" aria-label="Checkbox for following text input">
-                    <label>Recoleccion de Basura</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="alumbradoPublico" aria-label="Checkbox for following text input">
-                    <label>Alumbrado Publico</label>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="telefonoPublico" aria-label="Checkbox for following text input">
-                    <label>Telefono Publico</label>
-                </div>
+                <label>Hay recoleccion de basura</label>
+                <select class="form-control" name="recoleccionBasura" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="transportePublico" aria-label="Checkbox for following text input">
-                    <label>Transporte Publico</label>
-                </div>
+                <label>Hay Alumbrado publico</label>
+                <select class="form-control" name="alumbradoPublico" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="aguaPotable" aria-label="Checkbox for following text input">
-                    <label>Agua Potable</label>
-                </div>
+                <label>Cuenta con telefono publico</label>
+                <select class="form-control" name="telefonoPublico" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" name="juegoOCanchas" aria-label="Checkbox for following text input">
-                    <label>Juego o Canchas</label>
-                </div>
+                <label>Cuenta con transporte publico</label>
+                <select class="form-control" name="transportePublico" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label>Cuenta con red de agua potable</label>
+                <select class="form-control" name="aguaPotable" aria-label="Floating label select example">
+                    <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label>Hay juego o canchas deportivas</label>
+                <select class="form-control" name="juegosOCanchas" aria-label="Floating label select example">
+                      <option value="">seleccione su respuesta</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
             </div>
             <div class="col-md-6">
             </div>
@@ -103,3 +124,5 @@ if ($login) {
 
     </form>
 </div>
+
+<script src="/educacion/js/servicios.js"></script>

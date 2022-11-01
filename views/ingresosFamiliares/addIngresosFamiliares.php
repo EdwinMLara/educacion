@@ -24,6 +24,8 @@ if ($login) {
         ?>
     </div>
 
+    <input type="hidden" id="folio" value="<?php echo $_GET["folio"];?>">
+
     <form id="formIngresosFamiliares">
 
         <div class="row">
@@ -63,3 +65,5 @@ if ($login) {
         
     </form>
 </div>
+
+<script src="/educacion/js/ingresosFamiliares.js"></script>

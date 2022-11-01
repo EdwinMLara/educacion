@@ -20,18 +20,18 @@
             $numArgs = count($listArgs);
 
             switch($numArgs){
-                case 12:
-                    $this->__construct12($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12]);
-                    break;
                 case 13:
-                    $this->__construct13($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13]);
+                    $this->__construct13($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12]);
+                    break;
+                case 14:
+                    $this->__construct14($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13]);
                     break;
                 default:
                     echo $numArgs." No hay constructor de este tipo";
             }
         }
 
-        public function __construct12($nombre,$telefono,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
+        public function __construct13($nombre,$telefono,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
             $this->nombre = $nombre;
             $this->telefono = $telefono;
             $this->fechaNacimiento = $fechaNacimiento;
@@ -47,7 +47,7 @@
             $this->seguroMedico = $seguroMedico;
         }
 
-        public function __construct13($idPadre,$nombre,$telefono,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
+        public function __construct14($idPadre,$nombre,$telefono,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
             $this->idPadre = $idPadre;
             $this->nombre = $nombre;
             $this->telefono = $telefono;

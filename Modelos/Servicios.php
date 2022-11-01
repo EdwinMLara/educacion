@@ -4,12 +4,12 @@
         public String $callesPavimentadas = "";
         public String $drenaje = "";
         public String $biblioteca = "";
-        public String $recolecionBasura = "";
+        public String $recoleccionBasura = "";
         public String $alumbradoPublico = "";
         public String $telefonoPublico = "";
         public String $transportePublico = "";
         public String $aguaPotable = "";
-        public String $juegoOCanchas = "";
+        public String $juegosOCanchas = "";
 
         public function __construct(){
             $listArgs = func_get_args()[0];
@@ -27,29 +27,29 @@
             }
         }
 
-        public function __construct9($callesPavimentadas,$drenaje,$biblioteca,$recolecionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegoOCanchas){
+        public function __construct9($callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas){
             $this->callesPavimentadas = $callesPavimentadas;
             $this->drenaje = $drenaje;
             $this->biblioteca = $biblioteca;
-            $this->recolecionBasura = $recolecionBasura;
+            $this->recoleccionBasura = $recoleccionBasura;
             $this->alumbradoPublico = $alumbradoPublico;
             $this->telefonoPublico = $telefonoPublico;
             $this->transportePublico = $transportePublico;
             $this->aguaPotable = $aguaPotable;
-            $this->juegoOCanchas = $juegoOCanchas;
+            $this->juegosOCanchas = $juegosOCanchas;
         }
 
-        public function __construct10($idServicios,$callesPavimentadas,$drenaje,$biblioteca,$recolecionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegoOCanchas){
+        public function __construct10($idServicios,$callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas){
             $this->idServicios = $idServicios;
             $this->callesPavimentadas = $callesPavimentadas;
             $this->drenaje = $drenaje;
             $this->biblioteca = $biblioteca;
-            $this->recolecionBasura = $recolecionBasura;
+            $this->recoleccionBasura = $recoleccionBasura;
             $this->alumbradoPublico = $alumbradoPublico;
             $this->telefonoPublico = $telefonoPublico;
             $this->transportePublico = $transportePublico;
             $this->aguaPotable = $aguaPotable;
-            $this->juegoOCanchas = $juegoOCanchas;  
+            $this->juegosOCanchas = $juegosOCanchas;  
         }
     }
 ?>

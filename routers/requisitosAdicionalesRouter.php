@@ -17,14 +17,15 @@ class RequisitosAdicionalesRouter extends RestApi{
         $aguaEnCasa = $this->validateParameter('aguaEncasa', $this->param["aguaEnCasa"], STRING);
         $tipoMaterialPisoCasa = $this->validateParameter("tipoMaterialPisoCasa",$this->param["tipoMaterialPisoCasa"],STRING);
         $tipoMaterialMurosCasa = $this->validateParameter('tipoMaterialMurosCasa', $this->param["tipoMaterialMurosCasa"], STRING);
-        $recibeOtroApoyo = $this->validateParameter('recibeOtroApoyo', $this->param["recibeOtroAPoyo"], STRING);
+        $recibeOtroApoyo = $this->validateParameter('recibeOtroApoyo', $this->param["recibeOtroApoyo"], STRING);
         $tipoApoyo = $this->validateParameter('tipoApoyo', $this->param["tipoApoyo"], STRING);
 
         $arguments = array($escuelaDentroMunicipio,$tiempoTranslado,$tipoTransporte,$tipoTechoCasa,$aguaEnCasa,$tipoMaterialPisoCasa,$tipoMaterialMurosCasa,$recibeOtroApoyo,$tipoApoyo);
-        if ($this->service->create($arguments)) {
-            $this->returnResponse(SUCESS_RESPONSE, "Se ha registrado exitosamente.");
+        
+        if ($result = $this->service->create($arguments)) {
+            $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
-            $this->throwError('CREATED_ERROR', "An error has been ocurred to register.");
+            $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
         }
     }
 }

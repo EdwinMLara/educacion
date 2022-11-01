@@ -16,12 +16,10 @@ if (!$login) {
 if ($login) {
     // Cargando Header
     require_once("../share/header.php");
-    
-    // Cargando SideBar
-    require_once("../share/sideBar.php");
 
     // Cargando navbar
     require_once("../share/nav.php");
+}
 ?>
 
     <div class="container-fluid">
@@ -32,14 +30,21 @@ if ($login) {
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Agregar Instituciones</h1>
+            <h1 class="h3 mb-0 text-gray-800">Solicitud de Beca Municipal URIANGATO gto.</h1>
         </div>
+
+        <div class="m-4">
+            <?php
+            require_once("../share/solicitudHeader.php");
+            ?>
+        </div>
+
+        <input type="hidden" id="folio" value="<?php echo $_GET["folio"];?>">
 
         <form id="formAddEscuelas">
             <div class="form-group">
                 <input type="text" class="form-control" name="nombre" placeholder="Nombre de la institucion...">
             </div>
-
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
@@ -82,15 +87,8 @@ if ($login) {
 
 
             <button type="submit" class="btn btn-primary btn-user btn-block">
-                Agregar
+                Siguiente
             </button>
         </form>
-
-        <script src="/educacion/js/escuelas.js"></script>
-
-    <?php
-    // Cargando Fooder
-    require_once("../share/footer.php");
-    return;
-}
-    ?>
+    </div>
+<script src="/educacion/js/escuelas.js"></script>

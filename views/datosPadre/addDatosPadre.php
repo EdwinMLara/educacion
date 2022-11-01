@@ -24,7 +24,9 @@ if ($login) {
         ?>
     </div>
 
-    <form id="formDatosPadre">
+    <input type="hidden" id="folio" value="<?php echo $_GET["folio"];?>">
+
+    <form id="formAddDatosPadre">
         <div class="form-group">
             <input type="text" class="form-control" name="nombre" placeholder="Nombre del Padre">
         </div>
@@ -90,20 +92,20 @@ if ($login) {
             <div class="col-md-5">
                 <label>Trabajo en los Ulimos 6 meses</label>
                 <select class="form-control" name="trabajo6Meses" aria-label="Floating label select example">
-                    <option value="primaria">Si</option>
-                    <option value="secundaria">No</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
                 </select>
             </div>
             <div class="col-md-7">
                 <label><br /></label>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="motivoNoTrabajo" placeholder="Motivo de no trabajo">
+                    <input type="text" class="form-control" name="motivoNoTrabajo" value="Sin motivo" placeholder="Motivo de no trabajo">
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <input type="text" class="form-control" name="seguroMedico" placeholder="SeguroMedico">
+            <input type="text" class="form-control" name="seguroMedico" value='Ninguno' placeholder="SeguroMedico">
         </div>
 
 
@@ -113,3 +115,5 @@ if ($login) {
         
     </form>
 </div>
+
+<script src="/educacion/js/datosPadre.js"></script>

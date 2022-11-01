@@ -1,7 +1,6 @@
 <?php
 require_once("../Config/RestApi.php");
 require_once("../Config/Service.php");
-require_once("../Config/Encryptation.php");
 require_once("../Modelos/Usuarios.php");
 
 /**Se Crea una clase base para el control de la tabla Usuarios
@@ -10,11 +9,9 @@ require_once("../Modelos/Usuarios.php");
 
 class UsuariosRouter extends RestApi
 {
-    private $key;
     public function __construct()
     {
-        parent::__construct("usuarios");
-        $this->key = "insoelKey";
+        parent::__construct("usuarios","insoeley");
     }
 
     /**Este método se utiliza para agregar un usuario nuevo a la base de datos

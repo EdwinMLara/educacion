@@ -20,25 +20,16 @@ if ($login) {
 
     <div class="m-4">
         <?php
-            require_once("../share/solicitudHeader.php");
+        require_once("../share/solicitudHeader.php");
         ?>
     </div>
 
-    <form id="formAddUsuarios">
-        <div class="form-group">
-            <input type="text" class="form-control" name="nombre" placeholder="Nombre de estudiante">
-        </div>
-        <div class="form-group">
-            <input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
-        </div>
-
-        <div class="form-group">
-            <input type="text" class="form-control" name="curp" placeholder="Curp">
-        </div>
-
+    <form id="formUpdateSolicitud">
+        <input type="hidden" name="idSolicitud" value="<?php echo $_GET["folio"]; ?>">
         <div class="form-group">
             <label>Nivel de Estudios</label>
             <select class="form-control" name="nivelEstudios" aria-label="Floating label select example">
+                <option value=""></option>
                 <option value="primaria">Primaria</option>
                 <option value="secundaria">Secundaria</option>
                 <option value="preparatoria">Preparatoria</option>
@@ -51,7 +42,9 @@ if ($login) {
         </div>
 
         <button type="submit" class="btn btn-primary btn-user btn-block">
-            Registrar
+            Solicitar
         </button>
     </form>
 </div>
+
+<script src="/educacion/js/solicitud.js"></script>

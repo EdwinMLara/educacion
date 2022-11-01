@@ -1,7 +1,7 @@
 <?php
-    class RequisitiosAdicionales {
+    class RequisitosAdicionales {
         public String $idRequisitosAdicionales = "autoincrement";
-        public String $escuelaDestroMunicipio = "";
+        public String $escuelaDentroMunicipio = "";
         public String $tiempoTranslado = "";
         public String $tipoTransporte = "";
         public String $tipoTechoCasa = "";
@@ -27,8 +27,8 @@
             }
         }
 
-        public function __construct9($escuelaDestroMunicipio,$tiempoTranslado,$tipoTransporte,$tipoTechoCasa,$aguaEnCasa,$tipoMaterialPisoCasa,$tipoMaterialMurosCasa,$recibeOtroApoyo,$tipoApoyo){
-            $this->escuelaDestroMunicipio = $escuelaDestroMunicipio;
+        public function __construct9($escuelaDentroMunicipio,$tiempoTranslado,$tipoTransporte,$tipoTechoCasa,$aguaEnCasa,$tipoMaterialPisoCasa,$tipoMaterialMurosCasa,$recibeOtroApoyo,$tipoApoyo){
+            $this->escuelaDentroMunicipio = $escuelaDentroMunicipio;
             $this->tiempoTranslado = $tiempoTranslado;
             $this->tipoTransporte = $tipoTransporte;
             $this->tipoTechoCasa = $tipoTechoCasa;
@@ -39,9 +39,9 @@
             $this->tipoApoyo = $tipoApoyo;
         }
 
-        public function __construct10($idRequisitosAdicionales,$escuelaDestroMunicipio,$tiempoTranslado,$tipoTransporte,$tipoTechoCasa,$aguaEnCasa,$tipoMaterialPisoCasa,$tipoMaterialMurosCasa,$recibeOtroApoyo,$tipoApoyo){
+        public function __construct10($idRequisitosAdicionales,$escuelaDentroMunicipio,$tiempoTranslado,$tipoTransporte,$tipoTechoCasa,$aguaEnCasa,$tipoMaterialPisoCasa,$tipoMaterialMurosCasa,$recibeOtroApoyo,$tipoApoyo){
             $this->idRequisitosAdicionales = $idRequisitosAdicionales;
-            $this->escuelaDestroMunicipio = $escuelaDestroMunicipio;
+            $this->escuelaDentroMunicipio = $escuelaDentroMunicipio;
             $this->tiempoTranslado = $tiempoTranslado;
             $this->tipoTransporte = $tipoTransporte;
             $this->tipoTechoCasa = $tipoTechoCasa;

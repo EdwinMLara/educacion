@@ -22,8 +22,8 @@ class EscuelaInstitucionRouter extends RestApi
         $tipoInstitucion = $this->validateParameter('tipoInstitucion', $this->param["tipoInstitucion"], STRING);
 
         $arguments = array($nombre, $calle, $no, $colonia, $municipio, $telefono, $tipoInstitucion);
-        if ($this->service->create($arguments)) {
-            $this->returnResponse(SUCESS_RESPONSE, "An school has been created.");
+        if ($result = $this->service->create($arguments)) {
+            $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
             $this->throwError('CREATED_ERROR', "An error has been ocurred to create the object.");
         }
