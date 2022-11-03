@@ -11,7 +11,7 @@ class UsuariosRouter extends RestApi
 {
     public function __construct()
     {
-        parent::__construct("usuarios","insoeley");
+        parent::__construct("usuarios");
     }
 
     /**Este método se utiliza para agregar un usuario nuevo a la base de datos

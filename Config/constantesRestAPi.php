@@ -1,5 +1,5 @@
 <?php
-    define('SECRET_KEY','insoelEnergySaving');
+    define('SECRET_KEY','insoeley');
     define('BOOLEAN','1');
     define('INTEGER','2');
     define('STRING', '3');

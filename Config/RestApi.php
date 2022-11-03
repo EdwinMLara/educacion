@@ -12,11 +12,11 @@ class RestApi extends Rest
      * el servicio, el cual proveerá los métodos crear, leer, actualizar, eliminar y buscar
      * por tipo de columna
      */
-    public function __construct($typeService, $key)
+    public function __construct($typeService)
     {
         parent::__construct();
         $this->service = new Service($typeService);
-        $this->key = $key;
+        $this->key = SECRET_KEY;
     }
 
     /**El metodo generar token se utliza para generar un token valido
