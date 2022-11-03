@@ -76,24 +76,29 @@ const paginar = (page) => {
     }
     request('/educacion/Api/apiUsuarios.php', data, function (res) {
         console.log(res);
-        if (!res.hasOwnProperty('error')) {
-            let numDatos = res.response.result.total;
-            let usuarios = res.response.result.usuarios;
 
-            let trHTML = '';
-            usuarios.forEach(user => {
-                trHTML += '<tr><td>' + user.idUsuarios + '</td><td>'
-                    + user.username + '</td><td>' + user.password
-                    + '</td><td>' + user.tipoCuenta + '</td><td>'
-                    + `<button type="button" onclick="location.href=\'./updateUsuarios.php?idUsuarios=${user.idUsuarios}&username=${user.username}\'" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></button>`
-                    + `<button type="button" onclick="deleteUsuario(${user.idUsuarios})" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>`
-                    + '</td></tr>';
-            });
-
-            $('#bodyUsuariosTable').empty();
-            $('#bodyUsuariosTable').append(trHTML);
-            insertStrPaginador(numDatos,page,perPage,"paginar");
+        if (res.hasOwnProperty('error')) {
+            let expiredToken = res.error.status;
+            expiredToken === 301 ?  location.href = `/educacion/views/login.php` : alert(res.error.message);
+            return
         }
+
+        let numDatos = res.response.result.total;
+        let usuarios = res.response.result.usuarios;
+
+        let trHTML = '';
+        usuarios.forEach(user => {
+            trHTML += '<tr><td>' + user.idUsuarios + '</td><td>'
+                + user.username + '</td><td>' + user.password
+                + '</td><td>' + user.tipoCuenta + '</td><td>'
+                + `<button type="button" onclick="location.href=\'./updateUsuarios.php?idUsuarios=${user.idUsuarios}&username=${user.username}\'" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></button>`
+                + `<button type="button" onclick="deleteUsuario(${user.idUsuarios})" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>`
+                + '</td></tr>';
+        });
+
+        $('#bodyUsuariosTable').empty();
+        $('#bodyUsuariosTable').append(trHTML);
+        insertStrPaginador(numDatos, page, perPage, "paginar");
     });
 }
 
