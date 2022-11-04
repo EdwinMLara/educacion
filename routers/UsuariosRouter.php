@@ -86,7 +86,6 @@ class UsuariosRouter extends RestApi
         $page = $this->validateParameter('page', $this->param["page"], INTEGER);
         $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
 
-
         if ($usuarios = $this->service->getAll()) {
             $numUsuarios = count($usuarios);
             $inicio = ($page - 1)*$perPage;

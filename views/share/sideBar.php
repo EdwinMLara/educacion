@@ -43,7 +43,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Informatica:</h6>
                         <a class="collapse-item" href="/educacion/views/usuarios/usuarios.php">Usuarios</a>
-                        <a class="collapse-item" href="/educacion/views/escuelas/escuelas.php">Escuelas</a>
+                        <!--<a class="collapse-item" href="/educacion/views/escuelas/escuelas.php">Escuelas</a>-->
                     </div>
                 </div>
             </li>
