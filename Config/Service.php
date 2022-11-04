@@ -83,4 +83,18 @@ class Service implements RepositoryCrud
             echo $e;
         }
     }
+
+    public function getByQueryTableModel($query,$typeClass){
+        try {
+            $all = array();
+            $arrayArgumentsArray = $this->consulta->findByQuery($query);
+            foreach ($arrayArgumentsArray as $argumets) {
+                $object = new $typeClass($argumets);
+                array_push($all, $object);
+            }
+            return $all;
+        } catch (Exception $e) {
+            echo $e;
+        }
+    }
 }
