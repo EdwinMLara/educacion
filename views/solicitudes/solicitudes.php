@@ -22,6 +22,9 @@ if ($login) {
 
     // Cargando navbar
     require_once("../share/nav.php");
+
+    //cargando Modal
+    require_once("./detallesSolicitudModal.php");
 ?>
 
     <!-- Begin Page Content -->
@@ -63,14 +66,15 @@ if ($login) {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Nombre Usuario</th>
-                                        <th>Contraseña</th>
-                                        <th>Tipo Cuenta</th>
+                                        <th>Alumno</th>
+                                        <th>Escuela</th>
+                                        <th>Padre</th>
+                                        <th>Nivel Estudios</th>
+                                        <th>Promedio</th>
                                         <th></th>
                                     </tr>
                                 </thead>
-                                <tbody id="bodyUsuariosTable">
+                                <tbody id="bodySolicitudesTable">
 
                                 </tbody>
                             </table>
@@ -88,7 +92,7 @@ if ($login) {
     <!-- /.container-fluid -->  
     </div>
 
-    <script src="/educacion/js/usuarios.js"></script>
+    <script src="/educacion/js/solicitud.js"></script>
 
 <?php
     // Cargando Fooder
