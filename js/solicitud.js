@@ -105,7 +105,7 @@ const paginarSolicitudes = (page) => {
 
 /**se utiliza el indece para el arreglo current solicitudes */
 
-const detallesSolicitud = (indiceSolicitud) => {
+const detallesSolicitud = (indiceSolicitud, step = 1) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
     const solicitudes = JSON.parse(window.localStorage.getItem('currentSolicitudes'));
     console.log(solicitudes[indiceSolicitud]);
@@ -113,19 +113,64 @@ const detallesSolicitud = (indiceSolicitud) => {
     let formHMTL = '<form class="formLogin" id="formLogin">';
     let finFormHTML = '</form> </div>';
 
-    let detallesSolicitudAlumno = solicitudes[indiceSolicitud].idAlumno[0];
-    Object.keys(detallesSolicitudAlumno).forEach(function (key) {
-    
-        console.log(key, detallesSolicitudAlumno[key]);
-        let inputHMTL = `<label>${key}</label>` 
-                    + '<div class="form-group">'
-                    + `<input type="text" class="form-control form-control-user" name="${key}" value="${detallesSolicitudAlumno[key]}">`
-                    + '</div>';
+    let disableButtonNext = "";
+    let disableButtonBack = "";
+    let detallesSolicitudToShow;
+
+    $('#modalBodySolicitud').empty();
+    $('#modalFooterSolicitud').empty();
+
+    console.log('step: ', step);
+
+    if (step > 5)
+        disableButtonNext = 'disabled';
+    if (step < 2) 
+        disableButtonBack = 'disabled';
+
+    switch (step) {
+        case 1:
+            detallesSolicitudToShow = solicitudes[indiceSolicitud].idAlumno[0];
+            break;
+        case 2:
+            detallesSolicitudToShow = solicitudes[indiceSolicitud].idEscuela[0];
+            break;
+        case 3:
+            detallesSolicitudToShow = solicitudes[indiceSolicitud].idPadre[0];
+            break;
+        case 4:
+            detallesSolicitudToShow = solicitudes[indiceSolicitud].idIngresosFamiliares[0];
+            break;
+        case 5:
+            detallesSolicitudToShow = solicitudes[indiceSolicitud].idServicios[0];
+            break;
+        case 6:
+            detallesSolicitudToShow = solicitudes[indiceSolicitud].idRequisitosAdicionales[0];
+            break;
+    }
+
+    let buttonsHTML = `<button type="button" ${disableButtonBack} onclick="detallesSolicitud(${indiceSolicitud},${step - 1})" class="btn btn-secondary">Anterior</button>`
+        + `<button type="button" ${disableButtonNext} onclick="detallesSolicitud(${indiceSolicitud},${step + 1})" class="btn btn-primary">Siguiente</button>`;
+
+
+    $('#modalFooterSolicitud').append(buttonsHTML);
+
+    if (detallesSolicitudToShow == undefined) {
+        $('#modalBodySolicitud').append('NO-REGISTRADO');
+        return;
+    }
+
+    Object.keys(detallesSolicitudToShow).forEach(function (key) {
+
+        console.log(key, detallesSolicitudToShow[key]);
+        let inputHMTL = `<label>${key}</label>`
+            + '<div class="form-group">'
+            + `<input type="text" class="form-control form-control-user" name="${key}" value="${detallesSolicitudToShow[key]}">`
+            + '</div>';
         formHMTL += inputHMTL;
     });
 
     formHMTL += finFormHTML;
     console.log(formHMTL);
-    $('#modalBodySolicitud').empty();
+
     $('#modalBodySolicitud').append(formHMTL);
 }

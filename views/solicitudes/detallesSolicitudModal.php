@@ -11,9 +11,7 @@
       <div id="modalBodySolicitud" class="modal-body">
       </div>
       
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary">Anterior</button>
-        <button type="button" class="btn btn-primary">Siguiente</button>
+      <div id="modalFooterSolicitud" class="modal-footer">    
       </div>
 
     </div>
