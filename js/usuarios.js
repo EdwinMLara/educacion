@@ -88,12 +88,16 @@ const paginar = (page) => {
 
         let trHTML = '';
         usuarios.forEach(user => {
-            trHTML += '<tr><td>' + user.idUsuarios + '</td><td>'
-                + user.username + '</td><td>' + user.password
-                + '</td><td>' + user.tipoCuenta + '</td><td>'
-                + `<button type="button" onclick="location.href=\'./updateUsuarios.php?idUsuarios=${user.idUsuarios}&username=${user.username}\'" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></button>`
-                + `<button type="button" onclick="deleteUsuario(${user.idUsuarios})" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>`
-                + '</td></tr>';
+            trHTML += '<tr>'
+                        + '<td>' + user.idUsuarios + '</td>'
+                        + '<td>' + user.username + '</td>'
+                        + '<td>' + user.password + '</td>'
+                        + '<td>' + user.tipoCuenta + '</td>'
+                        + '<td class="d-flex justify-content-around">'
+                            + `<button type="button" onclick="location.href=\'./updateUsuarios.php?idUsuarios=${user.idUsuarios}&username=${user.username}\'" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></button>`
+                            + `<button type="button" onclick="deleteUsuario(${user.idUsuarios})" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>`
+                        + '</td>'
+                    + '</tr>';
         });
 
         $('#bodyUsuariosTable').empty();

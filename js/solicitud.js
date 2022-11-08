@@ -93,7 +93,10 @@ const paginar = (page) => {
                 + '<td>' + padre + '</td>'
                 + '<td>' + solicitud.nivelEstudios + '</td>'
                 + '<td>' + solicitud.promedioReciente + '</td>'
-                + `<td><button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question" aria-hidden="true"></i></button><td>`
+                + `<td class="d-flex justify-content-around">`
+                    + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
+                    + `<button type="button"  onClick="print(${index})" class="btn btn-warning"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
+                + '</td>'
                 + '</tr>';
         });
 
@@ -173,4 +176,9 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
     console.log(formHMTL);
 
     $('#modalBodySolicitud').append(formHMTL);
+}
+
+
+const print = (indiceSolicitud) =>{
+
 }
