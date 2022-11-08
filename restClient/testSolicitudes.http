@@ -2,7 +2,7 @@
 
 post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjY3MTAyMzQsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NjcxNjIzNCwidXNlcklkIjoiOCJ9.bSTLBnTXh4SMv9gSCet3JMcnSDNZjI2pDVm70_0sdHY
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njc1MDQyODAsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NzUxMDI4MCwidXNlcklkIjoiOCJ9.FcI9E3MlOE-oJ4MhRuP9GWHtD4Kz49_jsD-LA8U1Sq0
 
 {
     "name":"addSolicitude",
@@ -42,5 +42,19 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjY5NzY2M
         "idSolicitud":"7",
         "nivelEstudios":"Secundaria",
         "promedioReciente":"8.5"
+    }
+}
+
+### Paginador de solicitudes
+
+post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njc4NDY4MzIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2Nzg1MjgzMiwidXNlcklkIjoiOCJ9.FIDTXcxY-p_2CZPh1B2HdLyoGEu4Z2nLEJBKRv7KlBI
+
+{
+    "name":"getSolicitudesPaginate",
+    "param":{
+        "page":1,
+        "perPage":10
     }
 }

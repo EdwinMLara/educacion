@@ -1,6 +1,6 @@
 $(function () {
     console.log('solicitud');
-    paginarSolicitudes(1);
+    paginar(1);
 });
 
 
@@ -53,7 +53,7 @@ $('#formUpdateSolicitud').validate({
 });
 
 
-const paginarSolicitudes = (page) => {
+const paginar = (page) => {
     console.log("=============  Leer Usuarios Paginando =============");
     let perPage = $("#selectPerPage :selected").val();
 
@@ -99,7 +99,7 @@ const paginarSolicitudes = (page) => {
 
         $('#bodySolicitudesTable').empty();
         $('#bodySolicitudesTable').append(trHTML);
-        insertStrPaginador(numDatos, page, perPage, "paginarSolicitudes");
+        insertStrPaginador(numDatos, page, perPage, "paginar");
     });
 }
 

@@ -42,7 +42,7 @@ if ($login) {
                         <div class="row">
                             <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_length" id="dataTables_length">
-                                    <label>"Show"</label>
+                                    <label>"Mostar"</label>
                                     <select id="selectPerPage" name="dataTable_length" class="custom-select custom-select-sm form-control form-control-sm">
                                         <option value="5">5</option>
                                         <option value="10">10</option>
@@ -89,6 +89,7 @@ if ($login) {
     <!-- /.container-fluid -->  
     </div>
 
+    <script src="/educacion/js/index.js"></script>
     <script src="/educacion/js/usuarios.js"></script>
 
 <?php

@@ -1,4 +1,6 @@
 const token = window.localStorage.getItem('token');
+if(token == null || token == '')
+    location.href = `/educacion/views/login`
 console.log(token);
 
 function getFormData($form) {
@@ -19,11 +21,13 @@ function mostrarRequestAlerResult(status) {
 }
 
 function insertStrPaginador(numDatos,page,perPage,strNameFunctionPaginate) {
+    console.log(`${strNameFunctionPaginate} ${page}`)
     let paginas = parseInt(numDatos / perPage);
     numDatos / perPage % 2 !== 0 ? paginas++ : null;
     let diferencia = 2;
     let mostarPaginas = 3;
-    console.log(paginas, diferencia);
+    
+    //console.log(paginas, diferencia);
 
     if (paginas > 1) {
         let mostrandoHtml = '<div class="col-sm-12 col-md-5">'
@@ -62,7 +66,7 @@ function insertStrPaginador(numDatos,page,perPage,strNameFunctionPaginate) {
         } else {
             for (let i = 1; i <= paginas; i++) {
                 let active = page === i ? 'active' : null;
-                paginadorHtml += `<li class="page-item ${active}"><a class="page-link" href="#">${i}</a></li>`
+                paginadorHtml += `<li class="page-item ${active}" onclick="${strNameFunctionPaginate}(${i})"><a class="page-link" href="#">${i}</a></li>`
             }
         }
 
@@ -77,6 +81,7 @@ function insertStrPaginador(numDatos,page,perPage,strNameFunctionPaginate) {
 
 
 $("#selectPerPage").on('change', function () {
+    console.log("========= Repaginar =====");
     paginar(1);
 });
 

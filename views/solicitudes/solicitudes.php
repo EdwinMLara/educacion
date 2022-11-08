@@ -92,6 +92,7 @@ if ($login) {
     <!-- /.container-fluid -->  
     </div>
 
+    <script src="/educacion/js/index.js"></script>
     <script src="/educacion/js/solicitud.js"></script>
 
 <?php

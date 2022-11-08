@@ -91,4 +91,6 @@ if ($login) {
             </button>
         </form>
     </div>
+
+<script src="/educacion/js/index.js"></script>
 <script src="/educacion/js/escuelas.js"></script>

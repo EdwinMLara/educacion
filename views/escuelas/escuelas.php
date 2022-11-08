@@ -95,6 +95,7 @@ if ($login) {
 
     </div>
     <!-- /.container-fluid -->
+    <script src="/educacion/js/index.js"></script>
     <script src="/educacion/js/escuelas.js"></script>
 
 <?php

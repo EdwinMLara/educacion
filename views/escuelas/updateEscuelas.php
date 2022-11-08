@@ -83,6 +83,9 @@ if ($login) {
                 Actualizar
             </button>
         </form>
+
+        <script src="/educacion/js/index.js"></script>
+        <script src="/educacion/js/escuelas.js"></script>
     <?php
     // Cargando Fooder
     require_once("../share/footer.php");

@@ -31,4 +31,3 @@
 <script src="/educacion/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <script src="/educacion/js/jquery.validate.min.js"></script>
-<script src="/educacion/js/index.js"></script>

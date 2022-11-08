@@ -125,4 +125,5 @@ if ($login) {
     </form>
 </div>
 
+<script src="/educacion/js/index.js"></script>
 <script src="/educacion/js/servicios.js"></script>

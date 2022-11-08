@@ -56,4 +56,5 @@ require_once("./share/header.php");
     </div>
 </body>
 
+<script src="/educacion/js/index.js"></script>
 <script src="/educacion/js/login.js"></script>
