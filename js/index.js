@@ -1,7 +1,8 @@
 const token = window.localStorage.getItem('token');
+console.log(token);
+
 if(token == null || token == '')
     location.href = `/educacion/views/login`
-console.log(token);
 
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
