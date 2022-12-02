@@ -8,13 +8,13 @@ $('#formAddDatosPadre').validate({
             required: true
         },
         telefono: {
-            required: true
+            regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}'
         },
         fechaNacimiento: {
             required: true
         },
         curp: {
-            regex: '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
+            regexCurp: '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
                 + '[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])'
                 + '[HM]{1}'
                 + '(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)'
@@ -49,16 +49,10 @@ $('#formAddDatosPadre').validate({
         seguroMedico: {
             required: true
         }
-    },
+    },  
     messages: {
         nombre: {
             required: 'Agrege el nombre'
-        },
-        telefono: {
-            required: 'Agrege el telefono'
-        },
-        fechaNacimiento: {
-            required: 'Agrege la fecha de nacimiento'
         },
         calle: {
             required: 'Agrege la calle'

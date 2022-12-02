@@ -21,6 +21,10 @@ class AlumnosRouter extends RestApi{
             $this->throwError('CREATED_ERROR', "An error has been ocurred to register.");
         }
     }
+
+    public function getByCurp(){
+        $curp = $this->validateParameter('curp', $this->param["curp"], STRING);
+    }
 }
 
 ?>  

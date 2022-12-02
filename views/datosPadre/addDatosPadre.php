@@ -24,7 +24,7 @@ if ($login) {
         ?>
     </div>
 
-    <input type="hidden" id="folio" value="<?php echo $_GET["folio"];?>">
+    <input type="hidden" id="folio" value="<?php echo $_GET["folio"]; ?>">
 
     <form id="formAddDatosPadre">
         <div class="form-group">
@@ -81,7 +81,8 @@ if ($login) {
         <div class="form-group">
             <label>Grado de Estudios</label>
             <select class="form-control" name="gradoEstudios" aria-label="Floating label select example">
-                <option value="primaria">Primaria</option>
+            <option value=""></option>    
+            <option value="primaria">Primaria</option>
                 <option value="secundaria">Secundaria</option>
                 <option value="preparatoria">Preparatoria</option>
                 <option value="universidad">Univesidad</option>
@@ -92,7 +93,8 @@ if ($login) {
             <div class="col-md-5">
                 <label>Trabajo en los Ulimos 6 meses</label>
                 <select class="form-control" name="trabajo6Meses" aria-label="Floating label select example">
-                    <option value="si">Si</option>
+                <option value=""></option>    
+                <option value="si">Si</option>
                     <option value="no">No</option>
                 </select>
             </div>
@@ -105,14 +107,22 @@ if ($login) {
         </div>
 
         <div class="form-group">
-            <input type="text" class="form-control" name="seguroMedico" value='Ninguno' placeholder="SeguroMedico">
+            <label>Cuenta con Seguro Medico</label>
+            <select class="form-control" name="seguroMedico" aria-label="Floating label select example">
+            <option value=""></option>    
+            <option value="Ninguno">Ninguno</option>
+                <option value="Privado">Privado</option>
+                <option value="Seguro Social">Seguro Social</option>
+                <option value="IMSS">IMSS</option>
+                <option value="ISSSTE">ISSSTE</option>
+            </select>
         </div>
 
 
         <div class="col-auto">
             <button class="btn btn-primary btn-user float-right">Siguiente</button>
         </div>
-        
+
     </form>
 </div>
 

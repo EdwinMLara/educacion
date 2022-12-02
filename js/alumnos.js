@@ -11,25 +11,27 @@ $(function () {
 
 $('#formAddAlumnos').validate({
     rules: {
-        nombre: {
-            required: true
-        },
-        fechaNacimiento: {
-            required: true
-        },
         curp: {
-            regex: '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
+            regexCurp: '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
                 + '[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])'
                 + '[HM]{1}'
                 + '(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)'
                 + '[B-DF-HJ-NP-TV-Z]{3}'
                 + '[0-9A-Z]{1}'
                 + '[0-9]{1}$'
+        },
+        nombre: {
+            required: true,
+            minlength: 9
+        },
+        fechaNacimiento: {
+            required: true
         }
     },
     messages: {
         nombre: {
-            required: 'Agrege el nombre del alumno....'
+            required: 'Agrege el nombre del alumno....',
+            minlength: 'Nombre completo por favor'
         },
         fechaNacimiento: {
             required: 'seleccione la fecha de nacimiento'
@@ -59,25 +61,26 @@ $('#formAddAlumnos').validate({
             console.log(inserted);
 
             let dataSolicitud = {
-                name : "addSolicitude",
-                param : {
-                    idAlumno : inserted,
-                    idEscuela : "null",
-                    idPadre : "null",
-                    idServicios : "null",
+                name: "addSolicitude",
+                param: {
+                    idAlumno: inserted,
+                    idEscuela: "null",
+                    idPadre: "null",
+                    idIngresosFamiliares: 'null',
+                    idServicios: "null",
                     idRequisitosAdicionales: "null",
-                    nivelEstudios:"NO-REGISTRADO",
-                    promedioReciente:"NO-REGISTRADO"
-    
+                    nivelEstudios: "NO-REGISTRADO",
+                    promedioReciente: "NO-REGISTRADO"
                 }
             }
-    
+
             console.log(dataSolicitud);
-    
-            request('/educacion/Api/apiSolicitudes.php',dataSolicitud,function (res) {
+
+            request('/educacion/Api/apiSolicitudes.php', dataSolicitud, function (res) {
                 console.log(res);
                 if (res.hasOwnProperty('error')) {
-                    alert(res.error.message);
+                    let expiredToken = res.error.status;
+                    expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
                     return;
                 }
 

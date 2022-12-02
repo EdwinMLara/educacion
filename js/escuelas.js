@@ -2,50 +2,24 @@
 
 $("#formAddEscuelas").validate({
     rules: {
-        nombre: {
-            required: true
-        },
-        calle: {
-            required: true
-        },
-        no: {
-            required: true
-        },
-        colonia: {
-            required: true
-        },
-        municipio: {
-            required: true
-        },
-        telefono: {
-            required: true
-        },
-        tipoInstitucion: {
-            required: true
-        }
+        nombre: { required: true, minlength: 10 },
+        calle: { required: true },
+        no: { required: true },
+        cp:{ required: true},
+        colonia: { required: true },
+        municipio: { required: true },
+        telefono: { regexPhone :  '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
+        tipoInstitucion: { required: true }
     },
     messages: {
-        nombre: {
-            required: 'Teclea el nombre por favor'
-        },
-        calle: {
-            required: 'Teclea la calle por favor'
-        },
-        no: {
-            required: 'Agrega el numero'
-        },
-        colonia: {
-            required: 'Teclea la colonia'
-        },
-        municipio: {
-            required: 'Teclea el municipio'
-        },
-        telefono: {
-            required: 'Agrega el telefono'
-        },
-        tipoInstitucion: {
-            required: 'Seleciona el tipo de institucion'
-        }
+        nombre: { required: 'Teclea el nombre por favor', minlength:'Agregar nombre completo' },
+        calle: { required: 'Teclea la calle por favor' },
+        no: { required: 'Agrega el numero' },
+        cp: { required: 'teclea el codigo postal '},
+        colonia: { required: 'Teclea la colonia' },
+        municipio: { required: 'Teclea el municipio' },
+        telefono: { required: 'Agrega el telefono' },
+        tipoInstitucion: { required: 'Seleciona el tipo de institucion' }
     },
     submitHandler: function () {
         console.log("================ Agregar Escuela ===============");

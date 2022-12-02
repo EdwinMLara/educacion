@@ -15,19 +15,20 @@ if ($login) {
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Registrar Alumno Para solicitar Beca</h1>
+        <h1 class="h3 mb-0 text-gray-800">Alumno que solicita la beca municipal</h1>
     </div>
 
     <form id="formAddAlumnos">
         <div class="form-group">
-            <input type="text" class="form-control" name="nombre" placeholder="Nombre de estudiante">
-        </div>
-        <div class="form-group">
-            <input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
+            <input type="text" class="form-control" name="curp" placeholder="Curp">
         </div>
 
         <div class="form-group">
-            <input type="text" class="form-control" name="curp" placeholder="Curp">
+            <input type="text" class="form-control" name="nombre" placeholder="Nombre de estudiante">
+        </div>
+
+        <div class="form-group">
+            <input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
         </div>
 
         <button type="submit" class="btn btn-primary btn-user btn-block">

@@ -107,8 +107,20 @@ async function request(url, data, callback) {
 /**Forma de agregar un metodo al objeto validador con la finalidad de validar la curp
  * utilizando una expresion regular
  */
+ $.validator.addMethod(
+    "regexPhone",
+    function (value, element, regexp) {
+        if (regexp.constructor != RegExp)
+            regexp = new RegExp(regexp);
+        else if (regexp.global)
+            regexp.lastIndex = 0;
+        return regexp.test(value);
+    },
+    "Ejemplo numero de telefono : 445-457-5022"
+);
+
 $.validator.addMethod(
-    "regex",
+    "regexCurp",
     function (value, element, regexp) {
         if (regexp.constructor != RegExp)
             regexp = new RegExp(regexp);
@@ -118,7 +130,6 @@ $.validator.addMethod(
     },
     "La curp no es valida"
 );
-
 
 const getBase64FromUrl = async (url) => {
     const data = await fetch(url);

@@ -51,9 +51,14 @@ if ($login) {
                         <input type="text" class="form-control" name="calle" placeholder="Calle">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="form-group">
                         <input type="text" class="form-control" name="no" placeholder="#">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="cp" placeholder="Cp">
                     </div>
                 </div>
             </div>

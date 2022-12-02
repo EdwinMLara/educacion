@@ -34,6 +34,7 @@ if ($login) {
                 <option value="secundaria">Secundaria</option>
                 <option value="preparatoria">Preparatoria</option>
                 <option value="universidad">Univesidad</option>
+                <option value="caso especial">Univesidad</option>
             </select>
         </div>
 
