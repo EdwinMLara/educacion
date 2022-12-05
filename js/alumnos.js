@@ -64,11 +64,11 @@ $('#formAddAlumnos').validate({
                 name: "addSolicitude",
                 param: {
                     idAlumno: inserted,
-                    idEscuela: "null",
-                    idPadre: "null",
-                    idIngresosFamiliares: 'null',
-                    idServicios: "null",
-                    idRequisitosAdicionales: "null",
+                    idEscuela: 0,
+                    idPadre: 0,
+                    idIngresosFamiliares: 0,
+                    idServicios: 0,
+                    idRequisitosAdicionales: 0,
                     nivelEstudios: "NO-REGISTRADO",
                     promedioReciente: "NO-REGISTRADO"
                 }
