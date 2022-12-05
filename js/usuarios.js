@@ -11,6 +11,9 @@ $("#formAddUsuarios").validate({ // initialize the plugin
             required: true,
             minlength: 5
         },
+        tipoCuenta:{
+            required:true
+        }
     },
     messages: {
         username: {
@@ -20,6 +23,9 @@ $("#formAddUsuarios").validate({ // initialize the plugin
         password: {
             required: 'Teclea una contraseña',
             minlength: 'Teclea al menos 5 caracteres'
+        },
+        tipoCuenta:{
+            required:'Elija un tipo de cuenta'
         }
     },
     submitHandler: function () {
@@ -30,29 +36,18 @@ $("#formAddUsuarios").validate({ // initialize the plugin
         }
         console.log(data);
 
-        $.ajax({
-            url: '/educacion/Api/apiUsuarios.php',
-            type: "POST",
-            dataType: 'json',
-            data: JSON.stringify(data),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', "Bearer " + token);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-            },
-            success: function (res) {
-                console.log(res);
-                if (!res.hasOwnProperty('error')) {
-                    let trueResponse = '<div class="alert alert-success"><strong>Success!</strong> Se ha Actualizado correctamente al usuario.</div>';
-                    let falseResponse = '<div class="alert alert-danger"><strong>Error!</strong> Algo ha salido mal al actualizar el usuario.</div>';
-                    let status = res.response.status;
-                    status === 200 ? $("#alertAddUsuarios").append(trueResponse) : $("#alertAddUsuarios").append(falseResponse);
-                } else {
-                    alert(res.error.message);
-                }
-            },
-            error: function (xhr, resp, text) {
-                console.log(xhr, resp, text);
+        request('/educacion/Api/apiUsuarios.php', data, function (res) {
+            console.log(res);
+    
+            if (res.hasOwnProperty('error')) {
+                let expiredToken = res.error.status;
+                expiredToken === 301 ?  location.href = `/educacion/views/login.php` : alert(res.error.message);
+                return
             }
+
+            let status = res.response.status;
+            status ? location.href = `/educacion/views/usuarios/usuarios.php` : null;
+    
         });
     }
 });
