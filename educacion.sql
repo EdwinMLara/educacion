@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2022 a las 21:57:28
+-- Tiempo de generación: 05-12-2022 a las 20:44:52
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -24,74 +24,33 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alumnos`
+-- Estructura de tabla para la tabla `alumno`
 --
 
-CREATE TABLE `alumnos` (
+CREATE TABLE `alumno` (
   `idAlumno` int(11) NOT NULL,
-  `nombre` int(11) NOT NULL,
-  `fechaNacimiento` int(11) NOT NULL,
-  `curp` int(11) NOT NULL,
-  `nivelEstudios` int(11) NOT NULL,
-  `promedioReciente` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `datospadre`
---
-
-CREATE TABLE `datospadre` (
-  `idPadre` int(11) NOT NULL,
+  `curp` varchar(50) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `telefono` int(11) NOT NULL,
-  `fechaNacimiento` date NOT NULL,
-  `curp` varchar(20) NOT NULL,
-  `calle` varchar(50) NOT NULL,
-  `no` int(11) NOT NULL,
-  `colonia` varchar(50) NOT NULL,
-  `cp` int(11) NOT NULL,
-  `municipio` varchar(20) NOT NULL,
-  `gradoEstudios` varchar(50) NOT NULL,
-  `trabajo6Meses` int(11) NOT NULL,
-  `motivoNoTrabajo` int(11) NOT NULL,
-  `seguroMedico` int(11) NOT NULL
+  `fechaNacimiento` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `escuelainstitucion`
+-- Estructura de tabla para la tabla `escuela`
 --
 
-CREATE TABLE `escuelainstitucion` (
+CREATE TABLE `escuela` (
   `idEscuela` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `calle` varchar(50) NOT NULL,
-  `no` int(11) NOT NULL,
-  `colonia` varchar(50) NOT NULL,
-  `municipio` varchar(20) NOT NULL,
-  `telefono` int(11) NOT NULL,
+  `no` varchar(10) NOT NULL,
+  `colonia` varchar(20) NOT NULL,
+  `municipio` varchar(30) NOT NULL,
+  `cp` varchar(10) NOT NULL,
+  `telefono` varchar(20) NOT NULL,
   `tipoInstitucion` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `escuelainstitucion`
---
-
-INSERT INTO `escuelainstitucion` (`idEscuela`, `nombre`, `calle`, `no`, `colonia`, `municipio`, `telefono`, `tipoInstitucion`) VALUES
-(1, 'Escuela1', 'calle1', 1, 'colonia1', 'municipio1', 0, 'tipo1'),
-(2, 'Escuela1', 'calle1', 1, 'colonia1', 'municipio1', 0, 'tipo1'),
-(3, 'Escuela2', 'calle2', 2, 'colonia2', 'municipio2', 0, 'tipo2'),
-(4, 'Escuela2', 'calle2', 2, 'colonia2', 'municipio2', 0, 'tipo2'),
-(5, 'Escuela3', 'calle3', 3, 'colonia3', 'municipio3', 0, 'tipo3'),
-(6, 'Escuela3', 'calle3', 3, 'colonia3', 'municipio3', 0, 'tipo3'),
-(7, 'Escuela4', 'calle4', 4, 'colonia4', 'municipio4', 0, 'tipo4'),
-(8, 'Escuela4', 'calle4', 4, 'colonia4', 'municipio4', 0, 'tipo4'),
-(9, 'Escuela5', 'calle5', 5, 'colonia5', 'municipio5', 0, 'tipo5'),
-(10, 'Escuela5', 'calle5', 5, 'colonia5', 'municipio5', 0, 'tipo5'),
-(11, 'Univesidad de Guanajuato', 'avenida univesidad', 10, 'yacatitas', 'yuriria', 2147483647, 'nose');
 
 -- --------------------------------------------------------
 
@@ -101,12 +60,34 @@ INSERT INTO `escuelainstitucion` (`idEscuela`, `nombre`, `calle`, `no`, `colonia
 
 CREATE TABLE `ingresosfamiliares` (
   `idIngresosFamiliares` int(11) NOT NULL,
-  `idAlumno` int(11) NOT NULL,
-  `ingresoPapa` int(11) NOT NULL,
-  `IngresoMama` int(11) NOT NULL,
-  `ingresoHermanos` int(11) NOT NULL,
-  `ingresoAbuelos` int(11) NOT NULL,
-  `personasDependientes` varchar(50) NOT NULL
+  `ingresoPadre` float NOT NULL,
+  `ingresoMadre` float NOT NULL,
+  `ingresoHermanos` float NOT NULL,
+  `ingresoAbuelos` float NOT NULL,
+  `personasDependientes` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `padre`
+--
+
+CREATE TABLE `padre` (
+  `idPadre` int(11) NOT NULL,
+  `curp` varchar(50) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `telefono` varchar(20) NOT NULL,
+  `fechaNacimiento` varchar(20) NOT NULL,
+  `calle` varchar(50) NOT NULL,
+  `no` varchar(10) NOT NULL,
+  `colonia` varchar(30) NOT NULL,
+  `cp` varchar(10) NOT NULL,
+  `municipio` varchar(30) NOT NULL,
+  `gradoEstudios` varchar(20) NOT NULL,
+  `trabajo6meses` varchar(5) NOT NULL,
+  `motivoNoTrabajo` varchar(50) NOT NULL,
+  `seguroMedico` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -117,15 +98,15 @@ CREATE TABLE `ingresosfamiliares` (
 
 CREATE TABLE `requisitosadicionales` (
   `idRequisitosAdicionales` int(11) NOT NULL,
-  `escuelaDetroMunicipio` tinyint(1) NOT NULL,
-  `tiempoTraslado` int(1) NOT NULL,
+  `escuelaDentroMunicipio` varchar(5) NOT NULL,
+  `tiempoTranslado` varchar(10) NOT NULL,
   `tipoTrasporte` varchar(20) NOT NULL,
   `tipoTechoCasa` varchar(20) NOT NULL,
-  `aguaEnCasa` varchar(20) NOT NULL,
+  `aguaEnCasa` varchar(5) NOT NULL,
   `tipoMaterialPisoCasa` varchar(20) NOT NULL,
   `tipoMaterialMurosCasa` varchar(20) NOT NULL,
-  `recibeOtroApoyo` tinyint(1) NOT NULL,
-  `tipoApoyo` varchar(20) NOT NULL
+  `recibeOtroApoyo` varchar(5) NOT NULL,
+  `tipoApoyo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -136,15 +117,15 @@ CREATE TABLE `requisitosadicionales` (
 
 CREATE TABLE `servicios` (
   `idServicios` int(11) NOT NULL,
-  `callesPavimentadas` tinyint(1) NOT NULL,
-  `drenaje` tinyint(1) NOT NULL,
-  `biblioteca` tinyint(1) NOT NULL,
-  `recolecionBasura` tinyint(1) NOT NULL,
-  `alumbradoPublico` tinyint(1) NOT NULL,
-  `telefonoPublico` tinyint(1) NOT NULL,
-  `transportePublico` tinyint(1) NOT NULL,
-  `aguaPotable` tinyint(1) NOT NULL,
-  `juegosOCanchas` tinyint(1) NOT NULL
+  `callesPavimentadas` varchar(5) NOT NULL,
+  `drenaje` varchar(5) NOT NULL,
+  `biblioteca` varchar(5) NOT NULL,
+  `recoleccionBasura` varchar(5) NOT NULL,
+  `alumbradoPublico` varchar(5) NOT NULL,
+  `telefonoPublico` varchar(5) NOT NULL,
+  `transportePublico` varchar(5) NOT NULL,
+  `aguaPotable` varchar(5) NOT NULL,
+  `juegosOCanchas` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -156,10 +137,12 @@ CREATE TABLE `servicios` (
 CREATE TABLE `solicitudes` (
   `idSolicitud` int(11) NOT NULL,
   `idAlumno` int(11) NOT NULL,
-  `idEscuela` int(11) NOT NULL,
   `idPadre` int(11) NOT NULL,
+  `idIngresosFamiliares` int(11) NOT NULL,
   `idServicios` int(11) NOT NULL,
-  `idRequisitosAdicionales` int(11) NOT NULL
+  `idRequisitosAdicionales` int(11) NOT NULL,
+  `nivelEstudios` varchar(20) NOT NULL,
+  `promedioReciente` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -172,7 +155,7 @@ CREATE TABLE `usuarios` (
   `idUsuarios` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(33) NOT NULL,
-  `tipoCuenta` int(11) NOT NULL
+  `tipoCuenta` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -180,57 +163,36 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`idUsuarios`, `username`, `password`, `tipoCuenta`) VALUES
-(4, 'Editing', 'C1E756E49D5000FECA7BE82506D57E6B', 2),
-(8, 'EdwinMLara', '085E29968AC0CE462A107E19834F5D82', 1),
-(9, 'Prueba1', 'admin', 1),
-(10, 'Prueba2', 'admin', 1),
-(11, 'Prueba3', 'admin', 1),
-(12, 'Prueba4', 'admin', 1),
-(13, 'Prueba5', 'admin', 1),
-(14, 'Prueba6', 'admin', 1),
-(15, 'Prueba7', 'admin', 1),
-(16, 'Prueba8', 'admin', 1),
-(17, 'Prueba9', 'admin', 1),
-(18, 'Prueba11', 'admin', 1),
-(19, 'Prueba12', 'admin', 1),
-(20, 'Prueba13', 'admin', 1),
-(21, 'Prueba14', 'admin', 1),
-(22, 'Prueba15', 'admin', 1),
-(23, 'Prueba16', 'admin', 1),
-(24, 'Prueba17', 'admin', 1),
-(25, 'Prueba18', 'admin', 1),
-(26, 'Prueba19', 'admin', 1),
-(27, 'FelixTest', 'A8090463B3B0D5D34F0297B0E7A13DAE', 2),
-(28, 'Otrod', 'A717083FD9D8E50BFA001179F50046D8', 1);
+(1, 'EdwinMLara', 'iHXAt3Q=', 'administrador'),
+(2, 'Auxiliar', 'iHXAt3Q=', 'agente');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `alumnos`
+-- Indices de la tabla `alumno`
 --
-ALTER TABLE `alumnos`
+ALTER TABLE `alumno`
   ADD PRIMARY KEY (`idAlumno`);
 
 --
--- Indices de la tabla `datospadre`
+-- Indices de la tabla `escuela`
 --
-ALTER TABLE `datospadre`
-  ADD PRIMARY KEY (`idPadre`);
-
---
--- Indices de la tabla `escuelainstitucion`
---
-ALTER TABLE `escuelainstitucion`
+ALTER TABLE `escuela`
   ADD PRIMARY KEY (`idEscuela`);
 
 --
 -- Indices de la tabla `ingresosfamiliares`
 --
 ALTER TABLE `ingresosfamiliares`
-  ADD PRIMARY KEY (`idIngresosFamiliares`),
-  ADD KEY `FK_ingresosFamiliares` (`idAlumno`);
+  ADD PRIMARY KEY (`idIngresosFamiliares`);
+
+--
+-- Indices de la tabla `padre`
+--
+ALTER TABLE `padre`
+  ADD PRIMARY KEY (`idPadre`);
 
 --
 -- Indices de la tabla `requisitosadicionales`
@@ -249,10 +211,7 @@ ALTER TABLE `servicios`
 --
 ALTER TABLE `solicitudes`
   ADD PRIMARY KEY (`idSolicitud`),
-  ADD KEY `FK_idEscuela` (`idEscuela`),
-  ADD KEY `FK_idServicios` (`idServicios`),
-  ADD KEY `FK_datosAlumnos` (`idPadre`),
-  ADD KEY `FK_idRequisitosAdicionales` (`idRequisitosAdicionales`);
+  ADD KEY `FK_alumnos` (`idAlumno`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -265,28 +224,28 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `alumnos`
+-- AUTO_INCREMENT de la tabla `alumno`
 --
-ALTER TABLE `alumnos`
-  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `alumno`
+  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `datospadre`
+-- AUTO_INCREMENT de la tabla `escuela`
 --
-ALTER TABLE `datospadre`
-  MODIFY `idPadre` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `escuelainstitucion`
---
-ALTER TABLE `escuelainstitucion`
-  MODIFY `idEscuela` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `escuela`
+  MODIFY `idEscuela` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresosfamiliares`
 --
 ALTER TABLE `ingresosfamiliares`
   MODIFY `idIngresosFamiliares` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `padre`
+--
+ALTER TABLE `padre`
+  MODIFY `idPadre` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `requisitosadicionales`
@@ -310,26 +269,17 @@ ALTER TABLE `solicitudes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `ingresosfamiliares`
---
-ALTER TABLE `ingresosfamiliares`
-  ADD CONSTRAINT `FK_ingresosFamiliares` FOREIGN KEY (`idAlumno`) REFERENCES `solicitudes` (`idSolicitud`);
-
---
 -- Filtros para la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  ADD CONSTRAINT `FK_datosAlumnos` FOREIGN KEY (`idPadre`) REFERENCES `datospadre` (`idPadre`),
-  ADD CONSTRAINT `FK_idEscuela` FOREIGN KEY (`idEscuela`) REFERENCES `escuelainstitucion` (`idEscuela`),
-  ADD CONSTRAINT `FK_idRequisitosAdicionales` FOREIGN KEY (`idRequisitosAdicionales`) REFERENCES `requisitosadicionales` (`idRequisitosAdicionales`),
-  ADD CONSTRAINT `FK_idServicios` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idServicios`);
+  ADD CONSTRAINT `FK_alumnos` FOREIGN KEY (`idAlumno`) REFERENCES `alumno` (`idAlumno`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
