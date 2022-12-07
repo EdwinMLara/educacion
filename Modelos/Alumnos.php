@@ -1,9 +1,9 @@
 <?php
     class Alumnos{
         public String $idAlumno = "autoincrement";
+        public String $curp = "";
         public String $nombre = "";
         public String $fechaNacimiento = "";
-        public String $curp = "";
 
         public function __construct(){
             $listArgs = func_get_args()[0];
@@ -21,17 +21,17 @@
             }
         }
 
-        public function __construct5($nombre,$fechaNacimiento,$curp){
+        public function __construct5($curp,$nombre,$fechaNacimiento){
+            $this->curp = $curp;
             $this->nombre = $nombre;
             $this->fechaNacimiento = $fechaNacimiento;
-            $this->curp = $curp;
         }
 
-        public function __construct6($idAlumno,$nombre,$fechaNacimiento,$curp){
+        public function __construct6($idAlumno,$curp,$nombre,$fechaNacimiento){
             $this->idAlumno = $idAlumno;
+            $this->curp = $curp;
             $this->nombre = $nombre;
             $this->fechaNacimiento = $fechaNacimiento;
-            $this->curp = $curp;
         }
     }
 ?>

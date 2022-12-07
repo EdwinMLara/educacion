@@ -8,24 +8,25 @@ class EscuelaInstitucionRouter extends RestApi
 
     public function __construct()
     {
-        parent::__construct("escuelainstitucion");
+        parent::__construct("escuela");
     }
 
     public function addEscuela()
     {
         $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
         $calle = $this->validateParameter('calle', $this->param["calle"], STRING);
-        $no = $this->validateParameter('no', $this->param["no"], INTEGER);
+        $no = $this->validateParameter('no', $this->param["no"], STRING);
+        $cp = $this->validateParameter('cp', $this->param["cp"], STRING);
         $colonia = $this->validateParameter('colonia', $this->param["colonia"], STRING);
         $municipio = $this->validateParameter('municipio', $this->param["municipio"], STRING);
-        $telefono = $this->validateParameter('telefono', $this->param["telefono"], INTEGER);
+        $telefono = $this->validateParameter('telefono', $this->param["telefono"], STRING);
         $tipoInstitucion = $this->validateParameter('tipoInstitucion', $this->param["tipoInstitucion"], STRING);
 
-        $arguments = array($nombre, $calle, $no, $colonia, $municipio, $telefono, $tipoInstitucion);
+        $arguments = array($nombre, $calle, $no, $cp, $colonia, $municipio, $telefono, $tipoInstitucion);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
-            $this->throwError('CREATED_ERROR', "An error has been ocurred to create the object.");
+            $this->throwError(CREATED_ERROR,"An error has been ocurred to create the object.");
         }
     }
 

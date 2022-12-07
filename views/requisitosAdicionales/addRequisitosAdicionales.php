@@ -93,7 +93,7 @@ if ($login) {
             </div>
             <div class="col-md-4">
                 <label>Cuenta con energia electrica</label>
-                <select class="form-control" name="energiaElectricaCasa" aria-label="Floating label select example">
+                <select class="form-control" name="energiaElectrica" aria-label="Floating label select example">
                     <option value=""></option>
                     <option value="si">Si</option>
                     <option value="no">No</option>
@@ -123,7 +123,8 @@ if ($login) {
 
 
         <div class="form-group mt-2">
-            <input type="text" class="form-control" value="Ninguno" name="tipoApoyo" placeholder="Tipo de apoyo">
+            <label>Tipo de Apoyo</label>
+            <input type="text" class="form-control" name="tipoApoyo">
         </div>
 
 

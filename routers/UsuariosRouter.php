@@ -28,7 +28,7 @@ class UsuariosRouter extends RestApi
          */
         $username = $this->validateParameter('username', $this->param["username"], STRING);
         $password = $this->validateParameter('password', $this->param["password"], STRING);
-        $typeCount = $this->validateParameter('tipoCuenta', $this->param["tipoCuenta"], INTEGER);
+        $typeCount = $this->validateParameter('tipoCuenta', $this->param["tipoCuenta"], STRING);
 
         /**se encrypta el password utilizando funciones de openssl */
         $encrytedPassword = Encrytation::encrypt($password, $this->key);
@@ -56,7 +56,7 @@ class UsuariosRouter extends RestApi
         $id_usuario = $this->validateParameter('idUsuarios', $this->param["idUsuarios"], INTEGER);
         $username = $this->validateParameter('username', $this->param["username"], STRING);
         $password = $this->validateParameter('password', $this->param["password"], STRING);
-        $typeCount = $this->validateParameter('tipoCuenta', $this->param["tipoCuenta"], INTEGER);
+        $typeCount = $this->validateParameter('tipoCuenta', $this->param["tipoCuenta"], STRING);
 
         $encrytedPassword = Encrytation::encrypt($password, $this->key);
         $arguments = array($id_usuario, $username, $encrytedPassword, $typeCount);

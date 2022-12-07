@@ -7,6 +7,7 @@ require_once("../Modelos/EscuelaInstitucion.php");
 require_once("../Modelos/DatosPadre.php");
 require_once("../Modelos/IngresosFamiliares.php");
 require_once("../Modelos/Servicios.php");
+require_once("../Modelos/RequisitosAdicionales.php");
 
 class SolicitudesRouter extends RestApi {
     public function __construct(){
@@ -125,12 +126,12 @@ class SolicitudesRouter extends RestApi {
                 $alumno = $this->service->getByQueryTableModel($query,"Alumnos");
                 $paginatesSolicitudes[$i]->idAlumno = $alumno;
 
-                $query = "SELECT * FROM `escuelainstitucion` WHERE idEscuela = ".$paginatesSolicitudes[$i]->idEscuela;
-                $escuela = $this->service->getByQueryTableModel($query,"EscuelaInstitucion");
+                $query = "SELECT * FROM `escuela` WHERE idEscuela = ".$paginatesSolicitudes[$i]->idEscuela;
+                $escuela = $this->service->getByQueryTableModel($query,"Escuela");
                 $paginatesSolicitudes[$i]->idEscuela = $escuela;
 
-                $query = "SELECT * FROM `datospadre` WHERE idPadre = ".$paginatesSolicitudes[$i]->idPadre;
-                $datosPadre = $this->service->getByQueryTableModel($query,"DatosPadre");
+                $query = "SELECT * FROM `padre` WHERE idPadre = ".$paginatesSolicitudes[$i]->idPadre;
+                $datosPadre = $this->service->getByQueryTableModel($query,"Padre");
                 $paginatesSolicitudes[$i]->idPadre = $datosPadre;
 
                 $query = "SELECT * FROM `ingresosfamiliares` WHERE idIngresosFamiliares = ".$paginatesSolicitudes[$i]->idIngresosFamiliares;
@@ -141,8 +142,8 @@ class SolicitudesRouter extends RestApi {
                 $servicios = $this->service->getByQueryTableModel($query,"Servicios");
                 $paginatesSolicitudes[$i]->idServicios = $servicios;
 
-                $query = "SELECT * FROM `requisitosAdicionales` WHERE idRequisitosAdicionales = ".$paginatesSolicitudes[$i]->idRequisitosAdicionales;
-                $requisitosAdicionales = $this->service->getByQueryTableModel($query,"Servicios");
+                $query = "SELECT * FROM `requisitosadicionales` WHERE idRequisitosAdicionales = ".$paginatesSolicitudes[$i]->idRequisitosAdicionales;
+                $requisitosAdicionales = $this->service->getByQueryTableModel($query,"RequisitosAdicionales");
                 $paginatesSolicitudes[$i]->idRequisitosAdicionales = $requisitosAdicionales;
             }
             $this->returnResponse(SUCESS_RESPONSE, $response);

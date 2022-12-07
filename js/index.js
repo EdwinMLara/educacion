@@ -153,7 +153,8 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     let img = await getBase64FromUrl('/educacion/img/logo uriangato.png');
 
     let img2 = await getBase64FromUrl('/educacion/img/logo_sombra.png');
-
+    
+    //  ================   Datos Alumno ====================
     if (!(solicitud.idAlumno.length > 0))
         return false;
     let datosALumno = solicitud.idAlumno[0];
@@ -169,18 +170,25 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     let datosEscuela = solicitud.idEscuela[0];
     let promedio = solicitud.promedioReciente;
 
+    //  ================   Datos Padre ====================
     if (!(solicitud.idPadre.length > 0))
         return false;
     let datosPadre = solicitud.idPadre[0];
-    let arraySeguroMedico = ['Privado','Seguro Social','IMSS','ISSSTE','Otra Institucion','Ninguno'];
-
+    let seguroMedico = datosPadre.seguroMedico;
+    let arraySeguroMedico = ['privado','seguro social', 'IMSS', 'ISSSTE', 'otra institucion','ninguno'];
+    let arraySeguroMedicoResult = arraySeguroMedico.map(seguro => {
+        return seguro == seguroMedico ? 'X' : '';
+    });   
+    
+    //  ================   Datos Ingresos Familiares ====================
     if (!(solicitud.idIngresosFamiliares.length > 0))
         return false;
     let datosIngresosFamiliares = solicitud.idIngresosFamiliares[0];
     let ingresoOtros = parseFloat(datosIngresosFamiliares.ingresoHermanos) + parseFloat(datosIngresosFamiliares.ingresoAbuelos);
     let ingresoTotal = parseFloat(datosIngresosFamiliares.ingresoMama) + parseFloat(datosIngresosFamiliares.ingresoPapa) + parseFloat(datosIngresosFamiliares.ingresoHermanos) + parseFloat(datosIngresosFamiliares.ingresoAbuelos);
-    //console.log(`Ingreso otros = ${ingresoOtros} , Total = ${ingresoTotal}`);
+    
 
+    //  ================   Datos Servicios ====================
     if(!(solicitud.idServicios.length > 0))
         return false;
 
@@ -194,6 +202,41 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
         let objAux = value == 'si' ? { style: 'tableContainSelected', text:key} : { style: '', text: key}
         serviciosColumna1.push(objAux);
     }); 
+
+    //  ================   Datos Requisitos Adicionales ====================
+
+    if (!(solicitud.idRequisitosAdicionales.length > 0))
+        return false;
+    
+    let datosRequisitosAdicionales = solicitud.idRequisitosAdicionales[0];
+    let tipoTransporte = datosRequisitosAdicionales.tipoTransporte;
+    let arrayTipoTransporte = ['caminando','bicicleta','transporte publico','moto','carro'];
+    let arrayTipoTransporteResult = arrayTipoTransporte.map(transporte => {
+        return transporte == tipoTransporte ? { style: 'tableContainSelected', text:transporte} : { style: '', text: transporte}
+    });
+
+    let tipotecho = datosRequisitosAdicionales.tipoTechoCasa
+    let arrayTechoCasa = ['concreto','lamina','carton o otro'];
+    let arrayTechoCasaResult = arrayTechoCasa.map(techo =>{
+        return techo == tipotecho ? 'X' : '';
+    });
+
+    let tomaAgua = datosRequisitosAdicionales.aguaEnCasa;
+    let arrayTomaAgua = ['en casa', 'comunitaria','no tiene'];
+    let arrayTomaAguaResult = arrayTomaAgua.map(toma => {
+        return toma == tomaAgua ? 'X' : '';
+    });
+
+    let tipoPisoCasa = datosRequisitosAdicionales.tipoMaterialPisoCasa;
+    let arrayTipoPisoCasa = ['tierra','ladrillo o semento'];
+    let arrayTipoPisoCasaResult = arrayTipoPisoCasa.map(piso =>{
+        return piso == tipoPisoCasa ? 'X' : '';
+    })
+
+    let energiaElectrica = datosRequisitosAdicionales.energiaElectrica == 'si' ? 'X' : '';
+
+
+
 
     let folio = 'BMU-01'
     var docDefinition = {
@@ -359,21 +402,21 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                                     type: 'none',
                                     ul: [
                                         'Privado',
-                                        ''
+                                        arraySeguroMedicoResult[0]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Seguro Social',
-                                        ''
+                                        arraySeguroMedicoResult[1]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'IMSS',
-                                        'X'
+                                        arraySeguroMedicoResult[2]
                                     ]
                                 }
                                 ,
@@ -381,21 +424,21 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                                     type: 'none',
                                     ul: [
                                         'ISSSTE',
-                                        ''
+                                        arraySeguroMedicoResult[3]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Otra institucion',
-                                        ''
+                                        arraySeguroMedicoResult[4]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Ninguno',
-                                        ''
+                                        arraySeguroMedicoResult[5]
                                     ]
                                 },
                             ]

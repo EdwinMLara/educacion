@@ -5,7 +5,7 @@ require_once("../Modelos/DatosPadre.php");
 
 class DatosPadreRouter extends RestApi{
     public function __construct(){
-        parent::__construct("datospadre");
+        parent::__construct("padre");
     }
 
     public function addDatosPadre(){

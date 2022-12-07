@@ -1,10 +1,10 @@
 <?php
-    class DatosPadre{
+    class Padre{
         public String $idPadre = "autoincrement";
+        public String $curp = "";
         public String $nombre = "";
         public String $telefono = "";
         public String $fechaNacimiento = "";
-        public String $curp = "";
         public String $calle = "";
         public String $no = "";
         public String $colonia = "";
@@ -31,11 +31,11 @@
             }
         }
 
-        public function __construct13($nombre,$telefono,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
+        public function __construct13($curp,$nombre,$telefono,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
+            $this->curp = $curp;
             $this->nombre = $nombre;
             $this->telefono = $telefono;
             $this->fechaNacimiento = $fechaNacimiento;
-            $this->curp = $curp;
             $this->calle = $calle;
             $this->no = $no;
             $this->colonia = $colonia;
@@ -47,16 +47,16 @@
             $this->seguroMedico = $seguroMedico;
         }
 
-        public function __construct14($idPadre,$nombre,$telefono,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
+        public function __construct14($idPadre,$curp,$nombre,$telefono,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico){
             $this->idPadre = $idPadre;
+            $this->curp = $curp;
             $this->nombre = $nombre;
             $this->telefono = $telefono;
             $this->fechaNacimiento = $fechaNacimiento;
-            $this->curp = $curp;
             $this->calle = $calle;
             $this->no = $no;
             $this->colonia = $colonia;
-            $this->calle = $cp;
+            $this->cp = $cp;
             $this->municipio = $municipio;
             $this->gradoEstudios = $gradoEstudios;
             $this->trabajo6Meses = $trabajo6Meses;

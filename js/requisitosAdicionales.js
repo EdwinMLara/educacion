@@ -25,7 +25,7 @@ $('#formAddRequisitosAdicionales').validate({
         energiaElectricaCasa:{required:'Seleccione una opcion'},
         tipoMaterialMurosCasa:{required:'Seleccione una opcion'},
         recibeOtroApoyo:{required:'Agrege su respuesta'},
-        tipoApoyo:{required:'Agrege su respuesta'}
+        tipoApoyo:{required:'Si no cuenta con apoyo, escriba Ninguno'}
     },
     submitHandler:function (){
         console.log("================ Registrar requisitos Adicionales ===============");

@@ -44,8 +44,9 @@ if ($login) {
             <div class="form-group">
                 <label>Tipo de Cuenta</label>
                 <select class="form-control" name="tipoCuenta" aria-label="Floating label select example">
-                    <option value="1" selected>Administrador</option>
-                    <option value="2">Agente</option>
+                    <option value=""></option>
+                    <option value="administrador">Administrador</option>
+                    <option value="agente">Agente</option>
                 </select>
             </div>
 
@@ -53,6 +54,7 @@ if ($login) {
                 Agregar
             </button>
         </form>
+        <script src="/educacion/js/index.js"></script>
         <script src="/educacion/js/usuarios.js"></script>
     <?php
     // Cargando Fooder

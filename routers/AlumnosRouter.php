@@ -9,16 +9,16 @@ class AlumnosRouter extends RestApi{
     }
 
     public function addAlumno(){
-        $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
-        $fechaNacimiento = $this->validateParameter('fechaNacimiento', $this->param["fechaNacimiento"], STRING);
         $curp = $this->validateParameter('curp', $this->param["curp"], STRING);
+        $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
+        $fechaNacimiento = $this->validateParameter('fechaNacimiento', $this->param["fechaNacimiento"], STRING); 
 
         $arguments = array($nombre, $fechaNacimiento, $curp);
         
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
-            $this->throwError('CREATED_ERROR', "An error has been ocurred to register.");
+            $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
         }
     }
 

@@ -4,18 +4,18 @@ $(function () {
 
 $('#formIngresosFamiliares').validate({
     rules: {
-        ingresoPapa: { required: true },
-        ingresoMama: { required: true },
-        ingresoHermanos: { required: true },
-        ingresoAbuelos: { required: true },
-        personasDependientes: { required: true }
+        ingresoPapa: { required: true , digits: true},
+        ingresoMama: { required: true, digits: true },
+        ingresoHermanos: { required: true, digits: true },
+        ingresoAbuelos: { required: true, digits: true },
+        personasDependientes: { required: true, digits: true, max: 10}
     },
     messages: {
-        ingresoPapa: { required: 'Agregar el ingreso del padre' },
-        ingresoMama: { required: 'Agregar el ingreso de mama' },
-        ingresoHermanos: { required: 'Agregar el ingreso de los hermanos' },
-        ingresoAbuelos: { required: 'Agregar el ingreso de los abuelos' },
-        personasDependientes: { required: 'Agrega el numero de personas que dependen del ingreso' }
+        ingresoPapa: { required: 'Agregar el ingreso del padre', digits: 'Solo numeros'},
+        ingresoMama: { required: 'Agregar el ingreso de mama', digits: 'Solo numeros' },
+        ingresoHermanos: { required: 'Agregar el ingreso de los hermanos', digits: 'Solo numeros' },
+        ingresoAbuelos: { required: 'Agregar el ingreso de los abuelos', digits: 'Solo numeros' },
+        personasDependientes: { required: 'Agrega el numero de personas que dependen del ingreso', digits: 'Solo numeros', max: 'el numero es muy grande'}
     },
     submitHandler: function () {
         console.log("================== Registrar Ingresos Familiares ================= ");

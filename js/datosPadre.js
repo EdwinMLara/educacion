@@ -4,15 +4,9 @@ $(function () {
 
 $('#formAddDatosPadre').validate({
     rules: {
-        nombre: {
-            required: true
-        },
-        telefono: {
-            regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}'
-        },
-        fechaNacimiento: {
-            required: true
-        },
+        nombre: { required: true },
+        telefono: { regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
+        fechaNacimiento: { required: true },
         curp: {
             regexCurp: '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
                 + '[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])'
@@ -22,65 +16,27 @@ $('#formAddDatosPadre').validate({
                 + '[0-9A-Z]{1}'
                 + '[0-9]{1}$'
         },
-        calle: {
-            required: true
-        },
-        no: {
-            required: true
-        },
-        colonia: {
-            required: true
-        },
-        cp: {
-            required: true
-        },
-        municipio: {
-            required: true
-        },
-        gradoEstudios: {
-            required: true
-        },
-        trabajo6Meses: {
-            required: true
-        },
-        motivoNoTrabajo: {
-            required: true
-        },
-        seguroMedico: {
-            required: true
-        }
+        calle: { required: true },
+        no: { required: true },
+        colonia: { required: true },
+        cp: { required: true },
+        municipio: { required: true },
+        gradoEstudios: { required: true },
+        trabajo6Meses: { required: true },
+        motivoNoTrabajo: { required: true },
+        seguroMedico: { required: true }
     },  
     messages: {
-        nombre: {
-            required: 'Agrege el nombre'
-        },
-        calle: {
-            required: 'Agrege la calle'
-        },
-        no: {
-            required: 'Agrege el numero'
-        },
-        colonia: {
-            required: 'Agrege la colonia'
-        },
-        cp: {
-            required: 'Agrege el codigo postal'
-        },
-        municipio: {
-            required: 'Agrege el municipio'
-        },
-        gradoEstudios: {
-            required: 'Agrege el grado de estudios'
-        },
-        trabajo6Meses: {
-            required: 'Agrege si ha trabajado el los ultimos 6 meses'
-        },
-        motivoNoTrabajo: {
-            required: 'Agrege el motivo'
-        },
-        seguroMedico: {
-            required: 'Agrege si cuenta con seguro medico'
-        }
+        nombre: { required: 'Agrege el nombre' },
+        calle: { required: 'Agrege la calle' },
+        no: { required: 'Agrege el numero' },
+        colonia: { required: 'Agrege la colonia' },
+        cp: { required: 'Agrege el codigo postal' },
+        municipio: { required: 'Agrege el municipio' },
+        gradoEstudios: { required: 'Seleccione el grado de estudios' },
+        trabajo6Meses: { required: 'Seleccione si ha trabajado el los ultimos 6 meses' },
+        motivoNoTrabajo: { required: 'Agrege el motivo' },
+        seguroMedico: { required: 'Seleccione si cuenta con seguro medico' }
     },
     submitHandler: function () {
         console.log("================== Registrar Datos del Padre ================= ");
