@@ -1,0 +1,5 @@
+an error has been ocurred to register:
+always its releated to tha tables, it could be an atribute table name or even the table name in select by query 
+
+
+api dosen't exist - it could be the table name
