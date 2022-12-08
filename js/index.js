@@ -216,7 +216,7 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     });
 
     let tipotecho = datosRequisitosAdicionales.tipoTechoCasa
-    let arrayTechoCasa = ['concreto','lamina','carton o otro'];
+    let arrayTechoCasa = ['concreto','lamina','carton u otro'];
     let arrayTechoCasaResult = arrayTechoCasa.map(techo =>{
         return techo == tipotecho ? 'X' : '';
     });
@@ -234,6 +234,16 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     })
 
     let energiaElectrica = datosRequisitosAdicionales.energiaElectrica == 'si' ? 'X' : '';
+
+    let tipoMurosCasa = datosRequisitosAdicionales.tipoMaterialMurosCasa;
+    let arrayMurosCasa = ['ladrillo o block','adobe, lamina o teja','carton o madera'];
+    let arrayMurosCasaResult = arrayMurosCasa.map( muros => {
+        return muros == tipoMurosCasa ? 'X' : '';
+    });
+
+    let recibeApoyo = datosRequisitosAdicionales.recibeOtroApoyo;
+    let tipoApoyo = datosRequisitosAdicionales.tipoApoyo;
+
 
 
 
@@ -453,25 +463,17 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                     headerRows: 2,
                     body: [
                         [{ text: 'Tu escuela esta dentro del municipio', style: 'tableSubHeader' }, { text: 'Tiempo que tarde en llegar a la escuela', style: 'tableSubHeader' }, { text: 'Tipo de transporte en el que se translada al trabajo', style: 'tableSubHeader', colSpan: 2 }],
-                        [{ text: 'Si', style: 'tableContain' }, { text: '50 min', style: 'tableContain' }, {
+                        [{ text: datosRequisitosAdicionales.escuelaDentroMunicipio , style: 'tableContain' }, { text: datosRequisitosAdicionales.tiempoTranslado, style: 'tableContain' }, {
                             style: 'listas',
                             columns: [
                                 {
-                                    ul: [
-                                        'Bicicleta',
-                                        'Moto'
-                                    ]
+                                    ul: arrayTipoTransporteResult.slice(0,2)
                                 },
                                 {
-                                    ul: [
-                                        'Caminando'
-                                    ]
+                                    ul: arrayTipoTransporteResult.slice(2,4)
                                 },
                                 {
-                                    ul: [
-                                        'Transporte público',
-                                        'Carro'
-                                    ]
+                                    ul: arrayTipoTransporteResult.slice(4,5)
                                 }
 
                             ], colSpan: 2
@@ -492,21 +494,21 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                                     type: 'none',
                                     ul: [
                                         'Concreto',
-                                        'X'
+                                        arrayTechoCasaResult[0]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Lamina',
-                                        ''
+                                        arrayTechoCasaResult[1]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
-                                        'Carton o semejante',
-                                        ''
+                                        'Carton u otro',
+                                        arrayTechoCasaResult[2]
                                     ]
                                 }
                             ]
@@ -517,21 +519,21 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                                     type: 'none',
                                     ul: [
                                         'En casa',
-                                        'X'
+                                        arrayTomaAguaResult[0]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Comunitaria',
-                                        ''
+                                        arrayTomaAguaResult[1]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'No tiene',
-                                        ''
+                                        arrayTomaAguaResult[2]
                                     ]
                                 }
                             ]
@@ -544,21 +546,21 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                                     type: 'none',
                                     ul: [
                                         'Tierra',
-                                        ''
+                                        arrayTipoPisoCasaResult[0]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Ladrillo o semento',
-                                        'X'
+                                        arrayTipoPisoCasaResult[1]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Energia electrica',
-                                        'X'
+                                        energiaElectrica
                                     ]
                                 }
                             ]
@@ -569,21 +571,21 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                                     type: 'none',
                                     ul: [
                                         'Ladrillo o block',
-                                        ''
+                                        arrayMurosCasaResult[0]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Adobe, Lamina o teja',
-                                        ''
+                                        arrayMurosCasaResult[1]
                                     ]
                                 },
                                 {
                                     type: 'none',
                                     ul: [
                                         'Carton o madera',
-                                        ''
+                                        arrayMurosCasaResult[2]
                                     ]
                                 }
                             ]
@@ -599,7 +601,7 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                     body: [
                         [{ text: 'RECIBE ALGÚN OTRO APOYO', style: 'tableHeader', colSpan: 2 }, {}],
                         [{ text: 'Si o No', style: 'tableSubHeader' }, { text: 'tipo de apoyo que recibe', style: 'tableSubHeader' }],
-                        [{ text: 'NO', style: 'tableContain' }, { text: 'Ninguno', style: 'tableContain' }],
+                        [{ text: recibeApoyo, style: 'tableContain' }, { text: tipoApoyo, style: 'tableContain' }],
                     ]
                 }
             }

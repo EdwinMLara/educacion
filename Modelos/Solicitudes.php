@@ -39,25 +39,25 @@ class Solicitudes
         $this->promedioReciente = $promedioReciente;
     }
 
-    public function __construct8($idAlumno, $idEscuela, $idPadre, $ingresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente)
+    public function __construct8($idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente)
     {
         $this->idAlumno = $idAlumno;
         $this->idEscuela = $idEscuela;
         $this->idPadre = $idPadre;
-        $this->idIngresosFamiliares = $ingresosFamilialares;
+        $this->idIngresosFamiliares = $idIngresosFamilialares;
         $this->idServicios = $idServicios;
         $this->idRequisitosAdicionales = $idRequisitosAdicionales;
         $this->nivelEstudios = $nivelEstudios;
         $this->promedioReciente = $promedioReciente;
     }
 
-    public function __construct9($idSolicitud,$idAlumno, $idEscuela, $idPadre, $ingresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente)
+    public function __construct9($idSolicitud,$idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente)
     {
         $this->idSolicitud = $idSolicitud;
         $this->idAlumno = $idAlumno;
         $this->idEscuela = $idEscuela;
         $this->idPadre = $idPadre;
-        $this->idIngresosFamiliares = $ingresosFamilialares;
+        $this->idIngresosFamiliares = $idIngresosFamilialares;
         $this->idServicios = $idServicios;
         $this->idRequisitosAdicionales = $idRequisitosAdicionales;
         $this->nivelEstudios = $nivelEstudios;

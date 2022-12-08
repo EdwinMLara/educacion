@@ -23,7 +23,7 @@ class DatosPadreRouter extends RestApi{
         $motivoNoTrabajo = $this->validateParameter("motivoNoTrabajo",$this->param["motivoNoTrabajo"],STRING);
         $seguroMedico = $this->validateParameter("seguroMedico",$this->param["seguroMedico"],STRING);
 
-        $arguments = array($nombre,$telefeno,$fechaNacimiento,$curp,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico);
+        $arguments = array($curp,$nombre,$telefeno,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {

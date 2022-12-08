@@ -120,6 +120,7 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
     let disableButtonBack = "";
     let detallesSolicitudToShow;
 
+    $('#modalTitleSolicitud').empty();
     $('#modalBodySolicitud').empty();
     $('#modalFooterSolicitud').empty();
 
@@ -129,24 +130,32 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
         disableButtonNext = 'disabled';
     if (step < 2)
         disableButtonBack = 'disabled';
+    
+    let title = "";
 
     switch (step) {
         case 1:
+            title = "Detalles solicitud Alumno"
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idAlumno[0];
             break;
         case 2:
+            title = "Detalles solicitud Escuela"
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idEscuela[0];
             break;
         case 3:
+            title = "Detalles solicitud Padre"
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idPadre[0];
             break;
         case 4:
+            title = "Detalles solicitud Ingresos Familiares"
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idIngresosFamiliares[0];
             break;
         case 5:
+            title = "Detalles solicitud Servicios"
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idServicios[0];
             break;
         case 6:
+            title = "Detalles solicitud Requisitos Adicionales"
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idRequisitosAdicionales[0];
             break;
     }
@@ -155,6 +164,7 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
         + `<button type="button" ${disableButtonNext} onclick="detallesSolicitud(${indiceSolicitud},${step + 1})" class="btn btn-primary">Siguiente</button>`;
 
 
+    $('#modalTitleSolicitud').append(title);
     $('#modalFooterSolicitud').append(buttonsHTML);
 
     if (detallesSolicitudToShow == undefined) {
@@ -162,9 +172,11 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
         return;
     }
 
-    Object.keys(detallesSolicitudToShow).forEach(function (key) {
+    Object.keys(detallesSolicitudToShow).forEach(function (key,index) {
+        if(index === 0)
+            return
 
-        console.log(key, detallesSolicitudToShow[key]);
+        //console.log(key, detallesSolicitudToShow[key]);
         let inputHMTL = `<label>${key}</label>`
             + '<div class="form-group">'
             + `<input type="text" class="form-control form-control-user" name="${key}" value="${detallesSolicitudToShow[key]}">`

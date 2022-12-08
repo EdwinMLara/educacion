@@ -16,11 +16,12 @@ class RequisitosAdicionalesRouter extends RestApi{
         $tipoTechoCasa = $this->validateParameter('tipoTechoCasa', $this->param["tipoTechoCasa"], STRING);
         $aguaEnCasa = $this->validateParameter('aguaEncasa', $this->param["aguaEnCasa"], STRING);
         $tipoMaterialPisoCasa = $this->validateParameter("tipoMaterialPisoCasa",$this->param["tipoMaterialPisoCasa"],STRING);
+        $energiaElectrica = $this->validateParameter('energiaElectrica',$this->param['energiaElectrica'],STRING);
         $tipoMaterialMurosCasa = $this->validateParameter('tipoMaterialMurosCasa', $this->param["tipoMaterialMurosCasa"], STRING);
         $recibeOtroApoyo = $this->validateParameter('recibeOtroApoyo', $this->param["recibeOtroApoyo"], STRING);
         $tipoApoyo = $this->validateParameter('tipoApoyo', $this->param["tipoApoyo"], STRING);
 
-        $arguments = array($escuelaDentroMunicipio,$tiempoTranslado,$tipoTransporte,$tipoTechoCasa,$aguaEnCasa,$tipoMaterialPisoCasa,$tipoMaterialMurosCasa,$recibeOtroApoyo,$tipoApoyo);
+        $arguments = array($escuelaDentroMunicipio,$tiempoTranslado,$tipoTransporte,$tipoTechoCasa,$aguaEnCasa,$tipoMaterialPisoCasa,$energiaElectrica,$tipoMaterialMurosCasa,$recibeOtroApoyo,$tipoApoyo);
         
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);

@@ -16,11 +16,11 @@ class SolicitudesRouter extends RestApi {
 
     public function addSolicitude(){
         $idAlumno = $this->validateParameter('idAlumno',$this->param['idAlumno'],INTEGER);
-        $idEscuela = $this->validateParameter('idEscuela',$this->param['idEscuela'],STRING);
-        $idPadre = $this->validateParameter('idPadre',$this->param['idPadre'],STRING);
-        $idIngresosFamiliares = $this->validateParameter('idIngresosFamiliares',$this->param['idIngresosFamiliares'],STRING);
-        $idServicios = $this->validateParameter('idServicios',$this->param['idServicios'],STRING);
-        $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales',$this->param['idRequisitosAdicionales'],STRING);
+        $idEscuela = $this->validateParameter('idEscuela',$this->param['idEscuela'],INTEGER);
+        $idPadre = $this->validateParameter('idPadre',$this->param['idPadre'],INTEGER);
+        $idIngresosFamiliares = $this->validateParameter('idIngresosFamiliares',$this->param['idIngresosFamiliares'],INTEGER);
+        $idServicios = $this->validateParameter('idServicios',$this->param['idServicios'],INTEGER);
+        $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales',$this->param['idRequisitosAdicionales'],INTEGER);
         $nivelEstudios = $this->validateParameter('nivelEstudios',$this->param["nivelEstudios"],STRING);
         $promedioReciente = $this->validateParameter('promedioReciente',$this->param["promedioReciente"],STRING);
 
