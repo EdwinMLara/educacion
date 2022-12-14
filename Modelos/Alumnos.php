@@ -1,15 +1,15 @@
 <?php
     class Alumnos{
-        public String $idAlumno = "autoincrement";
-        public String $curp = "";
-        public String $nombre = "";
-        public String $fechaNacimiento = "";
+        public String $idAlumno = "autoincrement";  
 
         public function __construct(){
             $listArgs = func_get_args()[0];
             $numArgs = count($listArgs);
 
             switch($numArgs){
+                case 2:
+                    $this->__constructUpdate($listArgs[0],$listArgs[1]);
+                    break;
                 case 3:
                     $this->__construct5($listArgs[0],$listArgs[1],$listArgs[2]);
                     break;
@@ -19,6 +19,10 @@
                 default:
                     echo $numArgs." No hay constructor de este tipo";
             }
+        }
+
+        public function __constructUpdate(){
+
         }
 
         public function __construct5($curp,$nombre,$fechaNacimiento){

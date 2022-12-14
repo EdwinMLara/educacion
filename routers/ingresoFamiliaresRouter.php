@@ -23,6 +23,18 @@ class IngresosFamiliaresRouter extends RestApi{
             $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
         }
     }
+
+    public function updateIngresosFamiliaresByKeyandValue(){
+        $idIngresosFamiliares = $this->validateParameter('idIngresosFamiliares',$this->param["idIngresosFamiliares"],INTEGER);
+        $key = $this->validateParameter('key',$this->param["key"],STRING);
+        $value = $this->validateParameter('value',$this->param["value"],STRING);
+
+        if ($updated = $this->service->updateByValue($key,$value,"idIngresosFamiliares",$idIngresosFamiliares)) {
+            $this->returnResponse(SUCESS_UPDATED, "Se ha actualizado correctamente");
+        } else {
+            $this->throwError(CREATED_ERROR,$updated);
+        }
+    }
 }
 
 ?>

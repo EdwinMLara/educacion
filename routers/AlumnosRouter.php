@@ -25,6 +25,18 @@ class AlumnosRouter extends RestApi{
     public function getByCurp(){
         $curp = $this->validateParameter('curp', $this->param["curp"], STRING);
     }
+
+    public function updateAlumnoByKeyandValue(){
+        $idAlumno = $this->validateParameter('idAlumno',$this->param["idAlumno"],INTEGER);
+        $key = $this->validateParameter('key',$this->param["key"],STRING);
+        $value = $this->validateParameter('value',$this->param["value"],STRING);
+
+        if ($updated = $this->service->updateByValue($key,$value,"idAlumno",$idAlumno)) {
+            $this->returnResponse(SUCESS_UPDATED, "Se ha actualizado correctamente");
+        } else {
+            $this->throwError(CREATED_ERROR,$updated);
+        }
+    }
 }
 
-?>  
+?>   

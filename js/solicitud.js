@@ -130,32 +130,52 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
         disableButtonNext = 'disabled';
     if (step < 2)
         disableButtonBack = 'disabled';
-    
+
     let title = "";
+    let table = "";
+    let api = "";
 
     switch (step) {
         case 1:
-            title = "Detalles solicitud Alumno"
+            title = "Detalles solicitud Alumno";
+            api = "apiAlumnos.php";
+            method = "updateAlumnoByKeyandValue";
+            idStr = "idAlumno";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idAlumno[0];
             break;
         case 2:
-            title = "Detalles solicitud Escuela"
+            title = "Detalles solicitud Escuela";
+            api = "apiEscuelas.php";
+            method = "updateEscuelaByKeyandValue";
+            idStr = "idEscuela";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idEscuela[0];
             break;
         case 3:
-            title = "Detalles solicitud Padre"
+            title = "Detalles solicitud Padre";
+            api = "apiDatosPadre.php";
+            method = "updatePadreByKeyandValue";
+            idStr = "idPadre";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idPadre[0];
             break;
         case 4:
-            title = "Detalles solicitud Ingresos Familiares"
+            title = "Detalles solicitud Ingresos Familiares";
+            api = "apiIngresosFamiliares.php";
+            method = "updateIngresosFamiliaresByKeyandValue";
+            idStr = "idIngresosFamiliares";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idIngresosFamiliares[0];
             break;
         case 5:
-            title = "Detalles solicitud Servicios"
+            title = "Detalles solicitud Servicios";
+            api = "apiServicios.php";
+            method = "updateServiciosByKeyandValue";
+            idStr = "idServicios";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idServicios[0];
             break;
         case 6:
             title = "Detalles solicitud Requisitos Adicionales"
+            api = "apiRequisitosAdicionales.php";
+            method = "updateRequisitosAdicionalesByKeyandValue";
+            idStr = "idRequisitosAdicionales";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idRequisitosAdicionales[0];
             break;
     }
@@ -172,20 +192,24 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
         return;
     }
 
-    Object.keys(detallesSolicitudToShow).forEach(function (key,index) {
-        if(index === 0)
-            return
+    let id = -1;
+
+    Object.keys(detallesSolicitudToShow).forEach(function (key, index) {
+        if (index === 0) {
+            id = detallesSolicitudToShow[key];
+            return;
+        }
 
         //console.log(key, detallesSolicitudToShow[key]);
         let inputHMTL = `<label>${key}</label>`
             + '<div class="form-group">'
-            + `<input type="text" class="form-control form-control-user" name="${key}" value="${detallesSolicitudToShow[key]}">`
+            + `<input type="text" class="form-control form-control-user" onchange="updateCampo('${api}','${method}',{${idStr}:${id}},'${key}',this.value)" name="${key}" value="${detallesSolicitudToShow[key]}">`
             + '</div>';
         formHMTL += inputHMTL;
     });
 
     formHMTL += finFormHTML;
-    console.log(formHMTL);
+    console.log(id)
 
     $('#modalBodySolicitud').append(formHMTL);
 }
@@ -194,4 +218,25 @@ const print = async (indiceSolicitud) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
     const solicitudes = JSON.parse(window.localStorage.getItem('currentSolicitudes'));
     createSolicitudPdf(solicitudes[indiceSolicitud]);
+}
+
+const updateCampo = (api, method, id, key, value) => {
+    let data = {
+        name: method,
+        param: {
+            key,
+            value,
+            ...id
+        }
+    }
+    console.log(data);
+
+    request('/educacion/Api/' + api, data, function (res) {
+        console.log(res);
+        if (res.hasOwnProperty('error')) {
+            let expiredToken = res.error.status;
+            expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
+            return;
+        }
+    });
 }

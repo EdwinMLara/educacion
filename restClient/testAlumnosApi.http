@@ -11,4 +11,22 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjY2MjU3N
         "fechaNacimiento":"1992-07-17",
         "curp":"LAEE920717HMCRSD09"
     }
+
+
 }
+
+### 
+
+post http://localhost/educacion/Api/apiAlumnos.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA5NTkxMjgsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3MDk2NTEyOCwidXNlcklkIjoiMSJ9.v6LNiEYjGLVRNMTmyhgl-7yNb8L5LmFywHt_itQgOkc
+
+{
+    "name":"updateAlumnoByKeyandValue",
+    "param":{
+        "idAlumno":"6",
+        "key":"curp",
+        "value":"LAEE920717HMCRSD09"
+    }
+}
+

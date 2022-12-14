@@ -30,6 +30,18 @@ class DatosPadreRouter extends RestApi{
             $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
         }
     }
+
+    public function updatePadreByKeyandValue(){
+        $idPadre = $this->validateParameter('idPadre',$this->param["idPadre"],INTEGER);
+        $key = $this->validateParameter('key',$this->param["key"],STRING);
+        $value = $this->validateParameter('value',$this->param["value"],STRING);
+
+        if ($updated = $this->service->updateByValue($key,$value,"idPadre",$idPadre)) {
+            $this->returnResponse(SUCESS_UPDATED, "Se ha actualizado correctamente");
+        } else {
+            $this->throwError(CREATED_ERROR,$updated);
+        }
+    }
 }
 
 ?>

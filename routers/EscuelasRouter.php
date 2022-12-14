@@ -6,13 +6,11 @@ require_once("../Modelos/EscuelaInstitucion.php");
 class EscuelaInstitucionRouter extends RestApi
 {
 
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct("escuela");
     }
 
-    public function addEscuela()
-    {
+    public function addEscuela(){
         $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
         $calle = $this->validateParameter('calle', $this->param["calle"], STRING);
         $no = $this->validateParameter('no', $this->param["no"], STRING);
@@ -30,14 +28,12 @@ class EscuelaInstitucionRouter extends RestApi
         }
     }
 
-    public function getEscuelas()
-    {
+    public function getEscuelas(){
         $usuarios = $this->service->getAll();
         $this->returnResponse(SUCESS_RESPONSE, $usuarios);
     }
 
-    public function getEscuelasPaginate()
-    {
+    public function getEscuelasPaginate(){
         $page = $this->validateParameter('page', $this->param["page"], INTEGER);
         $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
 
@@ -55,5 +51,17 @@ class EscuelaInstitucionRouter extends RestApi
         $response->total = $numEscuelas;
         $response->escuelas = $paginatesEscuelas;
         $this->returnResponse(SUCESS_RESPONSE, $response);
+    }
+
+    public function updateEscuelaByKeyandValue(){
+        $idEscuela = $this->validateParameter('idEscuela',$this->param["idEscuela"],INTEGER);
+        $key = $this->validateParameter('key',$this->param["key"],STRING);
+        $value = $this->validateParameter('value',$this->param["value"],STRING);
+
+        if ($updated = $this->service->updateByValue($key,$value,"idEscuela",$idEscuela)) {
+            $this->returnResponse(SUCESS_UPDATED, "Se ha actualizado correctamente");
+        } else {
+            $this->throwError(CREATED_ERROR,$updated);
+        }
     }
 }

@@ -29,6 +29,18 @@ class RequisitosAdicionalesRouter extends RestApi{
             $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
         }
     }
+
+    public function updateRequisitosAdicionalesByKeyandValue(){
+        $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales',$this->param["idRequisitosAdicionales"],INTEGER);
+        $key = $this->validateParameter('key',$this->param["key"],STRING);
+        $value = $this->validateParameter('value',$this->param["value"],STRING);
+
+        if ($updated = $this->service->updateByValue($key,$value,"idRequisitosAdicionales",$idRequisitosAdicionales)) {
+            $this->returnResponse(SUCESS_UPDATED, "Se ha actualizado correctamente");
+        } else {
+            $this->throwError(CREATED_ERROR,$updated);
+        }
+    }
 }
 
 ?>

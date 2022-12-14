@@ -26,21 +26,18 @@ class Solicitudes
         }
     }
 
-    public function __constructUpdateSolicitudEscuela($idSolicitud, $idEscuela)
-    {
+    public function __constructUpdateSolicitudEscuela($idSolicitud, $value){
         $this->idSolicitud = $idSolicitud;
-        $this->idEscuela = $idEscuela;
+        $this->dinamicParam = $value;
     }
 
-    public function __construct3($idSolicitud, $nivelEstudios, $promedioReciente)
-    {
+    public function __construct3($idSolicitud, $nivelEstudios, $promedioReciente){
         $this->idSolicitud = $idSolicitud;
         $this->nivelEstudios = $nivelEstudios;
         $this->promedioReciente = $promedioReciente;
     }
 
-    public function __construct8($idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente)
-    {
+    public function __construct8($idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente){
         $this->idAlumno = $idAlumno;
         $this->idEscuela = $idEscuela;
         $this->idPadre = $idPadre;
@@ -51,8 +48,7 @@ class Solicitudes
         $this->promedioReciente = $promedioReciente;
     }
 
-    public function __construct9($idSolicitud,$idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente)
-    {
+    public function __construct9($idSolicitud,$idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente){
         $this->idSolicitud = $idSolicitud;
         $this->idAlumno = $idAlumno;
         $this->idEscuela = $idEscuela;

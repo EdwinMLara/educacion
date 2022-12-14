@@ -27,5 +27,17 @@ class ServiciosRouter extends RestApi{
             $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
         }
     }
+
+    public function updateServiciosByKeyandValue(){
+        $idServicios = $this->validateParameter('idServicios',$this->param["idServicios"],INTEGER);
+        $key = $this->validateParameter('key',$this->param["key"],STRING);
+        $value = $this->validateParameter('value',$this->param["value"],STRING);
+
+        if ($updated = $this->service->updateByValue($key,$value,"idServicios",$idServicios)) {
+            $this->returnResponse(SUCESS_UPDATED, "Se ha actualizado correctamente");
+        } else {
+            $this->throwError(CREATED_ERROR,$updated);
+        }
+    }
 }
 ?>
