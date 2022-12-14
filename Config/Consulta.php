@@ -83,7 +83,7 @@ class Consulta extends ConexionBaseDatos{
         if($this->tableExists($table)){
             $query = "UPDATE ".$this->deleteEspecialCharacters($table)." SET ";
             $where = " WHERE ";
-            $query .= $property. " = " . $value . $where . $propertyIdName." = ".$id;
+            $query .= $property. " = '" . $value."' ". $where . $propertyIdName." = ".$id;
             $this->con->query($query);
             return ($this->con->affected_rows === 1) ? true : false;
         }

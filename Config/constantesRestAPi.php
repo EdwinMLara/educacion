@@ -16,6 +16,7 @@
     define('USER_NOT_ACTIVE',                            109);
 
     define('SUCESS_RESPONSE',                            200);
+    define('SUCESS_UPDATED',                             201);
 
     define('ATHORIZATION_HEADER_NOT_FOUND',              300);
     define('ACCESS_TOKEN_ERROS',                         301);
