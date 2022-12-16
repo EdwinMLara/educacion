@@ -24,6 +24,12 @@ class AlumnosRouter extends RestApi{
 
     public function getByCurp(){
         $curp = $this->validateParameter('curp', $this->param["curp"], STRING);
+        $query = "SELECT * FROM `alumnos` where curp = '".$curp."' LIMIT 1 ";
+        if ($result = $this->service->getByQueryTable($query,"alumnos")) {
+            $this->returnResponse(SUCESS_RESPONSE, $result);
+        } else {
+            $this->throwError(CREATED_ERROR, "An error has been ocurred to register.");
+        }
     }
 
     public function updateAlumnoByKeyandValue(){

@@ -20,7 +20,11 @@ if ($login) {
 
     <form id="formAddAlumnos">
         <div class="form-group">
-            <input type="text" class="form-control" name="curp" placeholder="Curp">
+            <input type="text" 
+                class="form-control" 
+                name="curp" 
+                placeholder="Curp"
+                onchange="checkIfCurpExist(this)">
         </div>
 
         <div class="form-group">

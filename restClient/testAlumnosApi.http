@@ -30,3 +30,16 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA5NTkxM
     }
 }
 
+### 
+
+post http://localhost/educacion/Api/apiAlumnos.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzExMjAxMzIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3MTEyNjEzMiwidXNlcklkIjoiMSJ9.47ps1f7b5UsC6-J0N_y83qdhoUzld6uQcNe1c-RLwfg
+
+{
+    "name":"getByCurp",
+    "param":{
+        "curp":"LAEE920717HMCRSD09"
+    }
+}
+

@@ -151,5 +151,14 @@ class SolicitudesRouter extends RestApi {
             $this->throwError('GET_ERROR', "An error has been ocurren to paginate de users");
         }
     }
+
+    public function getSolicitudByIdAlumno(){
+        $idAlumno = $this->validateParameter("idAlumno",$this->param["idAlumno"],STRING);
+        if($result = $this->service->getByField("idAlumno",$idAlumno)){
+            $this->returnResponse(SUCESS_RESPONSE, $result);
+        } else {
+            $this->throwError(CREATED_ERROR, $result);
+        }
+    }
 }
 ?>
