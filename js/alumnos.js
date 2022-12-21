@@ -74,7 +74,9 @@ $('#formAddAlumnos').validate({
                     idServicios: -1,
                     idRequisitosAdicionales: -1,
                     nivelEstudios: "NO-REGISTRADO",
-                    promedioReciente: "NO-REGISTRADO"
+                    promedioReciente: "NO-REGISTRADO",
+                    status:'pendiente',
+                    fecha:new Date().toISOString().slice(0, 10)
                 }
             }
 
@@ -95,8 +97,9 @@ $('#formAddAlumnos').validate({
     }
 });
 
- 
+
 const checkIfCurpExist = (e) => {
+    console.log("================ revisar si ya existe la curp ===============")
     const globalRegex = new RegExp(strRegexCurp, 'g');
     if (!globalRegex.test(e.value)) {
         console.log("curp no valida");
@@ -106,22 +109,27 @@ const checkIfCurpExist = (e) => {
     let dataCheckCurp = {
         name: "getByCurp",
         param: {
-            curp: "LAEE920717HMCRSD09"
+            curp: $("input[name='curp']").val()
         }
     }
+    console.log(dataCheckCurp);
 
     request('/educacion/Api/apiAlumnos.php', dataCheckCurp, function (res) {
+        console.log("Revisar Curp");
         console.log(res);
+
         if (res.hasOwnProperty('error')) {
             alert(res.error.message);
             return;
         }
 
-        let check = res.response.result;
-        if (!(check.length > 0)) {
-            console.log("No hay alumno error");
-            return
+        if (res.response.status === 204) {
+            return;
         }
+
+        if (!(res.response.status === 200))
+            return;
+        let check = res.response.result;
 
         $("input[name='nombre']").val(check[0].nombre);
         $("input[name='fechaNacimiento']").val(check[0].fechaNacimiento);
@@ -145,14 +153,33 @@ const checkIfCurpExist = (e) => {
             }
 
             let Solicitud = res.response.result;
-            Solicitud.idEscuela < 0 ? location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${Solicitud.idSolicitud}` : null;
-            Solicitud.idPadre < 0 ? location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${Solicitud.idSolicitud}` : null;
-            Solicitud.idIngresosFamiliares < 0 ? location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${Solicitud.idSolicitud}` : null;
-            Solicitud.idServicios < 0 ? location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${Solicitud.idSolicitud}` : null;
-            Solicitud.idRequisitosAdicionales < 0 ? location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${Solicitud.idSolicitud}` : null;
+            console.log(Solicitud);
+            
+            if(parseInt(Solicitud.idEscuela) < 0){
+                location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${Solicitud.idSolicitud}`
+                return
+            }
+            if(parseInt(Solicitud.idPadre) < 0){
+                location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${Solicitud.idSolicitud}`
+                return;
+            }
+            
+            if(parseInt(Solicitud.idIngresosFamiliares) < 0){
+                location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${Solicitud.idSolicitud}`
+                return
+            }
+            
+            if(parseInt(Solicitud.idServicios) < 0){
+                location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${Solicitud.idSolicitud}`;
+                return
+            }
 
-            Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO" ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada');
+            if(parseInt(Solicitud.idRequisitosAdicionales) < 0 ){
+                location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${Solicitud.idSolicitud}`
+                return
+            }
+
+            (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada'); 
         });
-
     });
 }

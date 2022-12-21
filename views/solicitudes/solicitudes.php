@@ -71,6 +71,7 @@ if ($login) {
                                         <th>Padre</th>
                                         <th>Nivel Estudios</th>
                                         <th>Promedio</th>
+                                        <th>Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>
