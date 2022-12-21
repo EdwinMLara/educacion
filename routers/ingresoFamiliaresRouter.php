@@ -9,11 +9,11 @@ class IngresosFamiliaresRouter extends RestApi{
     }
 
     public function addIngresosFamiliares(){
-        $ingresoPapa = $this->validateParameter('ingresoPapa', $this->param["ingresoPapa"], INTEGER);
-        $ingresoMama = $this->validateParameter('ingresoMama', $this->param["ingresoMama"], INTEGER);
-        $ingresoHermanos = $this->validateParameter('ingresoHermanos', $this->param["ingresoHermanos"], INTEGER);
-        $ingresosAbuelos = $this->validateParameter('ingresoAbuelos', $this->param["ingresoAbuelos"], INTEGER);
-        $personaDependientes = $this->validateParameter('personasDependientes', $this->param["personasDependientes"], INTEGER);
+        $ingresoPapa = $this->validateParameter('ingresoPapa', $this->param["ingresoPapa"],STRING);
+        $ingresoMama = $this->validateParameter('ingresoMama', $this->param["ingresoMama"], STRING);
+        $ingresoHermanos = $this->validateParameter('ingresoHermanos', $this->param["ingresoHermanos"], STRING);
+        $ingresosAbuelos = $this->validateParameter('ingresoAbuelos', $this->param["ingresoAbuelos"], STRING);
+        $personaDependientes = $this->validateParameter('personasDependientes', $this->param["personasDependientes"], STRING);
         
         $arguments = array($ingresoPapa,$ingresoMama,$ingresoHermanos,$ingresosAbuelos,$personaDependientes);
         
