@@ -23,8 +23,10 @@ class SolicitudesRouter extends RestApi {
         $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales',$this->param['idRequisitosAdicionales'],INTEGER);
         $nivelEstudios = $this->validateParameter('nivelEstudios',$this->param["nivelEstudios"],STRING);
         $promedioReciente = $this->validateParameter('promedioReciente',$this->param["promedioReciente"],STRING);
+        $status = $this->validateParameter('status',$this->param["status"],STRING);
+        $fecha = $this->validateParameter("fecha",$this->param["fecha"],STRING);
 
-        $arguments = array($idAlumno,$idEscuela,$idPadre,$idIngresosFamiliares,$idServicios,$idRequisitosAdicionales,$nivelEstudios,$promedioReciente);
+        $arguments = array($idAlumno,$idEscuela,$idPadre,$idIngresosFamiliares,$idServicios,$idRequisitosAdicionales,$nivelEstudios,$promedioReciente,$status,$fecha);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
@@ -110,7 +112,9 @@ class SolicitudesRouter extends RestApi {
         $page = $this->validateParameter('page', $this->param["page"], INTEGER);
         $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
 
-        if ($solicitudes = $this->service->getAll()) {
+        $solicitudes = $this->service->getAll();
+        //echo json_encode($solicitudes);
+        if ($solicitudes) {
             $numSolicitudes = count($solicitudes);
             $inicio = ($page - 1)*$perPage;
             $fin = $perPage;
@@ -147,13 +151,16 @@ class SolicitudesRouter extends RestApi {
                 $paginatesSolicitudes[$i]->idRequisitosAdicionales = $requisitosAdicionales;
             }
             $this->returnResponse(SUCESS_RESPONSE, $response);
-        } else {
+        } else if(empty($solicitudes)){
+            $this->returnResponse(SUCESS_EMPTY, "no hay solicitudes registradas");
+        }
+        else{
             $this->throwError('GET_ERROR', "An error has been ocurren to paginate de users");
         }
     }
 
     public function getSolicitudByIdAlumno(){
-        $idAlumno = $this->validateParameter("idAlumno",$this->param["idAlumno"],STRING);
+        $idAlumno = $this->validateParameter("idAlumno",$this->param["idAlumno"],INTEGER);
         if($result = $this->service->getByField("idAlumno",$idAlumno)){
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
