@@ -49,14 +49,14 @@
                 if(!method_exists($api,$this->serviceName)){
                     $this->throwError(API_DOST_NOT_EXIST,"Api does not exist.");
                 }
-                $rMethod->invoke($api); 
+                $rMethod->invoke($api);
             }catch(Exception $e){
                 $this->throwError(API_DOST_NOT_EXIST,"Api does not exist.");
             } 
         }
 
         public function validateParameter($fieldName,$value,$dataType,$required = true){
-            if($required && empty($value) == true){
+            if($required && strlen($value) == 0){
                 $this->throwError(VALIDATE_PARAMETER_REQUIRED,$fieldName." parameter is requiered");
             }
 
@@ -112,7 +112,6 @@
                 }
             }
             return $headers;
-
         }
 
         public function getBearerToken(){
