@@ -1,0 +1,12 @@
+/** Para compilar se ejcuta
+  sass custum.scss ../css/sb-admin-2.css
+*/
+
+$theme-colors: (
+  "primary": #ff4136,
+);
+
+
+$input-btn-focus-color: #ff4136;
+
+@import "sb-admin-2.scss"

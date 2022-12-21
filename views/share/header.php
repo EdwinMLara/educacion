@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +12,7 @@
     <link href="/educacion/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="/educacion/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/educacion/css/sb-admin-2.css" rel="stylesheet">
     <link href="/educacion/css/validation.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
