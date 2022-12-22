@@ -4,7 +4,7 @@ $(function () {
 
 /** Mi curp para probar
  * LAEE920717HMCRSD09
- * 
+ * EIMH700908MDFSRL09
  * 
  * CHECAR LA VALIDACION DE TIPO DE DATOS
  */
@@ -17,35 +17,33 @@ const strRegexCurp = '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
     + '[0-9A-Z]{1}'
     + '[0-9]{1}$';
 
+const fileBase64 = [];
 $('#formAddAlumnos').validate({
     onkeyup: false,
     rules: {
-        curp: {
-            regexCurp: strRegexCurp
-        },
+        file:{ required:true },
+        curp: { regexCurp: strRegexCurp },
         nombre: {
             required: true,
             minlength: 9
         },
-        fechaNacimiento: {
-            required: true
-        }
+        fechaNacimiento: { required: true }
     },
     messages: {
         nombre: {
             required: 'Agrege el nombre del alumno....',
             minlength: 'Nombre completo por favor'
         },
-        fechaNacimiento: {
-            required: 'seleccione la fecha de nacimiento'
-        }
+        fechaNacimiento: { required: 'seleccione la fecha de nacimiento' }
     },
     submitHandler: function (form) {
         console.log("================ Registrar alumno para solicitar beca ===============");
 
         let data = {
             name: "addAlumno",
-            param: getFormData($("#formAddAlumnos"))
+            param: { ...getFormData($("#formAddAlumnos")),
+                file:fileBase64[0]
+            }
         }
 
         console.log(data);
@@ -75,8 +73,8 @@ $('#formAddAlumnos').validate({
                     idRequisitosAdicionales: -1,
                     nivelEstudios: "NO-REGISTRADO",
                     promedioReciente: "NO-REGISTRADO",
-                    status:'pendiente',
-                    fecha:new Date().toISOString().slice(0, 10)
+                    status: 'pendiente',
+                    fecha: new Date().toISOString().slice(0, 10)
                 }
             }
 
@@ -154,32 +152,55 @@ const checkIfCurpExist = (e) => {
 
             let Solicitud = res.response.result;
             console.log(Solicitud);
-            
-            if(parseInt(Solicitud.idEscuela) < 0){
+
+            if (parseInt(Solicitud.idEscuela) < 0) {
                 location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${Solicitud.idSolicitud}`
                 return
             }
-            if(parseInt(Solicitud.idPadre) < 0){
+            if (parseInt(Solicitud.idPadre) < 0) {
                 location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${Solicitud.idSolicitud}`
                 return;
             }
-            
-            if(parseInt(Solicitud.idIngresosFamiliares) < 0){
+
+            if (parseInt(Solicitud.idIngresosFamiliares) < 0) {
                 location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${Solicitud.idSolicitud}`
                 return
             }
-            
-            if(parseInt(Solicitud.idServicios) < 0){
+
+            if (parseInt(Solicitud.idServicios) < 0) {
                 location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${Solicitud.idSolicitud}`;
                 return
             }
 
-            if(parseInt(Solicitud.idRequisitosAdicionales) < 0 ){
+            if (parseInt(Solicitud.idRequisitosAdicionales) < 0) {
                 location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${Solicitud.idSolicitud}`
                 return
             }
 
-            (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada'); 
+            (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada');
         });
     });
+}
+
+
+const showPdf = e => {
+    let ruta = e.value;
+    $("#fileLabel").html(ruta);
+    let file = e.files[0];
+    let extPermitidas = /(.pdf)$/i;
+    if (!extPermitidas.exec(ruta)) {
+        alert('Asegurese de haber seleccionado un PDF');
+        $("#fileLabel").html('');
+        return;
+    }
+
+    if (e.files && e.files[0]) {
+        var visor = new FileReader();
+        visor.onload = function (e) {
+            const targetElement = document.querySelector('#iframeContainer');
+            fileBase64[0] = e.target.result;
+            targetElement.src = e.target.result;
+        };
+        visor.readAsDataURL(e.files[0]);
+    }
 }

@@ -245,9 +245,6 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     let tipoApoyo = datosRequisitosAdicionales.tipoApoyo;
 
 
-
-
-
     let folio = 'BMU-01'
     var docDefinition = {
         content: [

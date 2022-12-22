@@ -10,11 +10,11 @@
                 case 2:
                     $this->__constructUpdate($listArgs[0],$listArgs[1]);
                     break;
-                case 3:
-                    $this->__construct5($listArgs[0],$listArgs[1],$listArgs[2]);
-                    break;
                 case 4:
-                    $this->__construct6($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3]);
+                    $this->__construct5($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3]);
+                    break;
+                case 5:
+                    $this->__construct6($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4]);
                     break;
                 default:
                     echo $numArgs." No hay constructor de este tipo";
@@ -25,17 +25,19 @@
 
         }
 
-        public function __construct5($curp,$nombre,$fechaNacimiento){
+        public function __construct5($curp,$nombre,$fechaNacimiento,$file){
             $this->curp = $curp;
             $this->nombre = $nombre;
             $this->fechaNacimiento = $fechaNacimiento;
+            $this->file = $file;
         }
 
-        public function __construct6($idAlumno,$curp,$nombre,$fechaNacimiento){
+        public function __construct6($idAlumno,$curp,$nombre,$fechaNacimiento,$file){
             $this->idAlumno = $idAlumno;
             $this->curp = $curp;
             $this->nombre = $nombre;
             $this->fechaNacimiento = $fechaNacimiento;
+            $this->file = $file;
         }
     }
 ?>
