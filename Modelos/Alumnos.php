@@ -17,7 +17,7 @@
                     $this->__construct6($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4]);
                     break;
                 default:
-                    echo $numArgs." No hay constructor de este tipo";
+                    throw new Exception('Error al crear el constructor Alumnos');
             }
         }
 

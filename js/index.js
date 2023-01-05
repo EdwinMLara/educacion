@@ -87,11 +87,15 @@ $("#selectPerPage").on('change', function () {
 });
 
 async function request(url, data, callback) {
+    let strData = JSON.stringify(data);
+    console.log(strData);
     $.ajax({
         url,
         type: "POST",
+        processData: false,
+        contentType: false,
         dataType: 'json',
-        data: JSON.stringify(data),
+        data: strData,
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', "Bearer " + token);
             xhr.setRequestHeader('Content-Type', 'application/json');
@@ -247,6 +251,7 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
 
     let folio = 'BMU-01'
     var docDefinition = {
+        compress: true,
         content: [
             {
                 alignment: 'center',
@@ -697,4 +702,27 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
 
     }
     pdfMake.createPdf(docDefinition).open();
+}
+
+const blobPdf = [];
+
+const showPdf = e => {
+    let ruta = e.value;
+    $("#fileLabel").html(ruta);
+    let extPermitidas = /(.pdf)$/i;
+    if (!extPermitidas.exec(ruta)) {
+        alert('Asegurese de haber seleccionado un PDF');
+        $("#fileLabel").html('');
+        return;
+    }
+
+    if (e.files && e.files[0]) {
+        var visor = new FileReader();
+        visor.onload = function (e) {
+            const targetElement = document.querySelector('#iframeContainer');
+            blobPdf[0] = e.target.result;
+            targetElement.src = e.target.result;
+        };
+        visor.readAsDataURL(e.files[0]);
+    }
 }

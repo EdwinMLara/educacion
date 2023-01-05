@@ -14,8 +14,9 @@ class IngresosFamiliaresRouter extends RestApi{
         $ingresoHermanos = $this->validateParameter('ingresoHermanos', $this->param["ingresoHermanos"], STRING);
         $ingresosAbuelos = $this->validateParameter('ingresoAbuelos', $this->param["ingresoAbuelos"], STRING);
         $personaDependientes = $this->validateParameter('personasDependientes', $this->param["personasDependientes"], STRING);
-        
-        $arguments = array($ingresoPapa,$ingresoMama,$ingresoHermanos,$ingresosAbuelos,$personaDependientes);
+        $file = $this->validateParameter('file',$this->param["file"],STRING); 
+
+        $arguments = array($ingresoPapa,$ingresoMama,$ingresoHermanos,$ingresosAbuelos,$personaDependientes,$file);
         
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);

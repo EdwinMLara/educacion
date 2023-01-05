@@ -17,11 +17,10 @@ const strRegexCurp = '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
     + '[0-9A-Z]{1}'
     + '[0-9]{1}$';
 
-const fileBase64 = [];
 $('#formAddAlumnos').validate({
     onkeyup: false,
     rules: {
-        file:{ required:true },
+        file: { required: true },
         curp: { regexCurp: strRegexCurp },
         nombre: {
             required: true,
@@ -41,8 +40,9 @@ $('#formAddAlumnos').validate({
 
         let data = {
             name: "addAlumno",
-            param: { ...getFormData($("#formAddAlumnos")),
-                file:fileBase64[0]
+            param: {
+                ...getFormData($("#formAddAlumnos")),
+                file: blobPdf[0]
             }
         }
 
@@ -180,27 +180,4 @@ const checkIfCurpExist = (e) => {
             (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada');
         });
     });
-}
-
-
-const showPdf = e => {
-    let ruta = e.value;
-    $("#fileLabel").html(ruta);
-    let file = e.files[0];
-    let extPermitidas = /(.pdf)$/i;
-    if (!extPermitidas.exec(ruta)) {
-        alert('Asegurese de haber seleccionado un PDF');
-        $("#fileLabel").html('');
-        return;
-    }
-
-    if (e.files && e.files[0]) {
-        var visor = new FileReader();
-        visor.onload = function (e) {
-            const targetElement = document.querySelector('#iframeContainer');
-            fileBase64[0] = e.target.result;
-            targetElement.src = e.target.result;
-        };
-        visor.readAsDataURL(e.files[0]);
-    }
 }

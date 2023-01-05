@@ -18,8 +18,9 @@ class ServiciosRouter extends RestApi{
         $transportePublico = $this->validateParameter('transportePublico',$this->param["transportePublico"],STRING);
         $aguaPotable = $this->validateParameter('aguaPotable',$this->param['aguaPotable'],STRING);
         $juegosOCanchas = $this->validateParameter('juegosOCanchas',$this->param['juegosOCanchas'],STRING);
+        $file = $this->validateParameter('file',$this->param["file"],STRING);
 
-        $arguments = array($callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas);
+        $arguments = array($callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas,$file);
         
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
@@ -28,7 +29,7 @@ class ServiciosRouter extends RestApi{
         }
     }
 
-    public function updateServiciosByKeyandValue(){
+    public function updateServiciosByKeyandValue(){ 
         $idServicios = $this->validateParameter('idServicios',$this->param["idServicios"],INTEGER);
         $key = $this->validateParameter('key',$this->param["key"],STRING);
         $value = $this->validateParameter('value',$this->param["value"],STRING);

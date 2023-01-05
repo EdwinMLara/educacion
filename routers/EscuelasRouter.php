@@ -19,8 +19,9 @@ class EscuelaInstitucionRouter extends RestApi
         $municipio = $this->validateParameter('municipio', $this->param["municipio"], STRING);
         $telefono = $this->validateParameter('telefono', $this->param["telefono"], STRING);
         $tipoInstitucion = $this->validateParameter('tipoInstitucion', $this->param["tipoInstitucion"], STRING);
+        $file = $this->validateParameter('file',$this->param["file"],STRING); 
 
-        $arguments = array($nombre, $calle, $no, $colonia, $municipio, $cp, $telefono, $tipoInstitucion);
+        $arguments = array($nombre, $calle, $no, $colonia, $municipio, $cp, $telefono, $tipoInstitucion,$file);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {

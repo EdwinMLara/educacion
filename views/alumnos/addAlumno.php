@@ -21,7 +21,10 @@ if ($login) {
         <form id="formAddAlumnos">
             <div class="row">
                 <div class="col-sm-8 ">
-                    <div class="input-group mb-4">
+
+                    <div class="form-group mb-4">
+                        <label for="inputGroupFile01">Acta de nacimiento en PDF</label>
+
                         <div class="custom-file">
                             <input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">
                             <label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Choose file</label>

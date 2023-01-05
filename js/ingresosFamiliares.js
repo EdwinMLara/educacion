@@ -4,6 +4,7 @@ $(function () {
 
 $('#formIngresosFamiliares').validate({
     rules: {
+        file: { required: true },
         ingresoPapa: { required: true , digits: true},
         ingresoMama: { required: true, digits: true },
         ingresoHermanos: { required: true, digits: true },
@@ -21,7 +22,7 @@ $('#formIngresosFamiliares').validate({
         console.log("================== Registrar Ingresos Familiares ================= ");
         let data = {
             name: "addIngresosFamiliares",
-            param: getFormData($("#formIngresosFamiliares"))
+            param: {...getFormData($("#formIngresosFamiliares")),file: blobPdf[0] }
         }
         console.log(data);
 

@@ -4,6 +4,7 @@ $(function () {
 
 $('#formAddDatosPadre').validate({
     rules: {
+        file: { required: true },
         nombre: { required: true },
         telefono: { regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
         fechaNacimiento: { required: true },
@@ -25,7 +26,7 @@ $('#formAddDatosPadre').validate({
         trabajo6Meses: { required: true },
         motivoNoTrabajo: { required: true },
         seguroMedico: { required: true }
-    },  
+    },
     messages: {
         nombre: { required: 'Agrege el nombre' },
         calle: { required: 'Agrege la calle' },
@@ -43,7 +44,7 @@ $('#formAddDatosPadre').validate({
 
         let data = {
             name: "addDatosPadre",
-            param: getFormData($("#formAddDatosPadre"))
+            param: { ...getFormData($("#formAddDatosPadre")), file: blobPdf[0] }
         }
         console.log(data);
 
@@ -64,10 +65,10 @@ $('#formAddDatosPadre').validate({
             console.log(inserted);
 
             let dataUpdateSolicitud = {
-                name:"updateSolicitudIdPadre",
-                param:{
-                    idSolicitud:folio,
-                    idPadre: inserted 
+                name: "updateSolicitudIdPadre",
+                param: {
+                    idSolicitud: folio,
+                    idPadre: inserted
                 }
             }
 
@@ -79,7 +80,7 @@ $('#formAddDatosPadre').validate({
                     alert(res.error.message);
                     return;
                 }
-                
+
                 let status = res.response.status;
                 status ? location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${folio}` : mostrarRequestAlerResult(status)
             });

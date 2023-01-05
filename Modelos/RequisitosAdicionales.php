@@ -24,7 +24,7 @@
                     $this->__construct11($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10]);
                     break;
                 default:
-                    echo $numArgs." No hay constructor de este tipo requisitos adicionales";
+                    throw new Exception('Error al crear el constructor Requisitos Adicionales');
             }
         }
 

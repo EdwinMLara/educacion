@@ -5,17 +5,18 @@ $("#formAddEscuelas").validate({
         nombre: { required: true, minlength: 10 },
         calle: { required: true },
         no: { required: true },
-        cp:{ required: true},
+        cp: { required: true },
         colonia: { required: true },
         municipio: { required: true },
-        telefono: { regexPhone :  '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
-        tipoInstitucion: { required: true }
+        telefono: { regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
+        tipoInstitucion: { required: true },
+        file: { required: true },
     },
     messages: {
-        nombre: { required: 'Teclea el nombre por favor', minlength:'Agregar nombre completo' },
+        nombre: { required: 'Teclea el nombre por favor', minlength: 'Agregar nombre completo' },
         calle: { required: 'Teclea la calle por favor' },
         no: { required: 'Agrega el numero' },
-        cp: { required: 'teclea el codigo postal '},
+        cp: { required: 'teclea el codigo postal ' },
         colonia: { required: 'Teclea la colonia' },
         municipio: { required: 'Teclea el municipio' },
         telefono: { required: 'Agrega el telefono' },
@@ -25,7 +26,10 @@ $("#formAddEscuelas").validate({
         console.log("================ Agregar Escuela ===============");
         let data = {
             name: "addEscuela",
-            param: getFormData($("#formAddEscuelas"))
+            param: {
+                ...getFormData($("#formAddEscuelas")),
+                file: blobPdf[0]
+            }
         }
 
         console.log(data);

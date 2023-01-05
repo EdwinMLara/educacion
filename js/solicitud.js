@@ -135,7 +135,7 @@ const paginar = (page) => {
 
 /**se utiliza el indece para el arreglo current solicitudes */
 
-const detallesSolicitud = (indiceSolicitud, step = 1) => {
+const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
     const solicitudes = JSON.parse(window.localStorage.getItem('currentSolicitudes'));
     console.log(solicitudes[indiceSolicitud]);
@@ -159,7 +159,6 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
         disableButtonBack = 'disabled';
 
     let title = "";
-    let table = "";
     let api = "";
 
     switch (step) {
@@ -227,6 +226,17 @@ const detallesSolicitud = (indiceSolicitud, step = 1) => {
             return;
         }
 
+        if (key === "file") {
+            console.log(detallesSolicitudToShow[key]);
+            
+            //dataURL.replace('data:', '').replace(/^.+,/, '');
+
+            let iframe = $('#iframeContainer');
+            iframe.attr('src', detallesSolicitudToShow[key]); 
+
+            return;
+        }
+
         //console.log(key, detallesSolicitudToShow[key]);
         let inputHMTL = `<label>${key}</label>`
             + '<div class="form-group">'
@@ -266,4 +276,4 @@ const updateCampo = (api, method, id, key, value) => {
             return;
         }
     });
-}      
+}

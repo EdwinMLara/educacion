@@ -29,7 +29,7 @@ $("#formAddServicios").validate({
         console.log("================ Registrar servicios alumno ===============");
         let data = {
             name: "addServicios",
-            param: getFormData($("#formAddServicios"))
+            param: {...getFormData($("#formAddServicios")),file:blobPdf[0] }
         }
 
         console.log(data);

@@ -1,33 +1,21 @@
 <?php
     class Padre{
         public String $idPadre = "autoincrement";
-        public String $curp = "";
-        public String $nombre = "";
-        public String $telefono = "";
-        public String $fechaNacimiento = "";
-        public String $calle = "";
-        public String $no = "";
-        public String $colonia = "";
-        public String $cp = "";
-        public String $municipio = "";
-        public String $gradoEstudios = "";
-        public String $trabajo6Meses = "";
-        public String $motivoNoTrabajo = "";
-        public String $seguroMedico = "";
+
 
         public function __construct(){
             $listArgs = func_get_args()[0];
             $numArgs = count($listArgs);
 
             switch($numArgs){
-                case 13:
-                    $this->__construct13($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12]);
-                    break;
                 case 14:
-                    $this->__construct14($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13]);
+                    $this->__construct13($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13]);
+                    break;
+                case 15:
+                    $this->__construct14($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13],$listArgs[14]);
                     break;
                 default:
-                    echo $numArgs." No hay constructor de este tipo";
+                    throw new Exception('Error al crear el constructor Padre');
             }
         }
 

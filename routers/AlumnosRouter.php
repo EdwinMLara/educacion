@@ -13,7 +13,6 @@ class AlumnosRouter extends RestApi{
         $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
         $fechaNacimiento = $this->validateParameter('fechaNacimiento', $this->param["fechaNacimiento"], STRING);
         $file = $this->validateParameter('file',$this->param["file"],STRING); 
-
         $arguments = array($curp, $nombre, $fechaNacimiento,$file);
         
         if ($result = $this->service->create($arguments)) {
