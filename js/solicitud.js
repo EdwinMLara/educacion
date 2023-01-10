@@ -133,7 +133,8 @@ const paginar = (page) => {
     });
 }
 
-/**se utiliza el indece para el arreglo current solicitudes */
+/**hacer funcion para actualizar el status de pendiente a acceptada o rechazada
+*/
 
 const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
@@ -150,6 +151,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     $('#modalTitleSolicitud').empty();
     $('#modalBodySolicitud').empty();
     $('#modalFooterSolicitud').empty();
+    $('#iframeContainer').empty()
 
     console.log('step: ', step);
 
@@ -203,12 +205,18 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             method = "updateRequisitosAdicionalesByKeyandValue";
             idStr = "idRequisitosAdicionales";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idRequisitosAdicionales[0];
+
+            let statusSolicitud = solicitudes[indiceSolicitud].status;
+            if(statusSolicitud === "pendiente")
+                console.log(confirm('Sera aprobada la solicitud?'));
+
             break;
     }
 
-    let buttonsHTML = `<button type="button" ${disableButtonBack} onclick="detallesSolicitud(${indiceSolicitud},${step - 1})" class="btn btn-secondary">Anterior</button>`
-        + `<button type="button" ${disableButtonNext} onclick="detallesSolicitud(${indiceSolicitud},${step + 1})" class="btn btn-primary">Siguiente</button>`;
-
+    let buttonsHTML = `<diV>`
+        + `<button type="button" ${disableButtonBack} onclick="detallesSolicitud(${indiceSolicitud},${step - 1})" class="btn btn-secondary float-left"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>`
+        + `<button type="button" ${disableButtonNext} onclick="detallesSolicitud(${indiceSolicitud},${step + 1})" class="btn btn-primary float-right"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>`;
+        + `</diV>`
 
     $('#modalTitleSolicitud').append(title);
     $('#modalFooterSolicitud').append(buttonsHTML);
@@ -237,7 +245,6 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             return;
         }
 
-        //console.log(key, detallesSolicitudToShow[key]);
         let inputHMTL = `<label>${key}</label>`
             + '<div class="form-group">'
             + `<input type="text" class="form-control form-control-user" onchange="updateCampo('${api}','${method}',{${idStr}:${id}},'${key}',this.value)" name="${key}" value="${detallesSolicitudToShow[key]}">`

@@ -20,7 +20,7 @@
             </iframe>
           </div>
         </div>
-        <div id="modalFooterSolicitud" class="modal-footer">
+        <div id="modalFooterSolicitud" class="my-2 pb-2" style="height: 70px;">
         </div>
 
       </div>
