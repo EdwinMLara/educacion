@@ -21,6 +21,9 @@ if ($login) {
 
     // Cargando navbar
     require_once("./share/nav.php");
+
+    //cargando modal que se utilizara como comfirm
+    require_once("./share/modalConfirm.php");
 ?>
 
 <!-- Begin Page Dashboard -->
@@ -38,6 +41,9 @@ if ($login) {
 
 </div>
 <!-- /.container-fluid -->
+
+<script src="/educacion/js/index.js"></script>
+<script src="/educacion/js/dashboard.js"></script>
 
 <?php
     // Cargando Fooder

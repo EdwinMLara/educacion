@@ -1,8 +1,17 @@
 const token = window.localStorage.getItem('token');
 console.log(token);
 
-if (token == null || token == '')
+if (token === null || token == '')
     location.href = `/educacion/views/login`
+
+const username = window.localStorage.getItem('username');
+console.log(username);
+
+if(username !== null && username.length > 0){
+    const spanNombreUsuario = $("#nombreUsuario");
+    spanNombreUsuario.text(username);
+}
+ 
 
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
@@ -725,4 +734,18 @@ const showPdf = e => {
         };
         visor.readAsDataURL(e.files[0]);
     }
+}
+
+const customizeConfirm = (question) => {
+    let response = null;
+    $('#modalConfirm').modal('toggle');
+
+    $('#modalConfirmBody').html(`<h5 class="text-center">${question}</h5>`);
+
+    $('#modalConfirm').on('hidden.bs.modal', function (e) {
+        let fired = $(document.activeElement).attr('id');
+        let touched = fired === "confirm-acepted-button" ? response = true : fired === "confirm-rejected-button" ? response = false : null 
+        console.log(touched);
+    });
+    return response;
 }

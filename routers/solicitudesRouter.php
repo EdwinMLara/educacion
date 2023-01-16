@@ -167,5 +167,17 @@ class SolicitudesRouter extends RestApi {
             $this->throwError(CREATED_ERROR, $result);
         }
     }
+
+    public function updateSolicitudByKeyandValue(){
+        $idSolicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $key = $this->validateParameter('key',$this->param["key"],STRING);
+        $value = $this->validateParameter('value',$this->param["value"],STRING);
+
+        if ($updated = $this->service->updateByValue($key,$value,"idSolicitud",$idSolicitud)) {
+            $this->returnResponse(SUCESS_UPDATED, "Se ha actualizado correctamente");
+        } else {
+            $this->throwError(CREATED_ERROR,$updated);
+        }
+    }
 }
 ?>

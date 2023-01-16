@@ -48,4 +48,5 @@
 
 </body>
 
+<script src="/educacion/js/login.js"></script>
 </html>

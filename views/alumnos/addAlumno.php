@@ -36,12 +36,13 @@ if ($login) {
                     </div>
 
                     <div class="form-group mb-4">
-                        <input type="text" class="form-control" name="nombre" placeholder="Nombre de estudiante">
+                        <input type="text" class="form-control" name="nombre" placeholder="Nombre del estudiante">
                     </div>
 
                     <div class="form-group mb-4">
                         <input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
-                    </div>
+                    </div>  
+                    
                 </div>
                 <div class="col-sm-4">
                     <!--<div class="border border-primary bg-secondary w-75 h-75 p-3"></div>-->
@@ -52,7 +53,7 @@ if ($login) {
                     </diV>
                 </div>
             </div>
-            <div class="row">
+            <div class="row"> 
                 <div class="col-sm">
                     <button type="submit" class="btn btn-primary btn-user btn-block">
                         Registrar Alumno

@@ -141,6 +141,8 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     const solicitudes = JSON.parse(window.localStorage.getItem('currentSolicitudes'));
     console.log(solicitudes[indiceSolicitud]);
 
+    let idSolicitud = parseInt(solicitudes[indiceSolicitud].idSolicitud);
+
     let formHMTL = '<form class="formLogin" id="formLogin">';
     let finFormHTML = '</form> </div>';
 
@@ -207,8 +209,13 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idRequisitosAdicionales[0];
 
             let statusSolicitud = solicitudes[indiceSolicitud].status;
-            if(statusSolicitud === "pendiente")
-                console.log(confirm('Sera aprobada la solicitud?'));
+            if(statusSolicitud === "pendiente"){
+                let aceptada = customizeConfirm("La solicitud de beca sera aprobada?")
+                if (aceptada === null)
+                    return
+                let result = aceptada ? 'aceptada' : 'rechazada'
+                updateCampo("apiSolicitudes.php","updateSolicitudByKeyandValue",{idSolicitud},'status',result);
+            }
 
             break;
     }
@@ -265,6 +272,7 @@ const print = async (indiceSolicitud) => {
 }
 
 const updateCampo = (api, method, id, key, value) => {
+    console.log(id);
     let data = {
         name: method,
         param: {

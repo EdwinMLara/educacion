@@ -9,7 +9,7 @@ $('#formLogin').validate({
     },
     messages: {
         username: { required: 'agrega tu nombre de usuario' },
-        password: { required: 'tecle su contraseña' }
+        password: { required: 'teclea la contraseña' }
     },
     submitHandler: function () {
         console.log("=============  iniciar Sesion =============");
@@ -19,6 +19,8 @@ $('#formLogin').validate({
             param: getFormData($("#formLogin"))
         }
         console.log(data);
+
+        let username = data.param.username
 
         $.ajax({
             url: 'http://localhost/educacion/Api/apiUsuarios.php',
@@ -40,6 +42,7 @@ $('#formLogin').validate({
 
                 if(res.hasOwnProperty('response')){
                     window.localStorage.setItem('token', res.response.result.token);
+                    window.localStorage.setItem('username', username);
                     res.response.status === 200 ? location.href = `/educacion/` : null;
                     return;
                 }
@@ -49,6 +52,13 @@ $('#formLogin').validate({
             error: function (xhr, resp, text) {
                 console.log(xhr, resp, text);
             }
-        })
+        });
     }
 });
+
+const loggedOut = (e) => {
+    console.log("logged out");
+    window.localStorage.setItem('token', null);
+    window.localStorage.setItem('username', null);
+    location.href = `/educacion/views/login.php`
+}
