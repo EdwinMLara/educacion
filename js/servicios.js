@@ -1,5 +1,8 @@
+const auxToken = [];
+
 $(function () {
     console.log("servicios");
+    auxToken[0] = window.localStorage.getItem('auxToken');
 });
 
 $("#formAddServicios").validate({
@@ -67,7 +70,7 @@ $("#formAddServicios").validate({
 
                 let status = res.response.status;
                 status ? location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${folio}` : mostrarRequestAlerResult(status)
-            });
-        });
+            },auxToken[0]);
+        },auxToken[0]);
     }
 });

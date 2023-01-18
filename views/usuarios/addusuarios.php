@@ -47,6 +47,7 @@ if ($login) {
                     <option value=""></option>
                     <option value="administrador">Administrador</option>
                     <option value="agente">Agente</option>
+                    <option value="registro">Registro</option>
                 </select>
             </div>
 

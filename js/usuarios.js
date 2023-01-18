@@ -48,7 +48,7 @@ $("#formAddUsuarios").validate({ // initialize the plugin
             let status = res.response.status;
             status ? location.href = `/educacion/views/usuarios/usuarios.php` : null;
     
-        });
+        },token);
     }
 });
 
@@ -98,7 +98,7 @@ const paginar = (page) => {
         $('#bodyUsuariosTable').empty();
         $('#bodyUsuariosTable').append(trHTML);
         insertStrPaginador(numDatos, page, perPage, "paginar");
-    });
+    },token);
 }
 
 $(function () {

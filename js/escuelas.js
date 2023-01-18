@@ -1,4 +1,10 @@
 //falta agregar las funciones de actulizar y eliminar 
+const auxToken = [];
+
+$(function () {
+    console.log("escuelas");
+    auxToken[0] = window.localStorage.getItem('auxToken');
+});
 
 $("#formAddEscuelas").validate({
     rules: {
@@ -69,8 +75,8 @@ $("#formAddEscuelas").validate({
 
                 let status = res.response.status;
                 status ? location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
-            });
-        });
+            },auxToken[0]);
+        },auxToken[0]);
     }
 });
 

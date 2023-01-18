@@ -1,5 +1,42 @@
 $(function () {
     console.log("alumnos");
+    const auxToken = [];
+
+    let data = {
+        name: "generateToken",
+        param: {
+            username: "auxToken",
+            password: "registro"
+        }
+    }
+
+    $.ajax({
+        url: 'http://localhost/educacion/Api/apiUsuarios.php',
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Content-Type', 'application/json');
+        },
+        success: function (res) {
+            if (res.hasOwnProperty('error')) {
+                let message = res.error.message;
+                let Response = `<div class="alert alert-danger"><strong>Error!</strong> ${message}.</div>`;
+                $("#alert").empty();
+                $("#alert").append(Response);
+                return;
+            }
+
+            if (res.hasOwnProperty('response')) {
+                auxToken[0] = res.response.result.token;
+                window.localStorage.setItem('auxToken', res.response.result.token);
+                return;
+            }
+        },
+        error: function (xhr, resp, text) {
+            console.log(xhr, resp, text);
+        }
+    });
 });
 
 /** Mi curp para probar
@@ -46,8 +83,6 @@ $('#formAddAlumnos').validate({
             }
         }
 
-        console.log(data);
-
         request('/educacion/Api/apiAlumnos.php', data, function (res) {
             console.log(res);
             if (res.hasOwnProperty('error')) {
@@ -90,8 +125,8 @@ $('#formAddAlumnos').validate({
 
                 let folio = res.response.result;
                 res.response.status ? location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
-            });
-        });
+            },auxToken[0]);
+        },auxToken[0]);
     }
 });
 

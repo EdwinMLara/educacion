@@ -1,5 +1,7 @@
+const auxToken = [];
 $(function () {
     console.log('solicitud');
+    auxToken[0] = window.localStorage.getItem('auxToken');
     paginar(1);
 });
 
@@ -35,7 +37,7 @@ $('#formUpdateSolicitud').validate({
 
         console.log(dataUpdateSolicitud);
         request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-            console.log(res);
+
             if (res.hasOwnProperty('error')) {
                 alert(res.error.message);
                 return;
@@ -48,7 +50,7 @@ $('#formUpdateSolicitud').validate({
 
             let status = res.response.status;
             status ? location.href = alert('Se ha registrado su solicitud') : mostrarRequestAlerResult(status)
-        });
+        },auxToken[0]);
     }
 });
 
@@ -68,11 +70,7 @@ const paginar = (page) => {
         }
     }
 
-
-    console.log(data);
-
     request('/educacion/Api/apiSolicitudes.php', data, function (res) {
-        console.log(res);
 
         if (res.hasOwnProperty('error')) {
             let expiredToken = res.error.status;
@@ -130,7 +128,7 @@ const paginar = (page) => {
         $('#bodySolicitudesTable').empty();
         $('#bodySolicitudesTable').append(trHTML);
         insertStrPaginador(numDatos, page, perPage, "paginar");
-    });
+    },token);
 }
 
 /**hacer funcion para actualizar el status de pendiente a acceptada o rechazada
@@ -139,7 +137,6 @@ const paginar = (page) => {
 const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
     const solicitudes = JSON.parse(window.localStorage.getItem('currentSolicitudes'));
-    console.log(solicitudes[indiceSolicitud]);
 
     let idSolicitud = parseInt(solicitudes[indiceSolicitud].idSolicitud);
 
@@ -242,8 +239,6 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
         }
 
         if (key === "file") {
-            console.log(detallesSolicitudToShow[key]);
-            
             //dataURL.replace('data:', '').replace(/^.+,/, '');
 
             let iframe = $('#iframeContainer');
@@ -272,7 +267,7 @@ const print = async (indiceSolicitud) => {
 }
 
 const updateCampo = (api, method, id, key, value) => {
-    console.log(id);
+
     let data = {
         name: method,
         param: {
@@ -281,14 +276,13 @@ const updateCampo = (api, method, id, key, value) => {
             ...id
         }
     }
-    console.log(data);
 
     request('/educacion/Api/' + api, data, function (res) {
-        console.log(res);
+
         if (res.hasOwnProperty('error')) {
             let expiredToken = res.error.status;
             expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
             return;
         }
-    });
+    },token);
 }

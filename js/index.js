@@ -1,11 +1,10 @@
 const token = window.localStorage.getItem('token');
-console.log(token);
+console.log(`token: ${token}`);
 
 if (token === null || token == '')
     location.href = `/educacion/views/login`
 
 const username = window.localStorage.getItem('username');
-console.log(username);
 
 if(username !== null && username.length > 0){
     const spanNombreUsuario = $("#nombreUsuario");
@@ -31,7 +30,7 @@ function mostrarRequestAlerResult(status) {
 }
 
 function insertStrPaginador(numDatos, page, perPage, strNameFunctionPaginate) {
-    console.log(`${strNameFunctionPaginate} ${page}`)
+ 
     let paginas = parseInt(numDatos / perPage);
     numDatos / perPage % 2 !== 0 ? paginas++ : null;
     let diferencia = 2;
@@ -95,9 +94,8 @@ $("#selectPerPage").on('change', function () {
     paginar(1);
 });
 
-async function request(url, data, callback) {
+async function request(url, data, callback, token) {
     let strData = JSON.stringify(data);
-    console.log(strData);
     $.ajax({
         url,
         type: "POST",

@@ -1,5 +1,8 @@
+const auxToken = [];
+
 $(function (){
     console.log("requisitos Adicionales");
+    auxToken[0] = window.localStorage.getItem('auxToken');
 })
 
 $('#formAddRequisitosAdicionales').validate({
@@ -68,7 +71,7 @@ $('#formAddRequisitosAdicionales').validate({
 
                 let status = res.response.status;
                 status ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${folio}` : mostrarRequestAlerResult(status)
-            });
-        });
+            },auxToken[0]);
+        },auxToken[0]);
     }
 })

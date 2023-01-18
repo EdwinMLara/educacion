@@ -1,5 +1,8 @@
+const auxToken = [];
+
 $(function () {
     console.log("Ingresos Familiares");
+    auxToken[0] = window.localStorage.getItem('auxToken');
 })
 
 $('#formIngresosFamiliares').validate({
@@ -62,7 +65,7 @@ $('#formIngresosFamiliares').validate({
 
                 let status = res.response.status;
                 status ? location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${folio}` : mostrarRequestAlerResult(status)
-            });
-       });
+            },auxToken[0]);
+       },auxToken[0]);
     }
 });
