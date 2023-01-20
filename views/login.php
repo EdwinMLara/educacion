@@ -5,6 +5,7 @@ require_once("./share/header.php");
 
 <body class="bg-gradient-primary">
 
+
     <div class="container">
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -56,5 +57,5 @@ require_once("./share/header.php");
     </div>
 </body>
 
-<script src="/educacion/js/index.js"></script>
-<script src="/educacion/js/login.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/login.js"></script>

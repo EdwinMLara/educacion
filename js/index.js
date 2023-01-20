@@ -1,8 +1,8 @@
 const token = window.localStorage.getItem('token');
 console.log(`token: ${token}`);
 
-if (token === null || token == '')
-    location.href = `/educacion/views/login`
+//const currentUrl = window.location.pathname;
+//console.log(currentUrl);
 
 const username = window.localStorage.getItem('username');
 

@@ -5,8 +5,8 @@ $(function () {
     let data = {
         name: "generateToken",
         param: {
-            username: "auxToken",
-            password: "registro"
+            username: "auxtoken",
+            password: "admin"
         }
     }
 

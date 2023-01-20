@@ -26,6 +26,7 @@ class RestApi extends Rest
 
     public function generateToken()
     {
+        header("Access-Control-Allow-Origin: *");
         $username = $this->validateParameter('username', $this->param["username"], STRING);
         $password = $this->validateParameter('password', $this->param["password"], STRING);
 

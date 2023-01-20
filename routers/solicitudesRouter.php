@@ -179,5 +179,59 @@ class SolicitudesRouter extends RestApi {
             $this->throwError(CREATED_ERROR,$updated);
         }
     }
+
+    public function getSolicitudesByNameAlumnoLike(){
+        $buscar = $this->validateParameter('buscar', $this->param["buscar"], STRING);
+        $page = $this->validateParameter('page', $this->param["page"], INTEGER);
+        $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
+        $query = "SELECT * FROM solicitudes where idAlumno = (select idAlumno from alumnos where nombre like '$buscar%')";
+
+        $solicitudes = $this->service->getByQueryTable($query);
+
+        if ($solicitudes) {
+            $numSolicitudes = count($solicitudes);
+            $inicio = ($page - 1)*$perPage;
+            $fin = $perPage;
+            $paginatesSolicitudes = array_slice($solicitudes, $inicio, $fin);
+
+            $response = new stdClass();
+            $response->total = $numSolicitudes;
+            $response->solicitudes = $paginatesSolicitudes;
+
+            $max = sizeof($paginatesSolicitudes);
+            for($i=0;$i<$max;$i++){
+                $query = "SELECT * FROM `alumnos` WHERE idAlumno = ".$paginatesSolicitudes[$i]->idAlumno;
+                $alumno = $this->service->getByQueryTableModel($query,"Alumnos");
+                $paginatesSolicitudes[$i]->idAlumno = $alumno;
+
+                $query = "SELECT * FROM `escuela` WHERE idEscuela = ".$paginatesSolicitudes[$i]->idEscuela;
+                $escuela = $this->service->getByQueryTableModel($query,"Escuela");
+                $paginatesSolicitudes[$i]->idEscuela = $escuela;
+
+                $query = "SELECT * FROM `padre` WHERE idPadre = ".$paginatesSolicitudes[$i]->idPadre;
+                $datosPadre = $this->service->getByQueryTableModel($query,"Padre");
+                $paginatesSolicitudes[$i]->idPadre = $datosPadre;
+
+                $query = "SELECT * FROM `ingresosfamiliares` WHERE idIngresosFamiliares = ".$paginatesSolicitudes[$i]->idIngresosFamiliares;
+                $ingresosFamiliares = $this->service->getByQueryTableModel($query,"IngresosFamiliares");
+                $paginatesSolicitudes[$i]->idIngresosFamiliares = $ingresosFamiliares;
+
+                $query = "SELECT * FROM `servicios` WHERE idservicios = ".$paginatesSolicitudes[$i]->idServicios;
+                $servicios = $this->service->getByQueryTableModel($query,"Servicios");
+                $paginatesSolicitudes[$i]->idServicios = $servicios;
+
+                $query = "SELECT * FROM `requisitosadicionales` WHERE idRequisitosAdicionales = ".$paginatesSolicitudes[$i]->idRequisitosAdicionales;
+                $requisitosAdicionales = $this->service->getByQueryTableModel($query,"RequisitosAdicionales");
+                $paginatesSolicitudes[$i]->idRequisitosAdicionales = $requisitosAdicionales;
+            }
+            $this->returnResponse(SUCESS_RESPONSE, $response);
+        } else if(empty($solicitudes)){
+            $this->returnResponse(SUCESS_EMPTY, "no hay solicitudes registradas");
+        }
+        else{
+            $this->throwError('GET_ERROR', "An error has been ocurren to paginate de users");
+        }
+
+    }
 }
 ?>

@@ -92,8 +92,8 @@ if ($login) {
         </div>
     <!-- /.container-fluid -->  
     </div>
-    <script src="/educacion/js/index.js"></script>
-    <script src="/educacion/js/solicitud.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/solicitud.js"></script>
 
 <?php
     // Cargando Fooder

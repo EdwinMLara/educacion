@@ -101,7 +101,7 @@ class UsuariosRouter extends RestApi
         }
     }
 
-    public function getByNameLike()
+    public function getUsersByNameLike()
     {
         $buscar = $this->validateParameter('buscar', $this->param["buscar"], STRING);
         $query = "SELECT * FROM usuarios WHERE username LIKE '$buscar%'";

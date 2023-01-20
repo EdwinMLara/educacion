@@ -23,12 +23,13 @@ $('#formLogin').validate({
         let username = data.param.username
 
         $.ajax({
-            url: 'http://localhost/educacion/Api/apiUsuarios.php',
+            url: 'http://192.168.1.72/educacion/Api/apiUsuarios.php',
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(data),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Origin', 'http://192.168.1.72:80/');
             },
             success: function (res) {
                 console.log(res);
