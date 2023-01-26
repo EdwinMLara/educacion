@@ -1,4 +1,6 @@
 const auxToken = [];
+let solicitudes = []
+
 $(function () {
     console.log('solicitud');
     auxToken[0] = window.localStorage.getItem('auxToken');
@@ -55,65 +57,68 @@ $('#formUpdateSolicitud').validate({
 });
 
 
-const responseUsersFunction = function (res) {
+const responseUsersFunction = (page, perPage) => {
+return function (res) {
+        console.log(res);
 
-    if (res.hasOwnProperty('error')) {
-        let expiredToken = res.error.status;
-        expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
-        return
-    }
-
-    if (res.response.status === 204) {
-        alert(res.response.result);
-        return;
-    }
-
-
-    let numDatos = res.response.result.total;
-    let solicitudes = res.response.result.solicitudes;
-
-    window.localStorage.setItem('currentSolicitudes', JSON.stringify(solicitudes));
-
-    let trHTML = '';
-    solicitudes.forEach((solicitud, index) => {
-        let alumno = solicitud.idAlumno.length > 0 ? solicitud.idAlumno[0].nombre : 'NO-REGISTRADO';
-        let escuela = solicitud.idEscuela.length > 0 ? solicitud.idEscuela[0].nombre : 'NO-REGISTRADO';
-        let padre = solicitud.idPadre.length > 0 ? solicitud.idPadre[0].nombre : 'NO-REGISTRADO';
-        let colorStatus = "";
-
-        const expr = solicitud.status;
-        switch (solicitud.status) {
-            case 'aceptada':
-                colorStatus = "bg-success"
-                break;
-            case 'pendiente':
-                colorStatus = "bg-warning"
-                break;
-            case 'rechazada':
-                colorStatus = "bg-danger"
-                break;
-            default:
-                console.log(`Sorry, we are out of ${expr}.`);
+        if (res.hasOwnProperty('error')) {
+            let expiredToken = res.error.status;
+            expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
+            return
         }
 
-        trHTML += '<tr>'
-            + '<td>' + alumno + '</td>'
-            + '<td>' + escuela + '</td>'
-            + '<td>' + padre + '</td>'
-            + '<td>' + solicitud.nivelEstudios + '</td>'
-            + '<td>' + solicitud.promedioReciente + '</td>'
-            + `<td><div class="text-white text-center ${colorStatus}"> ${solicitud.status}</div></td>`
-            + `<td class="d-flex justify-content-around">`
-            + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
-            + `<button type="button"  onClick="print(${index})" class="btn btn-warning"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
-            + '</td>'
-            + '</tr>';
-    });
+        if (res.response.status === 204) {
+            alert(res.response.result);
+            return;
+        }
 
-    $('#bodySolicitudesTable').empty();
-    $('#bodySolicitudesTable').append(trHTML);
-    insertStrPaginador(numDatos, page, perPage, "paginar");
-}
+
+        let numDatos = res.response.result.total;
+        solicitudes = res.response.result.solicitudes;
+
+        //window.localStorage.setItem('currentSolicitudes', JSON.stringify(solicitudes));
+
+        let trHTML = '';
+        solicitudes.forEach((solicitud, index) => {
+            let alumno = solicitud.idAlumno.length > 0 ? solicitud.idAlumno[0].nombre : 'NO-REGISTRADO';
+            let escuela = solicitud.idEscuela.length > 0 ? solicitud.idEscuela[0].nombre : 'NO-REGISTRADO';
+            let padre = solicitud.idPadre.length > 0 ? solicitud.idPadre[0].nombre : 'NO-REGISTRADO';
+            let colorStatus = "";
+
+            const expr = solicitud.status;
+            switch (solicitud.status) {
+                case 'aceptada':
+                    colorStatus = "bg-success"
+                    break;
+                case 'pendiente':
+                    colorStatus = "bg-warning"
+                    break;
+                case 'rechazada':
+                    colorStatus = "bg-danger"
+                    break;
+                default:
+                    console.log(`Sorry, we are out of ${expr}.`);
+            }
+
+            trHTML += '<tr>'
+                + '<td>' + alumno + '</td>'
+                + '<td>' + escuela + '</td>'
+                + '<td>' + padre + '</td>'
+                + '<td>' + solicitud.nivelEstudios + '</td>'
+                + '<td>' + solicitud.promedioReciente + '</td>'
+                + `<td><div class="text-white text-center ${colorStatus}"> ${solicitud.status}</div></td>`
+                + `<td class="d-flex justify-content-around">`
+                + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
+                + `<button type="button"  onClick="print(${index})" class="btn btn-warning"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
+                + '</td>'
+                + '</tr>';
+        });
+
+        $('#bodySolicitudesTable').empty();
+        $('#bodySolicitudesTable').append(trHTML);
+        insertStrPaginador(numDatos, page, perPage, "paginar");
+    }
+};
 
 
 const paginar = (page) => {
@@ -131,7 +136,7 @@ const paginar = (page) => {
         }
     }
 
-    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction , token);
+    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page,perPage) , token);
 }
 
 /**hacer funcion para actualizar el status de pendiente a acceptada o rechazada
@@ -139,7 +144,6 @@ const paginar = (page) => {
 
 const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
-    const solicitudes = JSON.parse(window.localStorage.getItem('currentSolicitudes'));
 
     let idSolicitud = parseInt(solicitudes[indiceSolicitud].idSolicitud);
 
@@ -293,12 +297,22 @@ const updateCampo = (api, method, id, key, value) => {
 $("input[name=search]").on('change', function () {
     let buscar = $(this).val();
 
+    let page = 1;
+
+    console.log("=============  Leer solicitudes Paginando =============");
+    let perPage = $("#selectPerPage :selected").val();
+
+    if (perPage === undefined)
+        return;
+
     let data = {
-        name: "getSolicitudesByNameLike",
+        name: "getSolicitudesByNameAlumnoLike",
         param: {
+            page,
+            perPage,
             buscar
         }
     }
 
-    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction, token);
+    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page,perPage), token);
 });

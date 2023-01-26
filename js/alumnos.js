@@ -1,6 +1,9 @@
+const auxToken = [];
+
 $(function () {
     console.log("alumnos");
-    const auxToken = [];
+
+    console.log("auxtoken")
 
     let data = {
         name: "generateToken",
@@ -134,6 +137,7 @@ $('#formAddAlumnos').validate({
 const checkIfCurpExist = (e) => {
     console.log("================ revisar si ya existe la curp ===============")
     const globalRegex = new RegExp(strRegexCurp, 'g');
+    
     if (!globalRegex.test(e.value)) {
         console.log("curp no valida");
         return
@@ -213,6 +217,6 @@ const checkIfCurpExist = (e) => {
             }
 
             (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada');
-        });
-    });
+        },auxToken[0]);
+    },auxToken[0]);
 }

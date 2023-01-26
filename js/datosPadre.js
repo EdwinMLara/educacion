@@ -1,4 +1,4 @@
-
+const auxToken = [];
 
 $(function () {
     console.log("datos Padre");

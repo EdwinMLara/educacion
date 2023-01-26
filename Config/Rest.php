@@ -11,6 +11,10 @@ class Rest
     public function __construct()
     {
         //$this->cors()
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+        header('Content-Type: application/json');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->throwError(REQUEST_METHOD_NOT_VALID, "Request method is not valid");
@@ -99,7 +103,7 @@ class Rest
     }
 
     public function throwError($code, $message)
-    {   
+    {
         header("content-type: application/json");
         $errorMsj = json_encode(['error' => ['status' => $code, 'message' => $message]]);
         echo $errorMsj;
@@ -108,7 +112,7 @@ class Rest
 
     public function returnResponse($code, $data)
     {
-        
+
         header("content-type: application/json");
         $response = json_encode(['response' => ['status' => $code, 'result' => $data]]);
         echo $response;
