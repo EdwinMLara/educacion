@@ -1,68 +1,35 @@
 $(function () {
     console.log("dashboard");
+    let dataRequest = {
+        name:"getDataDashboard",
+        param:{}
+    }
+    request('/educacion/Api/apiDashboard.php',dataRequest,function(res){
+        if (res.hasOwnProperty('error')) {
+            let expiredToken = res.error.status;
+            expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
+            return;
+        }
+
+        console.log(res);
+        let datos = res.response.result[0];
+        
+        let usuarios = $('#dashboardUsuarios').empty();
+        usuarios.append(datos.usuarios);
+        let solicitudes = $('#dashboardSolicitudes').empty();
+        solicitudes.append(datos.solicitudes);
+        
+        let revisadas = $('#dashboardRevisadas').empty();
+        let porcentaje =  parseInt((parseInt(datos.pendientes)/parseInt(datos.solicitudes))*100);
+        revisadas.append(`${100 - porcentaje}%`);
+        $('#dashboardProgessBar').attr('style',`width: ${100 - porcentaje}%`);
+
+        let pendientes = $('#dashboardPendientes').empty()
+        pendientes.append(datos.pendientes);
+
+    },token);
 })
 
-/*const actions = [
-    {
-        name: 'Randomize',
-        handler(chart) {
-            chart.data.datasets.forEach(dataset => {
-                dataset.data = Utils.numbers({ count: chart.data.labels.length, min: -100, max: 100 });
-            });
-            chart.update();
-        }
-    },
-    {
-        name: 'Add Dataset',
-        handler(chart) {
-            const data = chart.data;
-            const dsColor = Utils.namedColor(chart.data.datasets.length);
-            const newDataset = {
-                label: 'Dataset ' + (data.datasets.length + 1),
-                backgroundColor: Utils.transparentize(dsColor, 0.5),
-                borderColor: dsColor,
-                borderWidth: 1,
-                data: Utils.numbers({ count: data.labels.length, min: -100, max: 100 }),
-            };
-            chart.data.datasets.push(newDataset);
-            chart.update();
-        }
-    },
-    {
-        name: 'Add Data',
-        handler(chart) {
-            const data = chart.data;
-            if (data.datasets.length > 0) {
-                data.labels = Utils.months({ count: data.labels.length + 1 });
-
-                for (let index = 0; index < data.datasets.length; ++index) {
-                    data.datasets[index].data.push(Utils.rand(-100, 100));
-                }
-
-                chart.update();
-            }
-        }
-    },
-    {
-        name: 'Remove Dataset',
-        handler(chart) {
-            chart.data.datasets.pop();
-            chart.update();
-        }
-    },
-    {
-        name: 'Remove Data',
-        handler(chart) {
-            chart.data.labels.splice(-1, 1); // remove the label first
-
-            chart.data.datasets.forEach(dataset => {
-                dataset.data.pop();
-            });
-
-            chart.update();
-        }
-    }
-];*/
 
 const MONTHS = [
     'January',
@@ -79,10 +46,10 @@ const MONTHS = [
     'December'
 ];
 
-const test = new Array(10);
+const test = new Array(12);
 
 for(let i=0;i<10;i++){
-    test[i] = i;
+    i==3 ? test[i] = 10 : test[i] = 0;
 }
 
 const DATA_COUNT = 7;
@@ -95,7 +62,7 @@ const data = {
         {
             label: 'Aceptadas',
             data: test,
-            backgroundColor: '#59E03E ',
+            backgroundColor: '#59E03E',
         },
         {
             label: 'Rechazadas',
