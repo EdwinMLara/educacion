@@ -22,7 +22,7 @@ $("#formAddEscuelas").validate({
         nombre: { required: 'Teclea el nombre por favor', minlength: 'Agregar nombre completo' },
         calle: { required: 'Teclea la calle por favor' },
         no: { required: 'Agrega el numero' },
-        cp: { required: 'teclea el codigo postal ' },
+        cp: { required: 'teclea el codigo postal' },
         colonia: { required: 'Teclea la colonia' },
         municipio: { required: 'Teclea el municipio' },
         telefono: { required: 'Agrega el telefono' },

@@ -1,5 +1,5 @@
 const auxToken = [];
-let solicitudes = []
+let solicitudes = [];
 
 $(function () {
     console.log('solicitud');
@@ -157,7 +157,8 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     $('#modalTitleSolicitud').empty();
     $('#modalBodySolicitud').empty();
     $('#modalFooterSolicitud').empty();
-    $('#iframeContainer').empty()
+    $('#iframeContainer').empty();
+    $('#labelFile').empty();
 
     console.log('step: ', step);
 
@@ -168,6 +169,9 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
 
     let title = "";
     let api = "";
+    let method =  "";
+    let idStr = "";
+    let nameFile = "";
 
     switch (step) {
         case 1:
@@ -175,6 +179,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             api = "apiAlumnos.php";
             method = "updateAlumnoByKeyandValue";
             idStr = "idAlumno";
+            nameFile = "Curp y Acta de Nacimiento";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idAlumno[0];
             break;
         case 2:
@@ -182,6 +187,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             api = "apiEscuelas.php";
             method = "updateEscuelaByKeyandValue";
             idStr = "idEscuela";
+            nameFile = "Constacia de Estudios";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idEscuela[0];
             break;
         case 3:
@@ -189,6 +195,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             api = "apiDatosPadre.php";
             method = "updatePadreByKeyandValue";
             idStr = "idPadre";
+            nameFile = "Credencial de lector";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idPadre[0];
             break;
         case 4:
@@ -196,6 +203,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             api = "apiIngresosFamiliares.php";
             method = "updateIngresosFamiliaresByKeyandValue";
             idStr = "idIngresosFamiliares";
+            nameFile = "Comprobante de ingresos";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idIngresosFamiliares[0];
             break;
         case 5:
@@ -203,6 +211,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             api = "apiServicios.php";
             method = "updateServiciosByKeyandValue";
             idStr = "idServicios";
+            nameFile = "Comprobante de Domicilio";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idServicios[0];
             break;
         case 6:
@@ -247,16 +256,14 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
 
         if (key === "file") {
             //dataURL.replace('data:', '').replace(/^.+,/, '');
-
-            let iframe = $('#iframeContainer');
-            iframe.attr('src', detallesSolicitudToShow[key]);
-
+            $('#labelFile').html(`<h6>${nameFile}</h6>`);
+            $('#iframeContainer').attr('src', detallesSolicitudToShow[key]);
             return;
         }
 
         let inputHMTL = `<label>${key}</label>`
             + '<div class="form-group">'
-            + `<input type="text" class="form-control form-control-user" onchange="updateCampo('${api}','${method}',{${idStr}:${id}},'${key}',this.value)" name="${key}" value="${detallesSolicitudToShow[key]}">`
+            + `<input type="text" class="form-control form-control-user" onchange="updateCampo(${indiceSolicitud},${step},'${api}','${method}',{${idStr}:${id}},'${key}',this.value)" name="${key}" value="${detallesSolicitudToShow[key]}">`
             + '</div>';
         formHMTL += inputHMTL;
     });
@@ -273,7 +280,7 @@ const print = async (indiceSolicitud) => {
     createSolicitudPdf(solicitudes[indiceSolicitud]);
 }
 
-const updateCampo = (api, method, id, key, value) => {
+const updateCampo = (indiceSolicitud, step, api, method, id, key, value) => {
 
     let data = {
         name: method,
@@ -291,6 +298,27 @@ const updateCampo = (api, method, id, key, value) => {
             expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
             return;
         }
+
+        switch (step){
+            case 1:
+                solicitudes[indiceSolicitud].idAlumno[0][key] = value;
+                break;
+            case 2:
+                solicitudes[indiceSolicitud].idEscuela[0][key] = value;
+                break;
+            case 3:
+                solicitudes[indiceSolicitud].idPadre[0][key] = value;
+                break;
+            case 4:
+                solicitudes[indiceSolicitud].idIngresosFamiliares[0][key] = value;
+                break;
+            case 5:
+                solicitudes[indiceSolicitud].idServicios[0][key] = key;
+                break;
+            case 6: 
+                solicitudes[indiceSolicitud].idRequisitosAdicionales[0][key] = value
+        }
+
     }, token);
 }
 
