@@ -33,7 +33,7 @@ if ($login) {
                     <label for="inputGroupFile01">Credencial de elector en PDF</label>
                         <div class="custom-file">
                             <input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">
-                            <label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            <label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>
                         </div>
                     </div>
 

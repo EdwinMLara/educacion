@@ -15,12 +15,13 @@
             </div>
           </div>
           <div class="col">
+            <div id="labelFile"></div>
             <iframe id="iframeContainer" class="w-100 h-100" src="" title="Evidencia">
 
             </iframe>
           </div>
         </div>
-        <div id="modalFooterSolicitud" class="my-2 pb-2" style="height: 70px;">
+        <div id="modalFooterSolicitud" class="my-5 pb-5" style="height: 70px;">
         </div>
 
       </div>
