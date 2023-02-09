@@ -57,7 +57,7 @@ class RestApi extends Rest
             ];
 
             $token = JWT::encode($payload, SECRET_KEY);
-            $data = ['token' => $token];
+            $data = ['token' => $token,'tipoCuenta'=> $usuario->tipoCuenta];
             $this->returnResponse(SUCESS_RESPONSE, $data);
         } catch (Exception $e) {
             $this->throwError(JWT_PROCESSING_ERROR, $e->getMessage());
