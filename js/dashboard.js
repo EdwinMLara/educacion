@@ -20,31 +20,21 @@ $(function () {
         solicitudes.append(datos.solicitudes);
         
         let revisadas = $('#dashboardRevisadas').empty();
-        let porcentaje =  parseInt((parseInt(datos.pendientes)/parseInt(datos.solicitudes))*100);
+        let pendientesParse = parseInt(datos.pendientes);
+        let solicitudesParse = parseInt(datos.solicitudes);
+        let porcentaje = solicitudesParse != 0 && pendientesParse != 0 ? parseInt((pendientesParse/solicitudesParse)*100) : 0
         revisadas.append(`${100 - porcentaje}%`);
         $('#dashboardProgessBar').attr('style',`width: ${100 - porcentaje}%`);
 
-        let pendientes = $('#dashboardPendientes').empty()
+        let pendientes = $('#dashboardPendientes').empty();
         pendientes.append(datos.pendientes);
 
     },token);
 })
 
 
-const MONTHS = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-];
+const MONTHS = ['January','February','March','April','May',
+'June','July','August','September','October','November','December'];
 
 const test = new Array(12);
 
@@ -56,6 +46,8 @@ const DATA_COUNT = 7;
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 
 const labels = MONTHS;
+
+
 const data = {
     labels: labels,
     datasets: [
