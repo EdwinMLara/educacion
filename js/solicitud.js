@@ -136,7 +136,7 @@ const paginar = (page) => {
         }
     }
 
-    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page,perPage) , token);
+    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page,perPage), token);
 }
 
 /**hacer funcion para actualizar el status de pendiente a acceptada o rechazada
@@ -152,15 +152,13 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
 
     let disableButtonNext = "";
     let disableButtonBack = "";
-    let detallesSolicitudToShow;
+    let detallesSolicitudToShow = undefined;
 
     $('#modalTitleSolicitud').empty();
     $('#modalBodySolicitud').empty();
     $('#modalFooterSolicitud').empty();
     $('#iframeContainer').empty();
     $('#labelFile').empty();
-
-    console.log('step: ', step);
 
     if (step > 5)
         disableButtonNext = 'disabled';
@@ -215,37 +213,42 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idServicios[0];
             break;
         case 6:
-            title = "Detalles solicitud Requisitos Adicionales"
+            title = "Detalles solicitud Requisitos Adicionales";
             api = "apiRequisitosAdicionales.php";
             method = "updateRequisitosAdicionalesByKeyandValue";
             idStr = "idRequisitosAdicionales";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idRequisitosAdicionales[0];
-
             let statusSolicitud = solicitudes[indiceSolicitud].status;
             if (statusSolicitud === "pendiente") {
-                let aceptada = customizeConfirm("La solicitud de beca sera aprobada?")
-                if (aceptada === null)
-                    return
-                let result = aceptada ? 'aceptada' : 'rechazada'
-                updateCampo("apiSolicitudes.php", "updateSolicitudByKeyandValue", { idSolicitud }, 'status', result);
+                customizeConfirm("La solicitud de beca sera aprobada?")
+                .then(result => {
+                    if (result === null){
+                        return
+                    }
+                    let response = result ? 'aceptada' : 'rechazada';
+                    updateCampo(indiceSolicitud,step,"apiSolicitudes.php", "updateSolicitudByKeyandValue", { idSolicitud }, 'status', response);
+                }).catch( result => {
+                    console.log(result);
+                })
             }
-
             break;
+    }
+
+    if (detallesSolicitudToShow == undefined) {
+        $('#modalBodySolicitud').append('NO-REGISTRADO');
+        $('#iframeContainer').attr('src', "about:blank");  
+        return;
     }
 
     let buttonsHTML = `<diV>`
         + `<button type="button" ${disableButtonBack} onclick="detallesSolicitud(${indiceSolicitud},${step - 1})" class="btn btn-secondary float-left"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>`
-        + `<button type="button" ${disableButtonNext} onclick="detallesSolicitud(${indiceSolicitud},${step + 1})" class="btn btn-primary float-right"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>`;
-    + `</diV>`
+        + `<button type="button" ${disableButtonNext} onclick="detallesSolicitud(${indiceSolicitud},${step + 1})" class="btn btn-primary float-right"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>`
+    + `</diV>`;
 
     $('#modalTitleSolicitud').append(title);
     $('#modalFooterSolicitud').append(buttonsHTML);
 
-    if (detallesSolicitudToShow == undefined) {
-        $('#modalBodySolicitud').append('NO-REGISTRADO');
-        return;
-    }
-
+    !detallesSolicitudToShow.hasOwnProperty('file') && $('#iframeContainer').attr('src',"about:blank");
     let id = -1;
 
     Object.keys(detallesSolicitudToShow).forEach(function (key, index) {
@@ -269,7 +272,6 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     });
 
     formHMTL += finFormHTML;
-    console.log(id)
 
     $('#modalBodySolicitud').append(formHMTL);
 }
@@ -317,9 +319,11 @@ const updateCampo = (indiceSolicitud, step, api, method, id, key, value) => {
                 break;
             case 6: 
                 solicitudes[indiceSolicitud].idRequisitosAdicionales[0][key] = value
+            default:
+                paginar(1);
         }
 
-    }, token);
+    }, token,false);
 }
 
 $("input[name=search]").on('change', function () {

@@ -1,4 +1,4 @@
-<div class="modal" id="modalConfirm"  tabindex="-10" role="dialog">
+<div class="modal mt-10" id="modalConfirm"  tabindex="-10" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <!--<div class="modal-header">

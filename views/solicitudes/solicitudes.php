@@ -25,6 +25,9 @@ if ($login) {
 
     //cargando Modal
     require_once("./detallesSolicitudModal.php");
+
+    //cargando Modal
+    require_once("../share/modalConfirm.php");
 ?>
 
     <!-- Begin Page Content -->
@@ -71,7 +74,7 @@ if ($login) {
                                         <th>Padre</th>
                                         <th>Nivel Estudios</th>
                                         <th>Promedio</th>
-                                        <th>Status</th>
+                                        <th id="solicitudesStatus">Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>
