@@ -26,7 +26,8 @@ $("#formAddEscuelas").validate({
         colonia: { required: 'Teclea la colonia' },
         municipio: { required: 'Teclea el municipio' },
         telefono: { required: 'Agrega el telefono' },
-        tipoInstitucion: { required: 'Seleciona el tipo de institucion' }
+        tipoInstitucion: { required: 'Seleciona el tipo de institucion' },
+        file: { required : "Seleccione el archivo"}
     },
     submitHandler: function () {
         console.log("================ Agregar Escuela ===============");

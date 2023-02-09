@@ -15,6 +15,7 @@ $('#formIngresosFamiliares').validate({
         personasDependientes: { required: true, digits: true, max: 10}
     },
     messages: {
+        file: { required : "Seleccione el archivo"},
         ingresoPapa: { required: 'Agregar el ingreso del padre', digits: 'Solo numeros'},
         ingresoMama: { required: 'Agregar el ingreso de mama', digits: 'Solo numeros' },
         ingresoHermanos: { required: 'Agregar el ingreso de los hermanos', digits: 'Solo numeros' },

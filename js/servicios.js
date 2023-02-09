@@ -7,6 +7,7 @@ $(function () {
 
 $("#formAddServicios").validate({
     rules: {
+        file: { required : true},
         callesPavimentadas: { required: true },
         drenaje: { required: true },
         biblioteca: { required: true },
@@ -18,6 +19,7 @@ $("#formAddServicios").validate({
         juegosOCanchas: { required: true }
     },
     messages: {
+        file: { required : "Seleccione el archivo"},
         callesPavimentadas: { required: 'Seleccione su respuesta' },
         drenaje: { required: 'Seleccione su respuesta' },
         biblioteca: { required: 'Seleccione su respuesta' },

@@ -69,6 +69,7 @@ $('#formAddAlumnos').validate({
         fechaNacimiento: { required: true }
     },
     messages: {
+        file: { required : "Seleccione el archivo"},
         nombre: {
             required: 'Agrege el nombre del alumno....',
             minlength: 'Nombre completo por favor'

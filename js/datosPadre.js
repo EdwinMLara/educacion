@@ -31,6 +31,7 @@ $('#formAddDatosPadre').validate({
         seguroMedico: { required: true }
     },
     messages: {
+        file: { required : "Seleccione el archivo"},
         nombre: { required: 'Agrege el nombre' },
         calle: { required: 'Agrege la calle' },
         no: { required: 'Agrege el numero' },
