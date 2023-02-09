@@ -1,16 +1,18 @@
 const token = window.localStorage.getItem('token');
 console.log(`token: ${token}`);
 
+const typeCount = window.localStorage.getItem('tipoCuenta');
+
 //const currentUrl = window.location.pathname;
 //console.log(currentUrl);
 
 const username = window.localStorage.getItem('username');
 
-if(username !== null && username.length > 0){
+if (username !== null && username.length > 0) {
     const spanNombreUsuario = $("#nombreUsuario");
     spanNombreUsuario.text(username);
 }
- 
+
 
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
@@ -30,7 +32,7 @@ function mostrarRequestAlerResult(status) {
 }
 
 function insertStrPaginador(numDatos, page, perPage, strNameFunctionPaginate) {
- 
+
     let paginas = parseInt(numDatos / perPage);
     numDatos / perPage % 2 !== 0 ? paginas++ : null;
     let diferencia = 2;
@@ -94,7 +96,38 @@ $("#selectPerPage").on('change', function () {
     paginar(1);
 });
 
-async function request(url, data, callback, token) {
+const typeCounts = (typeCount) => {
+    let administradorJ = $("#sideBarAdministracion").empty();
+    let solicitudesJ = $("#sideBarSolicitudes").empty();
+
+    let htmlAdministracion = "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo'>"
+                                + "<i class='fas fa-fw fa-cog'></i>"
+                                + "<span>Administracion</span>"
+        + "</a>"
+        + "<div id='collapseTwo' class='collapse' aria-labelledby='headingTwo' data-parent='#accordionSidebar'>"
+            +"<div class='bg-white py-2 collapse-inner rounded'>"
+                + "<h6 class='collapse-header'>Informatica:</h6>"
+                + "<a class='collapse-item' href='/educacion/views/usuarios/usuarios.php'>Usuarios</a>";
+            +"</div>"
+        + "</div>";
+
+    let htmlSolicitudes = "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseUtilities' aria-expanded='true' aria-controls='collapseUtilities'>"
+                             + "<i class='fas fa-fw fa-wrench'></i>"
+                            + "<span>Solicitudes</span>"
+                        + "</a>"
+        + "<div id='collapseUtilities' class='collapse' aria-labelledby='headingUtilities' data-parent='#accordionSidebar'>"
+            + "<div class='bg-white py-2 collapse-inner rounded'>"
+                + "<a class='collapse-item' href='/educacion/views/solicitudes/solicitudes.php'>Recibidas</a>"
+             + "</div>"
+        + "</div>";
+
+    typeCount == "administrador" && administradorJ.append(htmlAdministracion);
+    (typeCount == "agente" || typeCount == "administrador")  && solicitudesJ.append(htmlSolicitudes);
+}
+
+/** type request is used when we want to show somethig like we gonna paginate the user */
+
+async function request(url, data, callback, token, typeRequest = true) {
     let strData = JSON.stringify(data);
     $.ajax({
         url,
@@ -107,7 +140,11 @@ async function request(url, data, callback, token) {
             xhr.setRequestHeader('Authorization', "Bearer " + token);
             xhr.setRequestHeader('Content-Type', 'application/json');
         },
-        success: callback,
+        success: function (res) {
+            if(typeRequest) 
+                typeCounts(typeCount);
+            (callback)(res);
+        },
         error: function (xhr, resp, text) {
             console.log(xhr, resp, text);
         }
@@ -118,7 +155,7 @@ async function request(url, data, callback, token) {
 /**Forma de agregar un metodo al objeto validador con la finalidad de validar la curp
  * utilizando una expresion regular
  */
- $.validator.addMethod(
+$.validator.addMethod(
     "regexPhone",
     function (value, element, regexp) {
         if (regexp.constructor != RegExp)
@@ -164,7 +201,7 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     let img = await getBase64FromUrl('/educacion/img/logo uriangato.png');
 
     let img2 = await getBase64FromUrl('/educacion/img/logo_sombra.png');
-    
+
     //  ================   Datos Alumno ====================
     if (!(solicitud.idAlumno.length > 0))
         return false;
@@ -186,69 +223,69 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
         return false;
     let datosPadre = solicitud.idPadre[0];
     let seguroMedico = datosPadre.seguroMedico;
-    let arraySeguroMedico = ['privado','seguro social', 'IMSS', 'ISSSTE', 'otra institucion','ninguno'];
+    let arraySeguroMedico = ['privado', 'seguro social', 'IMSS', 'ISSSTE', 'otra institucion', 'ninguno'];
     let arraySeguroMedicoResult = arraySeguroMedico.map(seguro => {
         return seguro == seguroMedico ? 'X' : '';
-    });   
-    
+    });
+
     //  ================   Datos Ingresos Familiares ====================
     if (!(solicitud.idIngresosFamiliares.length > 0))
         return false;
     let datosIngresosFamiliares = solicitud.idIngresosFamiliares[0];
     let ingresoOtros = parseFloat(datosIngresosFamiliares.ingresoHermanos) + parseFloat(datosIngresosFamiliares.ingresoAbuelos);
     let ingresoTotal = parseFloat(datosIngresosFamiliares.ingresoMama) + parseFloat(datosIngresosFamiliares.ingresoPapa) + parseFloat(datosIngresosFamiliares.ingresoHermanos) + parseFloat(datosIngresosFamiliares.ingresoAbuelos);
-    
+
 
     //  ================   Datos Servicios ====================
-    if(!(solicitud.idServicios.length > 0))
+    if (!(solicitud.idServicios.length > 0))
         return false;
 
     let datosServicios = solicitud.idServicios[0];
     let serviciosColumna1 = [];
-    
+
     Object.entries(datosServicios).forEach(entry => {
         let [key, value] = entry;
-        if(key == 'idServicios') 
+        if (key == 'idServicios')
             return
-        let objAux = value == 'si' ? { style: 'tableContainSelected', text:key} : { style: '', text: key}
+        let objAux = value == 'si' ? { style: 'tableContainSelected', text: key } : { style: '', text: key }
         serviciosColumna1.push(objAux);
-    }); 
+    });
 
     //  ================   Datos Requisitos Adicionales ====================
 
     if (!(solicitud.idRequisitosAdicionales.length > 0))
         return false;
-    
+
     let datosRequisitosAdicionales = solicitud.idRequisitosAdicionales[0];
     let tipoTransporte = datosRequisitosAdicionales.tipoTransporte;
-    let arrayTipoTransporte = ['caminando','bicicleta','transporte publico','moto','carro'];
+    let arrayTipoTransporte = ['caminando', 'bicicleta', 'transporte publico', 'moto', 'carro'];
     let arrayTipoTransporteResult = arrayTipoTransporte.map(transporte => {
-        return transporte == tipoTransporte ? { style: 'tableContainSelected', text:transporte} : { style: '', text: transporte}
+        return transporte == tipoTransporte ? { style: 'tableContainSelected', text: transporte } : { style: '', text: transporte }
     });
 
     let tipotecho = datosRequisitosAdicionales.tipoTechoCasa
-    let arrayTechoCasa = ['concreto','lamina','carton u otro'];
-    let arrayTechoCasaResult = arrayTechoCasa.map(techo =>{
+    let arrayTechoCasa = ['concreto', 'lamina', 'carton u otro'];
+    let arrayTechoCasaResult = arrayTechoCasa.map(techo => {
         return techo == tipotecho ? 'X' : '';
     });
 
     let tomaAgua = datosRequisitosAdicionales.aguaEnCasa;
-    let arrayTomaAgua = ['en casa', 'comunitaria','no tiene'];
+    let arrayTomaAgua = ['en casa', 'comunitaria', 'no tiene'];
     let arrayTomaAguaResult = arrayTomaAgua.map(toma => {
         return toma == tomaAgua ? 'X' : '';
     });
 
     let tipoPisoCasa = datosRequisitosAdicionales.tipoMaterialPisoCasa;
-    let arrayTipoPisoCasa = ['tierra','ladrillo o semento'];
-    let arrayTipoPisoCasaResult = arrayTipoPisoCasa.map(piso =>{
+    let arrayTipoPisoCasa = ['tierra', 'ladrillo o semento'];
+    let arrayTipoPisoCasaResult = arrayTipoPisoCasa.map(piso => {
         return piso == tipoPisoCasa ? 'X' : '';
     })
 
     let energiaElectrica = datosRequisitosAdicionales.energiaElectrica == 'si' ? 'X' : '';
 
     let tipoMurosCasa = datosRequisitosAdicionales.tipoMaterialMurosCasa;
-    let arrayMurosCasa = ['ladrillo o block','adobe, lamina o teja','carton o madera'];
-    let arrayMurosCasaResult = arrayMurosCasa.map( muros => {
+    let arrayMurosCasa = ['ladrillo o block', 'adobe, lamina o teja', 'carton o madera'];
+    let arrayMurosCasaResult = arrayMurosCasa.map(muros => {
         return muros == tipoMurosCasa ? 'X' : '';
     });
 
@@ -340,10 +377,10 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                         [{
                             style: 'listas',
                             columns: [
-                                { text: 'Papa' }, { text: datosIngresosFamiliares.ingresoPapa ? 'X' : ''},
+                                { text: 'Papa' }, { text: datosIngresosFamiliares.ingresoPapa ? 'X' : '' },
                                 { text: 'Mama' }, { text: datosIngresosFamiliares.ingresoMama ? 'X' : '' },
-                                { text: 'Hermanos' }, { text: datosIngresosFamiliares.ingresoHermanos ? 'X' : ''},
-                                { text: 'Abuelos' }, { text: datosIngresosFamiliares.ingresoAbuelos ? 'X' : ''},
+                                { text: 'Hermanos' }, { text: datosIngresosFamiliares.ingresoHermanos ? 'X' : '' },
+                                { text: 'Abuelos' }, { text: datosIngresosFamiliares.ingresoAbuelos ? 'X' : '' },
                             ],
                             colSpan: 4
                         }, {}, {}, {}, { text: '5', style: 'tableContain' }],
@@ -394,13 +431,13 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                             style: 'listas',
                             columns: [
                                 {
-                                    ul: serviciosColumna1.slice(0,3)
+                                    ul: serviciosColumna1.slice(0, 3)
                                 },
                                 {
-                                    ul: serviciosColumna1.slice(3,6)
+                                    ul: serviciosColumna1.slice(3, 6)
                                 },
                                 {
-                                    ul: serviciosColumna1.slice(6,9)
+                                    ul: serviciosColumna1.slice(6, 9)
                                 }
                             ]
                         }],
@@ -472,17 +509,17 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                     headerRows: 2,
                     body: [
                         [{ text: 'Tu escuela esta dentro del municipio', style: 'tableSubHeader' }, { text: 'Tiempo que tarde en llegar a la escuela', style: 'tableSubHeader' }, { text: 'Tipo de transporte en el que se translada al trabajo', style: 'tableSubHeader', colSpan: 2 }],
-                        [{ text: datosRequisitosAdicionales.escuelaDentroMunicipio , style: 'tableContain' }, { text: datosRequisitosAdicionales.tiempoTranslado, style: 'tableContain' }, {
+                        [{ text: datosRequisitosAdicionales.escuelaDentroMunicipio, style: 'tableContain' }, { text: datosRequisitosAdicionales.tiempoTranslado, style: 'tableContain' }, {
                             style: 'listas',
                             columns: [
                                 {
-                                    ul: arrayTipoTransporteResult.slice(0,2)
+                                    ul: arrayTipoTransporteResult.slice(0, 2)
                                 },
                                 {
-                                    ul: arrayTipoTransporteResult.slice(2,4)
+                                    ul: arrayTipoTransporteResult.slice(2, 4)
                                 },
                                 {
-                                    ul: arrayTipoTransporteResult.slice(4,5)
+                                    ul: arrayTipoTransporteResult.slice(4, 5)
                                 }
 
                             ], colSpan: 2
@@ -699,10 +736,10 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                 margin: [0, 15, 0, 5],
                 alignment: 'center'
             },
-            tableContainSelected:{
+            tableContainSelected: {
                 fontSize: 8,
                 color: 'black',
-                decoration:'lineThrough',
+                decoration: 'lineThrough',
                 decorationColor: 'red'
             }
         }
@@ -734,16 +771,23 @@ const showPdf = e => {
     }
 }
 
-const customizeConfirm = (question) => {
-    let response = null;
-    $('#modalConfirm').modal('toggle');
+const customizeConfirm = async (question) => {
+    return new Promise((resolve, reject) => {
+        let modalConfirm = $('#modalConfirm');
 
-    $('#modalConfirmBody').html(`<h5 class="text-center">${question}</h5>`);
+        modalConfirm.css({
+            "top": "200px"
+        });
 
-    $('#modalConfirm').on('hidden.bs.modal', function (e) {
-        let fired = $(document.activeElement).attr('id');
-        let touched = fired === "confirm-acepted-button" ? response = true : fired === "confirm-rejected-button" ? response = false : null 
-        console.log(touched);
+        modalConfirm.modal('toggle');
+        $('#modalConfirmBody').html(`<h5 class="text-center">${question}</h5>`);
+        modalConfirm.on('hidden.bs.modal', function (e) {
+            let fired = $(document.activeElement).attr('id');
+            let touched = fired === "confirm-acepted-button" ? response = true : fired === "confirm-rejected-button" ? response = false : null;
+            if (touched) 
+                resolve(touched);
+            else 
+                reject(touched);
+        });
     });
-    return response;
 }

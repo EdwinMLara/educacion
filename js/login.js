@@ -44,6 +44,7 @@ $('#formLogin').validate({
                 if(res.hasOwnProperty('response')){
                     window.localStorage.setItem('token', res.response.result.token);
                     window.localStorage.setItem('username', username);
+                    window.localStorage.setItem('tipoCuenta',res.response.result.tipoCuenta);
                     res.response.status === 200 ? location.href = `/educacion/` : null;
                     return;
                 }
