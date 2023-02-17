@@ -90,7 +90,6 @@ function insertStrPaginador(numDatos, page, perPage, strNameFunctionPaginate) {
     }
 }
 
-
 $("#selectPerPage").on('change', function () {
     console.log("========= Repaginar =====");
     paginar(1);
@@ -101,28 +100,28 @@ const typeCounts = (typeCount) => {
     let solicitudesJ = $("#sideBarSolicitudes").empty();
 
     let htmlAdministracion = "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo'>"
-                                + "<i class='fas fa-fw fa-cog'></i>"
-                                + "<span>Administracion</span>"
+        + "<i class='fas fa-fw fa-cog'></i>"
+        + "<span>Administracion</span>"
         + "</a>"
         + "<div id='collapseTwo' class='collapse' aria-labelledby='headingTwo' data-parent='#accordionSidebar'>"
-            +"<div class='bg-white py-2 collapse-inner rounded'>"
-                + "<h6 class='collapse-header'>Informatica:</h6>"
-                + "<a class='collapse-item' href='/educacion/views/usuarios/usuarios.php'>Usuarios</a>";
-            +"</div>"
+        + "<div class='bg-white py-2 collapse-inner rounded'>"
+        + "<h6 class='collapse-header'>Informatica:</h6>"
+        + "<a class='collapse-item' href='/educacion/views/usuarios/usuarios.php'>Usuarios</a>";
+    +"</div>"
         + "</div>";
 
     let htmlSolicitudes = "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseUtilities' aria-expanded='true' aria-controls='collapseUtilities'>"
-                             + "<i class='fas fa-fw fa-wrench'></i>"
-                            + "<span>Solicitudes</span>"
-                        + "</a>"
+        + "<i class='fas fa-fw fa-wrench'></i>"
+        + "<span>Solicitudes</span>"
+        + "</a>"
         + "<div id='collapseUtilities' class='collapse' aria-labelledby='headingUtilities' data-parent='#accordionSidebar'>"
-            + "<div class='bg-white py-2 collapse-inner rounded'>"
-                + "<a class='collapse-item' href='/educacion/views/solicitudes/solicitudes.php'>Recibidas</a>"
-             + "</div>"
+        + "<div class='bg-white py-2 collapse-inner rounded'>"
+        + "<a class='collapse-item' href='/educacion/views/solicitudes/solicitudes.php'>Recibidas</a>"
+        + "</div>"
         + "</div>";
 
     typeCount == "administrador" && administradorJ.append(htmlAdministracion);
-    (typeCount == "agente" || typeCount == "administrador")  && solicitudesJ.append(htmlSolicitudes);
+    (typeCount == "agente" || typeCount == "administrador") && solicitudesJ.append(htmlSolicitudes);
 }
 
 /** type request is used when we want to show somethig like we gonna paginate the user */
@@ -141,7 +140,7 @@ async function request(url, data, callback, token, typeRequest = true) {
             xhr.setRequestHeader('Content-Type', 'application/json');
         },
         success: function (res) {
-            if(typeRequest) 
+            if (typeRequest)
                 typeCounts(typeCount);
             (callback)(res);
         },
@@ -150,7 +149,6 @@ async function request(url, data, callback, token, typeRequest = true) {
         }
     });
 }
-
 
 /**Forma de agregar un metodo al objeto validador con la finalidad de validar la curp
  * utilizando una expresion regular
@@ -748,9 +746,32 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     pdfMake.createPdf(docDefinition).open();
 }
 
+const customizeConfirm = async (question, buttonReject = false) => {
+    return new Promise((resolve, reject) => {
+        let modalConfirm = $('#modalConfirm');
+        modalConfirm.css({
+            "top": "200px"
+        });
+        modalConfirm.modal('toggle');
+
+        $('#modalConfirmBody').html(`<h6 class="pl-4">${question}</h6>`);
+        buttonReject && $('#confirm-rejected-button').hide();
+
+        modalConfirm.on('hidden.bs.modal', function (e) {
+            let fired = $(document.activeElement).attr('id');
+            let touched = false;
+            touched = fired === "confirm-acepted-button" ? response = true : fired === "confirm-rejected-button" ? response = false : null;
+            if (touched)
+                resolve(touched);
+            else
+                reject(touched);
+        });
+    });
+}
+
 const blobPdf = [];
 
-const showPdf = e => {
+const showPdf = async (e) => {
     let ruta = e.value;
     $("#fileLabel").html(ruta);
     let extPermitidas = /(.pdf)$/i;
@@ -762,32 +783,31 @@ const showPdf = e => {
 
     if (e.files && e.files[0]) {
         var visor = new FileReader();
+        visor.addedConfirm = customizeConfirm;
+
+        visor.onloadstart = function (e) {
+            console.log("Iniciando carga");
+        }
+
         visor.onload = function (e) {
+            console.log(e.target.result.length);
+            if (e.target.result.length > 2000000) {
+                this.addedConfirm("El archivo es muy grande!",true)
+                .then(result => console.log(result))
+                .catch(err => console.log(err));
+                $("#fileLabel").html('Selecciona el archivo');
+                return;
+            }
             const targetElement = document.querySelector('#iframeContainer');
             blobPdf[0] = e.target.result;
-            targetElement.src = e.target.result;
+            targetElement.src = e.target.result
         };
+
+        visor.onloadend = function (e) {
+            console.log("Carga Finalizada"); 
+        }
+
+        console.log("mostrando");
         visor.readAsDataURL(e.files[0]);
     }
-}
-
-const customizeConfirm = async (question) => {
-    return new Promise((resolve, reject) => {
-        let modalConfirm = $('#modalConfirm');
-
-        modalConfirm.css({
-            "top": "200px"
-        });
-
-        modalConfirm.modal('toggle');
-        $('#modalConfirmBody').html(`<h5 class="text-center">${question}</h5>`);
-        modalConfirm.on('hidden.bs.modal', function (e) {
-            let fired = $(document.activeElement).attr('id');
-            let touched = fired === "confirm-acepted-button" ? response = true : fired === "confirm-rejected-button" ? response = false : null;
-            if (touched) 
-                resolve(touched);
-            else 
-                reject(touched);
-        });
-    });
 }
