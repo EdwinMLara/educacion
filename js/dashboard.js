@@ -68,7 +68,7 @@ const config = {
     type: 'bar',
     data: data,
     options: {
-        responsive: false,
+        responsive: true,
         plugins: {
             legend: {
                 position: 'top',
