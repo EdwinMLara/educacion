@@ -64,11 +64,11 @@ class Rest
             $api = new $className();
             $rMethod = new ReflectionMethod($className, $this->serviceName);
             if (!method_exists($api, $this->serviceName)) {
-                $this->throwError(API_DOST_NOT_EXIST, "Api does not exist.");
+                $this->throwError(API_DOST_NOT_EXIST, "Api does not exist on  ".$className);
             }
             $rMethod->invoke($api);
         } catch (Exception $e) {
-            $this->throwError(API_DOST_NOT_EXIST, "Api does not exist.");
+            $this->throwError(API_DOST_NOT_EXIST,json_encode($e));
         }
     }
 
