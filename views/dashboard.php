@@ -31,7 +31,7 @@ if ($login) {
         <!-- Content Row -->
         <div class="row">
 
-            <div class="col-xl-4 col-md-12">
+            <div class="col-xl-4 text-center justify-content-center align-self-center  col-md-12">
 
                 <!-- Usuarios -->
                 <div class="row justify-content-center">
@@ -117,9 +117,11 @@ if ($login) {
                 </div>
             </div>
 
-            <div class="col-xl-8 col-md-12 my-auto border border-primary">
-                <h4 class="text-center mb-4">Bitacora de Becas entregadas anualmente por mes</h4>
-                <canvas class="mx-auto" style="width: 700px; height:400px; display: flex;" id="myChart"></canvas>
+            <div class="col-xl-8 col-md-12 my-auto">
+                <h4 class="text-center mb-4" style="text-decoration: underline; text-decoration-color: red">Bitacora de Becas entregadas anualmente por mes</h4>
+                <div class="p-4">
+                    <canvas class="m-4" id="myChart"></canvas>
+                </div>
             </div>
 
         </div>
