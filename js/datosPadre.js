@@ -51,7 +51,11 @@ $('#formAddDatosPadre').validate({
             param: { ...getFormData($("#formAddDatosPadre")), file: blobPdf[0] }
         }
 
+        console.log(data);
+
         request('/educacion/Api/apiDatosPadre.php', data, function (res) {
+
+            console.log(res);
     
             if (res.hasOwnProperty('error')) {
                 alert(res.error.message);

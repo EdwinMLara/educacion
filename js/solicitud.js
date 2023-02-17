@@ -278,7 +278,6 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
 
 const print = async (indiceSolicitud) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
-    const solicitudes = JSON.parse(window.localStorage.getItem('currentSolicitudes'));
     createSolicitudPdf(solicitudes[indiceSolicitud]);
 }
 
