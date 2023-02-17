@@ -30,7 +30,7 @@ if ($login) {
             <div class="row">
                 <div class="col-sm-8 ">
                     <div class="form-group mb-4">
-                    <label for="inputGroupFile01">Credencial de elector en PDF</label>
+                        <label for="inputGroupFile01">Credencial de elector en PDF</label>
                         <div class="custom-file">
                             <input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">
                             <label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>
@@ -41,17 +41,13 @@ if ($login) {
                         <input type="text" class="form-control" name="nombre" placeholder="Nombre del Padre">
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="telefono" placeholder="Telefono">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="telefono" placeholder="Telefono">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha de nacimiento</label>
+                        <input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
                     </div>
 
                     <div class="form-group">

@@ -7,6 +7,8 @@ if ($login) {
 
     // Cargando navbar
     require_once("../share/nav.php");
+
+    require_once("../share/modalConfirm.php");
 }
 ?>
 
@@ -40,6 +42,7 @@ if ($login) {
                     </div>
 
                     <div class="form-group mb-4">
+                        <label>Fecha de nacimiento</label>
                         <input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
                     </div>  
                     
