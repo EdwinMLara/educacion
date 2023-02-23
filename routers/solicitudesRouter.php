@@ -108,6 +108,18 @@ class SolicitudesRouter extends RestApi {
         }
     }
 
+    public function getSolicitudes(){
+        $solicitudes = $this->service->getAll();
+        if ($solicitudes) {
+            $this->returnResponse(SUCESS_RESPONSE, $solicitudes);
+        }else if(empty($solicitudes)){
+            $this->returnResponse(SUCESS_EMPTY, "no hay solicitudes registradas");
+        }
+        else{
+            $this->throwError('GET_ERROR', "An error has been ocurren to paginate de users");
+        }
+    }
+
     public function getSolicitudesPaginate(){
         $page = $this->validateParameter('page', $this->param["page"], INTEGER);
         $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
