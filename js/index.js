@@ -761,7 +761,7 @@ const customizeConfirm = async (question, buttonReject = false) => {
             let fired = $(document.activeElement).attr('id');
             let touched = false;
             touched = fired === "confirm-acepted-button" ? response = true : fired === "confirm-rejected-button" ? response = false : null;
-            if (touched)
+            if (touched != null)
                 resolve(touched);
             else
                 reject(touched);
