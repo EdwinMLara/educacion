@@ -16,7 +16,7 @@ if (!$login) {
 if ($login) {
     // Cargando Header
     require_once("../share/header.php");
-    
+
     // Cargando SideBar
     require_once("../share/sideBar.php");
 
@@ -30,11 +30,11 @@ if ($login) {
         </div>
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Actulizar Datos de <?php echo $_GET["username"];?></h1>
+            <h1 class="h3 mb-0 text-gray-800">Actulizar Datos de <?php echo $_GET["username"]; ?></h1>
         </div>
-        
+
         <form id="formUpdateUsuarios">
-            <input type="hidden"  name="idUsuarios" value="<?php echo $_GET["idUsuarios"];?>">
+            <input type="hidden" name="idUsuarios" value="<?php echo $_GET["idUsuarios"]; ?>">
             <div class="form-group">
                 <input type="text" class="form-control" name="username" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Nombre de usuario...">
             </div>
@@ -45,8 +45,9 @@ if ($login) {
             <div class="form-group">
                 <label>Tipo de Cuenta</label>
                 <select class="form-control" name="tipoCuenta" aria-label="Floating label select example">
-                    <option value="1" selected>Administrador</option>
-                    <option value="2">Agente</option>
+                    <option></option>
+                    <option value="administrador">Administrador</option>
+                    <option value="agente">Agente</option>
                 </select>
             </div>
 
@@ -54,6 +55,9 @@ if ($login) {
                 Actualizar
             </button>
         </form>
+
+        <script src="/educacion/js/index.js"></script>
+        <script src="/educacion/js/usuarios.js"></script>
     <?php
     // Cargando Fooder
     require_once("../share/footer.php");
