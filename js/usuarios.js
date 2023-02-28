@@ -62,6 +62,9 @@ const paginar = (page) => {
     console.log("=============  Leer Usuarios Paginando =============");
     let perPage = $("#selectPerPage :selected").val();
 
+    if (perPage === undefined)
+        return;
+
     let data = {
         name: "getUserPaginate",
         param: {
@@ -124,6 +127,9 @@ $("#formUpdateUsuarios").validate({
             required: true,
             minlength: 5
         },
+        tipoCuenta: {
+            required: true
+        }
     },
     messages: {
         username: {
@@ -133,6 +139,9 @@ $("#formUpdateUsuarios").validate({
         password: {
             required: 'Teclea una contraseña',
             minlength: 'Teclea al menos 5 caracteres'
+        },
+        tipoCuenta: {
+            required: 'Elija un tipo de cuenta'
         }
     },
     submitHandler: function () {
@@ -141,7 +150,7 @@ $("#formUpdateUsuarios").validate({
             name: "updateUser",
             param: getFormData($("#formUpdateUsuarios"))
         }
-        //console.log(data);
+        console.log(data);
 
         $.ajax({
             url: '/educacion/Api/apiUsuarios.php',
@@ -158,7 +167,7 @@ $("#formUpdateUsuarios").validate({
                     let trueResponse = '<div class="alert alert-success"><strong>Success!</strong> Se ha Agreado correctamente al usuario.</div>';
                     let falseResponse = '<div class="alert alert-danger"><strong>Error!</strong> Algo ha salido mal al ingresar el usuario.</div>';
                     let status = res.response.status;
-                    status === 200 ? $("#alertUpdateUsuarios").append(trueResponse) : $("#alertUpdateUsuarios").append(falseResponse);
+                    status === 200 ? location.href = `/educacion/views/usuarios/usuarios.php` : $("#alertUpdateUsuarios").append(falseResponse);
                 } else {
                     alert(res.error.message);
                 }

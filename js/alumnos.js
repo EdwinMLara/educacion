@@ -14,7 +14,7 @@ $(function () {
     }
 
     $.ajax({
-        url: 'http://localhost/educacion/Api/apiUsuarios.php',
+        url: '/educacion/Api/apiUsuarios.php',
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify(data),
