@@ -118,7 +118,7 @@ if ($login) {
             </div>
 
             <div class="col-xl-8 col-md-12 my-auto">
-                <h4 class="text-center mb-4" style="text-decoration: underline; text-decoration-color: red">Bitacora de Becas entregadas anualmente por mes</h4>
+                <h4 class="text-center mb-4">Bitacora de Becas entregadas anualmente por mes</h4>
                 <div class="p-4">
                     <canvas class="m-4" id="myChart"></canvas>
                 </div>
