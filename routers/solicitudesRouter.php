@@ -101,8 +101,9 @@ class SolicitudesRouter extends RestApi {
         $promedioReciente = $this->validateParameter('promedioReciente',$this->param["promedioReciente"],STRING);
         
         $arguments = array($idSolicitud,$nivelEstudios,$promedioReciente);
-        if ($this->service->update($arguments,$idSolicitud)){
-            $this->returnResponse(SUCESS_RESPONSE, "Se ha actualizado exitosamente la solicitud.");
+        if ($updated = $this->service->update($arguments,$idSolicitud)){
+
+            $this->returnResponse(SUCESS_RESPONSE, $updated);
         } else {
             $this->throwError(UPDATED_ERROR, "An error has been ocurred");
         }

@@ -75,7 +75,8 @@ class Consulta extends ConexionBaseDatos{
             $query = substr($query, 0, -1);
             $query = $query.$where;
             $this->con->query($query);
-            return ($this->con->affected_rows === 1) ? true : false;
+            $updated = $this->con->insert_id;
+            return ($this->con->affected_rows === 1) ? $updated : false;
         }
     }
 
@@ -85,6 +86,7 @@ class Consulta extends ConexionBaseDatos{
             $where = " WHERE ";
             $query .= $property. " = '" . $value."' ". $where . $propertyIdName." = ".$id;
             $this->con->query($query);
+            $updated = $this->con->insert_id;
             return ($this->con->affected_rows === 1) ? true : false;
         }
     }

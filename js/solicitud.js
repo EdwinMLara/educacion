@@ -39,6 +39,7 @@ $('#formUpdateSolicitud').validate({
 
         console.log(dataUpdateSolicitud);
         request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
+            console.log(res);
 
             if (res.hasOwnProperty('error')) {
                 alert(res.error.message);
@@ -51,7 +52,10 @@ $('#formUpdateSolicitud').validate({
             }
 
             let status = res.response.status;
-            status ? location.href = alert('Se ha registrado su solicitud') : mostrarRequestAlerResult(status)
+            let solicitud = res.response.result;
+            createSolicitudPdf(solicitud);
+            
+            //status ? location.href = alert('Se ha registrado su solicitud') : mostrarRequestAlerResult(status)
         }, auxToken[0]);
     }
 });
@@ -335,6 +339,11 @@ $("input[name=search]").on('change', function () {
 
     if (perPage === undefined)
         return;
+
+    if(buscar.localeCompare('') == 0){
+        paginar(1);
+        return;
+    }
 
     let data = {
         name: "getSolicitudesByNameAlumnoLike",

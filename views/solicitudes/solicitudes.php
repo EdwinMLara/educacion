@@ -16,7 +16,7 @@ if (!$login) {
 if ($login) {
     // Cargando Header
     require_once("../share/header.php");
-    
+
     // Cargando SideBar
     require_once("../share/sideBar.php");
 
@@ -35,6 +35,7 @@ if ($login) {
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Solicitudes</h1>
+            <a href="/educacion/views/alumnos/addAlumno.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-plus-circle fa-sm text-white-50"></i> Nueva Solicitud</a>
         </div>
 
         <!-- DataTales Example -->
@@ -86,14 +87,14 @@ if ($login) {
 
                         <!-- paginador -->
                         <div id="paginador" class="row">
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-        
+
         </div>
-    <!-- /.container-fluid -->  
+        <!-- /.container-fluid -->
     </div>
     <script src="../../js/index.js"></script>
     <script src="../../js/solicitud.js"></script>
