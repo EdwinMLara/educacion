@@ -39,7 +39,6 @@ $('#formUpdateSolicitud').validate({
 
         console.log(dataUpdateSolicitud);
         request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-            console.log(res);
 
             if (res.hasOwnProperty('error')) {
                 alert(res.error.message);
@@ -52,10 +51,43 @@ $('#formUpdateSolicitud').validate({
             }
 
             let status = res.response.status;
-            let solicitud = res.response.result;
-            createSolicitudPdf(solicitud);
-            
-            //status ? location.href = alert('Se ha registrado su solicitud') : mostrarRequestAlerResult(status)
+
+            if(!status){
+                alert('Se ha generado un error comuniquese al area de becas!')
+                return;
+            }
+
+            let dataGetSolicitudById = {
+                name:"getSolicitudById",
+                param:{
+                    idSolicitud: dataUpdateSolicitud.param.idSolicitud
+                }
+            }
+
+            console.log(dataGetSolicitudById);
+
+            request('/educacion/Api/apiSolicitudes.php',dataGetSolicitudById,function (res){
+                
+                if (res.hasOwnProperty('error')) {
+                    alert(res.error.message);
+                    return;
+                }
+
+                
+
+                customizeConfirm("Se ha completado su registro, puede imprimir su solicitud",true)
+                .then(result => {
+                    if (result === null){
+                        return
+                    }
+                    location.href = 'https://uriangato.gob.mx/'
+                }).catch( result => {
+                    console.log(result);
+                })
+
+                createSolicitudPdf(res.response.result[0]);
+            },auxToken[0]);
+                        
         }, auxToken[0]);
     }
 });

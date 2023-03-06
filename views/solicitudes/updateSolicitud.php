@@ -7,6 +7,8 @@ if ($login) {
 
     // Cargando navbar
     require_once("../share/nav.php");
+
+    require_once("../share/modalConfirm.php");
 }
 ?>
 

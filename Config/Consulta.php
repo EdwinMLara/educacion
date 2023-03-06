@@ -64,19 +64,18 @@ class Consulta extends ConexionBaseDatos{
         if($this->tableExists($table)){
             $query = "UPDATE ".$this->deleteEspecialCharacters($table)." SET ";
             $where = "WHERE ";
-            $con = 0;
+            $conn = 0;
             foreach($obj as $property => $value){
-                if($con == 0){
+                if($conn == 0){
                     $where .= $property." = ".$id;
-                    $con++;
+                    $conn++;
                 }
                 $query .= $property." = '".$value."' ,";
             }
             $query = substr($query, 0, -1);
             $query = $query.$where;
             $this->con->query($query);
-            $updated = $this->con->insert_id;
-            return ($this->con->affected_rows === 1) ? $updated : false;
+            return ($this->con->affected_rows === 1) ? true : false;
         }
     }
 
@@ -86,7 +85,6 @@ class Consulta extends ConexionBaseDatos{
             $where = " WHERE ";
             $query .= $property. " = '" . $value."' ". $where . $propertyIdName." = ".$id;
             $this->con->query($query);
-            $updated = $this->con->insert_id;
             return ($this->con->affected_rows === 1) ? true : false;
         }
     }
