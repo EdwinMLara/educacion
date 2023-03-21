@@ -10,6 +10,7 @@ $(function () {
     console.log('solicitud');
     auxToken[0] = window.localStorage.getItem('auxToken');
     paginar(1);
+    formDatoisDone(null, 6);
 });
 
 
@@ -57,49 +58,49 @@ $('#formUpdateSolicitud').validate({
 
             let status = res.response.status;
 
-            if(!status){
+            if (!status) {
                 alert('Se ha generado un error comuniquese al area de becas!')
                 return;
             }
 
             let dataGetSolicitudById = {
-                name:"getSolicitudById",
-                param:{
+                name: "getSolicitudById",
+                param: {
                     idSolicitud: dataUpdateSolicitud.param.idSolicitud
                 }
             }
 
             console.log(dataGetSolicitudById);
 
-            request('/educacion/Api/apiSolicitudes.php',dataGetSolicitudById,function (res){
-                
+            request('/educacion/Api/apiSolicitudes.php', dataGetSolicitudById, function (res) {
+
                 if (res.hasOwnProperty('error')) {
                     alert(res.error.message);
                     return;
                 }
 
-                
 
-                customizeConfirm("Se ha completado su registro, puede imprimir su solicitud",true)
-                .then(result => {
-                    if (result === null){
-                        return
-                    }
-                    location.href = 'https://uriangato.gob.mx/'
-                }).catch( result => {
-                    console.log(result);
-                })
+
+                customizeConfirm("Se ha completado su registro, puede imprimir su solicitud", true)
+                    .then(result => {
+                        if (result === null) {
+                            return
+                        }
+                        location.href = 'https://uriangato.gob.mx/'
+                    }).catch(result => {
+                        console.log(result);
+                    })
 
                 createSolicitudPdf(res.response.result[0]);
-            },auxToken[0]);
-                        
+            }, auxToken[0]);
+
         }, auxToken[0]);
     }
 });
 
 
 const responseUsersFunction = (page, perPage) => {
-return function (res) {
+    return function (res) {
         console.log(res);
 
         if (res.hasOwnProperty('error')) {
@@ -177,7 +178,7 @@ const paginar = (page) => {
         }
     }
 
-    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page,perPage), token);
+    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page, perPage), token);
 }
 
 /**hacer funcion para actualizar el status de pendiente a acceptada o rechazada
@@ -208,7 +209,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
 
     let title = "";
     let api = "";
-    let method =  "";
+    let method = "";
     let idStr = "";
     let nameFile = "";
 
@@ -260,36 +261,43 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             idStr = "idRequisitosAdicionales";
             detallesSolicitudToShow = solicitudes[indiceSolicitud].idRequisitosAdicionales[0];
             let statusSolicitud = solicitudes[indiceSolicitud].status;
+
+            if (statusSolicitud == 'NO-REGISTRADO') {
+                return;
+            }
+
             if (statusSolicitud === "pendiente") {
-                customizeConfirm("La solicitud de beca sera aprobada?")
-                .then(result => {
-                    if (result === null){
-                        return
-                    }
-                    let response = result ? 'aceptada' : 'rechazada';
-                    updateCampo(indiceSolicitud,step,"apiSolicitudes.php", "updateSolicitudByKeyandValue", { idSolicitud }, 'status', response);
-                }).catch( result => {
-                    console.log(result);
-                })
+                setTimeout(function () {
+                    customizeConfirm("La solicitud de beca sera aprobada?")
+                        .then(result => {
+                            if (result === null) {
+                                return
+                            }
+                            let response = result ? 'aceptada' : 'rechazada';
+                            updateCampo(indiceSolicitud, step, "apiSolicitudes.php", "updateSolicitudByKeyandValue", { idSolicitud }, 'status', response);
+                        }).catch(result => {
+                            console.log(result);
+                        })
+                }, 2000);
             }
             break;
     }
 
     if (detallesSolicitudToShow == undefined) {
         $('#modalBodySolicitud').append('NO-REGISTRADO');
-        $('#iframeContainer').attr('src', "about:blank");  
+        $('#iframeContainer').attr('src', "about:blank");
         return;
     }
 
     let buttonsHTML = `<diV>`
         + `<button type="button" ${disableButtonBack} onclick="detallesSolicitud(${indiceSolicitud},${step - 1})" class="btn btn-secondary float-left"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>`
         + `<button type="button" ${disableButtonNext} onclick="detallesSolicitud(${indiceSolicitud},${step + 1})" class="btn btn-primary float-right"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>`
-    + `</diV>`;
+        + `</diV>`;
 
     $('#modalTitleSolicitud').append(title);
     $('#modalFooterSolicitud').append(buttonsHTML);
 
-    !detallesSolicitudToShow.hasOwnProperty('file') && $('#iframeContainer').attr('src',"about:blank");
+    !detallesSolicitudToShow.hasOwnProperty('file') && $('#iframeContainer').attr('src', "about:blank");
     let id = -1;
 
     Object.keys(detallesSolicitudToShow).forEach(function (key, index) {
@@ -341,7 +349,7 @@ const updateCampo = (indiceSolicitud, step, api, method, id, key, value) => {
             return;
         }
 
-        switch (step){
+        switch (step) {
             case 1:
                 solicitudes[indiceSolicitud].idAlumno[0][key] = value;
                 break;
@@ -357,13 +365,13 @@ const updateCampo = (indiceSolicitud, step, api, method, id, key, value) => {
             case 5:
                 solicitudes[indiceSolicitud].idServicios[0][key] = key;
                 break;
-            case 6: 
+            case 6:
                 solicitudes[indiceSolicitud].idRequisitosAdicionales[0][key] = value
             default:
                 paginar(1);
         }
 
-    }, token,false);
+    }, token, false);
 }
 
 $("input[name=search]").on('change', function () {
@@ -377,7 +385,7 @@ $("input[name=search]").on('change', function () {
     if (perPage === undefined)
         return;
 
-    if(buscar.localeCompare('') == 0){
+    if (buscar.localeCompare('') == 0) {
         paginar(1);
         return;
     }
@@ -391,5 +399,5 @@ $("input[name=search]").on('change', function () {
         }
     }
 
-    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page,perPage), token);
+    request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page, perPage), token);
 });

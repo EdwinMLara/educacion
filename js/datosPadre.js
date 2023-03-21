@@ -3,6 +3,7 @@ const auxToken = [];
 $(function () {
     console.log("datos Padre");
     auxToken[0] = window.localStorage.getItem('auxToken');
+    formDatoisDone('idPadre',2);
 });
 
 $('#formAddDatosPadre').validate({

@@ -3,6 +3,7 @@ const auxToken = [];
 $(function () {
     console.log("servicios");
     auxToken[0] = window.localStorage.getItem('auxToken');
+    formDatoisDone('idServicios',4);
 });
 
 $("#formAddServicios").validate({

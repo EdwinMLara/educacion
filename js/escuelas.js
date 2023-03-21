@@ -4,6 +4,11 @@ const auxToken = [];
 $(function () {
     console.log("escuelas");
     auxToken[0] = window.localStorage.getItem('auxToken');
+
+    if ($('#bodyEscuelasTable').length)
+        readEscuelasPaginadas(1);
+        
+    formDatoisDone('idEscuela',1);
 });
 
 $("#formAddEscuelas").validate({
@@ -126,8 +131,3 @@ const readEscuelasPaginadas = (page) => {
         insertStrPaginador(numDatos, page, perPage, "readEscuelasPaginadas");
     });
 }
-
-$(function () {
-    if ($('#bodyEscuelasTable').length)
-        readEscuelasPaginadas(1);
-})

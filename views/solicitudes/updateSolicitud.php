@@ -27,7 +27,7 @@ if ($login) {
     </div>
 
     <form id="formUpdateSolicitud">
-        <input type="hidden" name="idSolicitud" value="<?php echo $_GET["folio"]; ?>">
+        <input type="hidden" id="folio" name="idSolicitud" value="<?php echo $_GET["folio"]; ?>">
         <div class="form-group">
             <label>Nivel de Estudios</label>
             <select class="form-control" name="nivelEstudios" aria-label="Floating label select example">

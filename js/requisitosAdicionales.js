@@ -3,6 +3,7 @@ const auxToken = [];
 $(function (){
     console.log("requisitos Adicionales");
     auxToken[0] = window.localStorage.getItem('auxToken');
+    formDatoisDone('idRequisitosAdicionales',5);
 })
 
 $('#formAddRequisitosAdicionales').validate({

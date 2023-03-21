@@ -792,9 +792,9 @@ const showPdf = async (e) => {
         visor.onload = function (e) {
             console.log(e.target.result.length);
             if (e.target.result.length > 2000000) {
-                this.addedConfirm("El archivo es muy grande!",true)
-                .then(result => console.log(result))
-                .catch(err => console.log(err));
+                this.addedConfirm("El archivo es muy grande!", true)
+                    .then(result => console.log(result))
+                    .catch(err => console.log(err));
                 $("#fileLabel").html('Selecciona el archivo');
                 return;
             }
@@ -804,10 +804,94 @@ const showPdf = async (e) => {
         };
 
         visor.onloadend = function (e) {
-            console.log("Carga Finalizada"); 
+            console.log("Carga Finalizada");
         }
 
         console.log("mostrando");
         visor.readAsDataURL(e.files[0]);
     }
+}
+
+const formDatoisDone = (idKeyNameForm,step) => {
+    let navArray = $("#navBarSolicitudHeader > li");
+
+    let folio = $('#folio').val();
+
+    if (folio === undefined)
+        return;
+
+    $.each(navArray, li => {
+        if(li === 0)
+            return
+        navArray[li].children[0].href += `&folio=${folio}`;
+    })
+
+    let dataGetSolicitudById = {
+        name: "getSolicitudById",
+        param: {
+            idSolicitud: folio
+        }
+    }
+
+    request('/educacion/Api/apiSolicitudes.php', dataGetSolicitudById, function (res) {
+
+        if (res.hasOwnProperty('error')) {
+            alert(res.error.message);
+            return;
+        }
+        console.log(res);
+        
+        let datos;
+        switch (step) {
+            case 1:
+                datos = res.response.result[0].idEscuela[0];
+                break;
+            case 2:
+                datos = res.response.result[0].idPadre[0];
+                break;
+            case 3:
+                datos = res.response.result[0].idIngresosFamiliares[0];
+                break;
+            case 4:
+                datos = res.response.result[0].idServicios[0];
+                break;
+            case 5:
+                datos = res.response.result[0].idRequisitosAdicionales[0];
+                break;
+            case 6:
+                res.response.result[0].nivelEstudios.localeCompare("NO-REGISTRAD") !== 0 && $(`option[value="${res.response.result[0].nivelEstudios}"]`).prop("selected",'selected').trigger('change');
+                res.response.result[0].promedioReciente.localeCompare("NO-REGISTRAD") !== 0 && $(`input[name="${res.response.result[0].promedioReciente}"]`).val()
+                return;
+            default:
+                break;
+        }
+
+        if (typeof datos === 'object' && datos.hasOwnProperty(idKeyNameForm)) {
+            Object.keys(datos).forEach(function (key) {
+                if (key === idKeyNameForm)
+                    return;
+
+                if (key === "file") {
+                    var visor = new FileReader();
+                    const targetElement = document.querySelector('#iframeContainer');
+                    blobPdf[0] = datos[key];
+                    targetElement.src = datos[key];
+                    visor.readAsDataURL(datos[key]);
+                }
+                console.log(key);
+
+                let input = $(`input[name="${key}"]`);
+                if (input.attr('type') !== undefined){
+                    input.val(datos[key]);
+                    return
+                }
+                $(`option[value="${datos[key]}"]`).prop("selected",'selected').trigger('change');
+            });
+
+            $(':submit').text('Update')
+        }
+
+
+
+    }, auxToken[0]);
 }

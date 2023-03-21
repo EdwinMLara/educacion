@@ -3,6 +3,7 @@ const auxToken = [];
 $(function () {
     console.log("Ingresos Familiares");
     auxToken[0] = window.localStorage.getItem('auxToken');
+    formDatoisDone('idIngresosFamiliares',3);
 })
 
 $('#formIngresosFamiliares').validate({
