@@ -99,55 +99,57 @@ $(function () {
         let solicitudes = res.response.result;
         let sortedDates = solicitudes.reduce((acumulador, solicitud) => {
 
-            let date = solicitud.fecha
+            let strDate = solicitud.fecha
 
-            if (date.localeCompare('NO-REGISTRADO') == 0)
+            if (strDate.localeCompare('NO-REGISTRADO') == 0)
                 return;
 
             let status = solicitud.status;
             let indice = undefined;
+            let dateMonth = new Date(strDate).getMonth();
 
             switch (true) {
-                case new Date('2023-01-01') >= new Date(date) <= new Date('2023-02-01'):
+                case dateMonth >= 0 && dateMonth < 1:
                     indice = 0;
                     break;
-                case new Date('2023-02-01') >= new Date(date) <= new Date('2023-03-01'):
+                case dateMonth >= 1 && dateMonth < 2:
                     indice = 1;
                     break;
-                case new Date('2023-03-01') >= new Date(date) <= new Date('2023-04-01'):
+                case dateMonth >= 2 && dateMonth < 3:
                     indice = 2;
                     break;
-                case new Date('2023-04-01') >= new Date(date) <= new Date('2023-05-01'):
+                case dateMonth >= 3 && dateMonth< 4:
                     indice = 3;
                     break;
-                case new Date('2023-05-01') >= new Date(date) <= new Date('2023-06-01'):
+                case dateMonth >= 4 && dateMonth < 5:
                     indice = 4;
                     break;
-                case new Date('2023-06-01') >= new Date(date) <= new Date('2023-07-01'):
+                case dateMonth >= 5 && dateMonth < 6:
                     indice = 5;
                     break;
-                case new Date('2023-07-01') >= new Date(date) <= new Date('2023-08-01'):
+                case dateMonth >= 6 && dateMonth < 7:
                     indice = 6;
                     break;
-                case new Date('2023-08-01') >= new Date(date) <= new Date('2023-09-01'):
+                case dateMonth >= 7 && dateMonth < 8:
                     indice = 7;
                     break;
-                case new Date('2023-09-01') >= new Date(date) <= new Date('2023-10-01'):
+                case dateMonth >= 8 && dateMonth < 9:
                     indice = 8;
                     break;
-                case new Date('2023-10-01') >= new Date(date) <= new Date('2023-11-01'):
+                case dateMonth >= 9 && dateMonth < 10:
                     indice = 9;
                     break;
-                case new Date('2023-11-01') >= new Date(date) <= new Date('2023-12-01'):
+                case dateMonth >= 10 && dateMonth < 11:
                     indice = 10;
                     break;
-                case new Date('2023-12-01') >= new Date(date) <= new Date('2023-12-31'):
+                case dateMonth >= 11 && dateMonth < 12:
                     indice = 11;
                     break;
                 default:
                     console.log("Error de fecha");
             }
 
+            console.log(indice);
 
             status.localeCompare('aceptada') == 0 && acumulador.aceptadas[indice]++;
             status.localeCompare('rechazada') == 0 && acumulador.rechazadas[indice]++;
