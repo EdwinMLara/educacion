@@ -16,8 +16,7 @@ class SolicitudesRouter extends RestApi
         parent::__construct("solicitudes");
     }
 
-    public function addSolicitude()
-    {
+    public function addSolicitude(){
         $idAlumno = $this->validateParameter('idAlumno', $this->param['idAlumno'], INTEGER);
         $idEscuela = $this->validateParameter('idEscuela', $this->param['idEscuela'], INTEGER);
         $idPadre = $this->validateParameter('idPadre', $this->param['idPadre'], INTEGER);
@@ -37,8 +36,7 @@ class SolicitudesRouter extends RestApi
         }
     }
 
-    public function updateSolicitud()
-    {
+    public function updateSolicitud(){
         $idSolicitud = $this->validateParameter('idSolicitud', $this->param["idSolicitud"], INTEGER);
         $nivelEstudios = $this->validateParameter('nivelEstudios', $this->param["nivelEstudios"], STRING);
         $promedioReciente = $this->validateParameter('promedioReciente', $this->param["promedioReciente"], STRING);
@@ -51,8 +49,7 @@ class SolicitudesRouter extends RestApi
         }
     }
 
-    public function getSolicitudes()
-    {
+    public function getSolicitudes(){
         $solicitudes = $this->service->getAll();
         if ($solicitudes) {
             $this->returnResponse(SUCESS_RESPONSE, $solicitudes);
@@ -63,8 +60,7 @@ class SolicitudesRouter extends RestApi
         }
     }
 
-    public function getSolicitudesPaginate()
-    {
+    public function getSolicitudesPaginate(){
         $page = $this->validateParameter('page', $this->param["page"], INTEGER);
         $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
 
@@ -114,8 +110,7 @@ class SolicitudesRouter extends RestApi
         }
     }
 
-    public function getSolicitudByIdAlumno()
-    {
+    public function getSolicitudByIdAlumno(){
         $idAlumno = $this->validateParameter("idAlumno", $this->param["idAlumno"], INTEGER);
         if ($result = $this->service->getByField("idAlumno", $idAlumno)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
@@ -124,8 +119,7 @@ class SolicitudesRouter extends RestApi
         }
     }
 
-    public function updateSolicitudByKeyandValue()
-    {
+    public function updateSolicitudByKeyandValue(){
         $idSolicitud = $this->validateParameter('idSolicitud', $this->param["idSolicitud"], INTEGER);
         $key = $this->validateParameter('key', $this->param["key"], STRING);
         $value = $this->validateParameter('value', $this->param["value"], STRING);
@@ -228,4 +222,64 @@ class SolicitudesRouter extends RestApi
             $this->throwError('GET_ERROR', "An error has been ocurren to paginate de users");
         }
     }
+
+    /** Los update se pueden eliminar utlizando el modelo sin declarar attributos para 
+    ** crearlos dinamicanmente se podria trabajar con update Solicitud*/
+
+    public function updateSolicitudIdEscuela(){
+        $idSolicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $idEscuela = $this->validateParameter('idEscuela',$this->param['idEscuela'],INTEGER);
+
+        if ($this->service->updateByValue('idEscuela',$idEscuela,'idSolicitud',$idSolicitud)) {
+            $this->returnResponse(SUCESS_RESPONSE, "Se ha actualizado exitosamente la solicitud.");
+        } else {
+            $this->throwError(UPDATED_ERROR, "An error has been ocurred");
+        }
+    }
+
+    public function updateSolicitudIdPadre(){
+        $idSolicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $idPadre = $this->validateParameter('idPadre',$this->param['idPadre'],INTEGER);
+
+        if ($this->service->updateByValue('idPadre',$idPadre,'idSolicitud',$idSolicitud)) {
+            $this->returnResponse(SUCESS_RESPONSE, "Se ha actualizado exitosamente la solicitud.");
+        } else {
+            $this->throwError(UPDATED_ERROR, "An error has been ocurred");
+        }
+    } 
+
+    public function updateSolicitudIdIngresosFamiliares(){
+        $idSolicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $idIngresosFamiliares = $this->validateParameter('idIngresosFamiliares',$this->param['idIngresosFamiliares'],INTEGER);
+
+        if ($this->service->updateByValue('idIngresosFamiliares',$idIngresosFamiliares,'idSolicitud',$idSolicitud)) {
+            $this->returnResponse(SUCESS_RESPONSE, "Se ha actualizado exitosamente la solicitud.");
+        } else {
+            $this->throwError(UPDATED_ERROR, "An error has been ocurred");
+        }
+    } 
+
+    public function updateSolicitudIdServicios(){
+        $idSolicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $idServicios = $this->validateParameter('idServicios',$this->param['idServicios'],INTEGER);
+
+        if ($this->service->updateByValue('idServicios',$idServicios,'idSolicitud',$idSolicitud)) {
+            $this->returnResponse(SUCESS_RESPONSE, "Se ha actualizado exitosamente la solicitud.");
+        } else {
+            $this->throwError(UPDATED_ERROR, "An error has been ocurred");
+        }
+    } 
+
+    public function updateSolicitudIdRequisitosAdicionales(){
+        $idSolicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales',$this->param['idRequisitosAdicionales'],INTEGER);
+
+        if ($this->service->updateByValue('idRequisitosAdicionales',$idRequisitosAdicionales,'idSolicitud',$idSolicitud)) {
+            $this->returnResponse(SUCESS_RESPONSE, "Se ha actualizado exitosamente la solicitud.");
+        } else {
+            $this->throwError(UPDATED_ERROR, "An error has been ocurred");
+        }
+    }
+
+    /**Hasta qui codigo basura  */
 }
