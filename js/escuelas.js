@@ -1,90 +1,178 @@
 //falta agregar las funciones de actulizar y eliminar 
 const auxToken = [];
+const strFormInject = '<form id="formAddEscuelas">'
+                    +  '<div class="row">'
+                    +      '<div class="col-sm-8 ">'
+                    +          '<div class="form-group mb-4">'
+                    +              '<label for="inputGroupFile01">Constancia de estudios o Boleta en PDF</label>'
+                    +              '<div class="custom-file">' 
+                    +                   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
+                    +                   '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
+                    +              '</div>'
+                    +          '</div>'
+
+                    +          '<div class="form-group mb-4">'
+                    +              '<input type="text" class="form-control" name="nombre" placeholder="Nombre de la institucion...">'
+                    +          '</div>'
+
+                    +           '<div class="row">'
+                    +               '<div class="col-md-8">'
+                    +                   '<div class="form-group">'
+                    +                       '<input type="text" class="form-control" name="calle" placeholder="Calle">'
+                    +                   '</div>'
+                    +               '</div>'
+                    +               '<div class="col-md-2">'
+                    +                   '<div class="form-group">'
+                    +                       '<input type="text" class="form-control" name="no" placeholder="#">'
+                    +                    '</div>'
+                    +                '</div>'
+                    +               '<div class="col-md-2">'
+                    +                  '<div class="form-group">'
+                    +                       '<input type="text" class="form-control" name="cp" placeholder="Cp">'
+                    +                   '</div>'
+                    +               '</div>'
+                    +           '</div>'
+
+                    +           '<div class="row">'
+                    +               '<div class="col-md-6">'
+                    +                   '<div class="form-group">'
+                    +                       '<input type="text" class="form-control" name="colonia" placeholder="Colonia">'
+                    +                   '</div>'
+                    +               '</div>'
+                    +               '<div class="col-md-6">'
+                    +                   '<div class="form-group">'
+                    +                       '<input type="text" class="form-control" name="municipio" placeholder="Municipio">'
+                    +                   '</div>'
+                    +               '</div>'
+                    +            '</div>'
+
+                    +           '<div class="row">'
+                    +               '<div class="col-md-6">' 
+                    +                   '<div class="form-group">'
+                    +                       '<input type="text" class="form-control" name="telefono" placeholder="Telefono">'
+                    +                   '</div>'
+                    +               '</div>'
+                    +               '<div class="col-md-6">'
+                    +                   '<div class="form-group">'
+                    +                       '<input type="text" class="form-control" name="tipoInstitucion" placeholder="Tipo de Institucion">'
+                    +                   '</div>'
+                    +               '</div>'
+                    +            '</div>'
+                    +       '</div>'
+
+                    +      '<div class="col-sm-4">'
+                    +          '<div style="height: 90%; background-color: rgba(255,0,0,0.1);">'
+                    +              '<iframe id="iframeContainer" class="w-100 h-100" src="" title="Evidencia"> </iframe>'                    
+                    +          '</div>'
+                    +      '</div>'
+                    +  '</div>'
+                    + '</div>'
+
+                    +  '<div class="row"> '
+                    +      '<div class="col-sm">'
+                    +          '<button type="submit" class="btn btn-primary btn-user btn-block">'
+                    +              'Siguiente'                    
+                    +          '</button>'
+                    +      '</div>'
+                    +  '</div>'
+                    + '</form>';
+
 
 $(function () {
     console.log("escuelas");
     auxToken[0] = window.localStorage.getItem('auxToken');
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const folio = urlParams.get('folio');
+    const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
+
+
+    syncronizarFormEscuelas(hiddenInputFolio);
+    
     if ($('#bodyEscuelasTable').length)
         readEscuelasPaginadas(1);
         
     formDatoisDone('idEscuela',1);
 });
 
-$("#formAddEscuelas").validate({
-    rules: {
-        nombre: { required: true, minlength: 10 },
-        calle: { required: true },
-        no: { required: true },
-        cp: { required: true },
-        colonia: { required: true },
-        municipio: { required: true },
-        telefono: { regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
-        tipoInstitucion: { required: true },
-        file: { required: true },
-    },
-    messages: {
-        nombre: { required: 'Teclea el nombre por favor', minlength: 'Agregar nombre completo' },
-        calle: { required: 'Teclea la calle por favor' },
-        no: { required: 'Agrega el numero' },
-        cp: { required: 'teclea el codigo postal' },
-        colonia: { required: 'Teclea la colonia' },
-        municipio: { required: 'Teclea el municipio' },
-        telefono: { required: 'Agrega el telefono' },
-        tipoInstitucion: { required: 'Seleciona el tipo de institucion' },
-        file: { required : "Seleccione el archivo"}
-    },
-    submitHandler: function () {
-        console.log("================ Agregar Escuela ===============");
-        let data = {
-            name: "addEscuela",
-            param: {
-                ...getFormData($("#formAddEscuelas")),
-                file: blobPdf[0]
-            }
-        }
+function syncronizarFormEscuelas(hiddenInputFolio){
+    $('#injectedForm').append(hiddenInputFolio+strFormInject);
 
-        console.log(data);
-
-
-        request('/educacion/Api/apiEscuelas.php', data, function (res) {
-            console.log(res);
-            if (res.hasOwnProperty('error')) {
-                alert(res.error.message);
-                return
-            }
-
-            if (!res.response.status >= 200 && !res.response.status < 300) {
-                mostrarRequestAlerResult(res.response.status);
-                return;
-            }
-
-            let folio = parseInt($('#folio').val());
-            let inserted = res.response.result;
-
-            let dataUpdateSolicitud = {
-                name: "updateSolicitudIdEscuela",
+    $("#formAddEscuelas").validate({
+        rules: {
+            nombre: { required: true, minlength: 10 },
+            calle: { required: true },
+            no: { required: true },
+            cp: { required: true },
+            colonia: { required: true },
+            municipio: { required: true },
+            telefono: { regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
+            tipoInstitucion: { required: true },
+            file: { required: true },
+        },
+        messages: {
+            nombre: { required: 'Teclea el nombre por favor', minlength: 'Agregar nombre completo' },
+            calle: { required: 'Teclea la calle por favor' },
+            no: { required: 'Agrega el numero' },
+            cp: { required: 'teclea el codigo postal' },
+            colonia: { required: 'Teclea la colonia' },
+            municipio: { required: 'Teclea el municipio' },
+            telefono: { required: 'Agrega el telefono' },
+            tipoInstitucion: { required: 'Seleciona el tipo de institucion' },
+            file: { required : "Seleccione el archivo"}
+        },
+        submitHandler: function () {
+            console.log("================ Agregar Escuela ===============");
+            let data = {
+                name: "addEscuela",
                 param: {
-                    idSolicitud: folio,
-                    idEscuela: inserted
+                    ...getFormData($("#formAddEscuelas")),
+                    file: blobPdf[0]
                 }
             }
-
-            console.log(dataUpdateSolicitud);
-
-            request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
+    
+            console.log(data);
+    
+    
+            request('/educacion/Api/apiEscuelas.php', data, function (res) {
                 console.log(res);
                 if (res.hasOwnProperty('error')) {
                     alert(res.error.message);
+                    return
+                }
+    
+                if (!res.response.status >= 200 && !res.response.status < 300) {
+                    mostrarRequestAlerResult(res.response.status);
                     return;
                 }
-
-                let status = res.response.status;
-                status ? location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
+    
+                let folio = parseInt($('#folio').val());
+                let inserted = res.response.result;
+    
+                let dataUpdateSolicitud = {
+                    name: "updateSolicitudIdEscuela",
+                    param: {
+                        idSolicitud: folio,
+                        idEscuela: inserted
+                    }
+                }
+    
+                console.log(dataUpdateSolicitud);
+    
+                request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
+                    console.log(res);
+                    if (res.hasOwnProperty('error')) {
+                        alert(res.error.message);
+                        return;
+                    }
+    
+                    let status = res.response.status;
+                    status ? location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
+                },auxToken[0]);
             },auxToken[0]);
-        },auxToken[0]);
-    }
-});
+        }
+    });
+}
 
 const readEscuelasPaginadas = (page) => {
     console.log(`============== Mostrar escuelas pagina: ${page} ================`);

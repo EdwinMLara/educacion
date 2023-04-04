@@ -1,15 +1,11 @@
 const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
     'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    
+
 const BECAS = {
     aceptadas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     rechazadas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     pendientes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 };
-
-
-const DATA_COUNT = 7;
-const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 
 const labels = MONTHS;
 
@@ -20,18 +16,18 @@ const data = {
         {
             label: 'Aceptadas',
             data: BECAS.aceptadas,
-            backgroundColor: '#59E03E',
+            backgroundColor: '#59E03E'
         },
         {
             label: 'Rechazadas',
             data: BECAS.rechazadas,
-            backgroundColor: '#FF2929',
+            backgroundColor: '#FF2929'
         }
         ,
         {
             label: 'pendientes',
             data: BECAS.pendientes,
-            backgroundColor: '#DDB14D',
+            backgroundColor: '#DDB14D'
         }
     ]
 };
@@ -118,7 +114,7 @@ $(function () {
                 case dateMonth >= 2 && dateMonth < 3:
                     indice = 2;
                     break;
-                case dateMonth >= 3 && dateMonth< 4:
+                case dateMonth >= 3 && dateMonth < 4:
                     indice = 3;
                     break;
                 case dateMonth >= 4 && dateMonth < 5:

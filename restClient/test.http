@@ -35,7 +35,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0MTY0M
 
 post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjU0MTY0MzIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NTQyMjQzMiwidXNlcklkIjoiOCJ9.qzTZ9r_KQO3lW-mgBXJ3t5y-Zsq7SdhDlIbKLdaDkTg
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzU3OTAzNzksImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3NTc5NjM3OSwidXNlcklkIjoiMSJ9.ezIt76oK7iTBAHjl3RiOCV1UyfHdxOqzxA74PgnqCKM
 
 {
     "name":"getUsers",
@@ -76,7 +76,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjM4NzEzM
 
 post http://localhost/educacion/Api/apiUsuarios.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njc0OTQxNDIsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY2NzUwMDE0MiwidXNlcklkIjoiOCJ9.Y3Bq8FYb_WhecUBzUjD3yYv5_KTltGNepTPC5PT8taE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgxMjU1MjEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3ODEzMTUyMSwidXNlcklkIjoiMSJ9.UdrjU3nZ7luahIz079WGQYnWORjBCThEvlTccnlv5xo
 
 {
     "name":"getUserPaginate",

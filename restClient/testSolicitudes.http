@@ -50,12 +50,38 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjY5NzY2M
 
 post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzAyNTkyNzYsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3MDI2NTI3NiwidXNlcklkIjoiMSJ9.ljFHfiCpwloT01tcV6O9aKjE_nj1GEf97-nNzp3oXjM
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzU4NzU4OTYsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3NTg4MTg5NiwidXNlcklkIjoiMSJ9.uR_08rz4Sn5K_wQ9KEfYKQdpFfY50PpAaFXAjN2fw9c
 
 {
     "name":"getSolicitudesPaginate",
     "param":{
         "page":1,
         "perPage":10
+    }
+}
+
+### Paginador de solicitudes
+
+post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgxMjU1MjEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3ODEzMTUyMSwidXNlcklkIjoiMSJ9.UdrjU3nZ7luahIz079WGQYnWORjBCThEvlTccnlv5xo
+
+{
+    "name":"getSolicitudByIdAlumno",
+    "param":{
+        "idAlumno":45
+    }
+}
+
+### get solicitud by id
+
+post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgxMzI2MTEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3ODEzODYxMSwidXNlcklkIjoiMSJ9._e7dIwLahOc0TgYwfXbTWjYCgQrtu0PmbmUM8ixxwts
+
+{
+    "name":"getSolicitudById",
+        "param":{
+        "idSolicitud":"25"
     }
 }

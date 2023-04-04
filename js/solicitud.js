@@ -6,97 +6,134 @@
 const auxToken = [];
 let solicitudes = [];
 
+
 $(function () {
     console.log('solicitud');
     auxToken[0] = window.localStorage.getItem('auxToken');
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const folio = urlParams.get('folio');
+
+    syncronizarFormSolicitud(folio)
+    
     paginar(1);
     formDatoisDone(null, 6);
 });
 
+function syncronizarFormSolicitud(folio){
 
-$('#formUpdateSolicitud').validate({
-    rules: {
-        nivelEstudios: {
-            required: true
+    
+const strFormInject = '<form id="formUpdateSolicitud">'
+                    
++       `<input type='hidden' value=\"${folio} \" id='folio'>`
+
++       '<div class="form-group">'
++            '<label>Nivel de Estudios</label>'
++            '<select class="form-control" name="nivelEstudios" aria-label="Floating label select example">'
++                '<option value=""></option>'
++                '<option value="primaria">Primaria</option>'
++                '<option value="secundaria">Secundaria</option>'
++                '<option value="preparatoria">Preparatoria</option>'
++                '<option value="universidad">Univesidad</option>'
++                '<option value="caso especial">Caso Especial</option>'
++             '</select>'
++       '</div>'
+
++       '<div class="form-group">'
++           '<input type="text" class="form-control" name="promedioReciente" placeholder="Promedio Reciente">'
++       '</div>'
+
++       '<button type="submit" class="btn btn-primary btn-user btn-block">'
++           'Solicitar'
++       '</button>'
+
++ '</form>';
+    $('#injectedForm').append(strFormInject);
+
+    $('#formUpdateSolicitud').validate({
+        rules: {
+            nivelEstudios: {
+                required: true
+            },
+            promedioReciente: {
+                required: true,
+                min: 0,
+                max: 10
+            }
         },
-        promedioReciente: {
-            required: true,
-            min: 0,
-            max: 10
-        }
-    },
-    messages: {
-        nivelEstudios: {
-            required: 'Agrege el nivel de estudios'
+        messages: {
+            nivelEstudios: {
+                required: 'Agrege el nivel de estudios'
+            },
+            promedioReciente: {
+                required: 'tecle el promedio del perido pasado',
+                min: 'agrege valor mayor a 0',
+                max: 'agrege valor menor a 10'
+            }
         },
-        promedioReciente: {
-            required: 'tecle el promedio del perido pasado',
-            min: 'agrege valor mayor a 0',
-            max: 'agrege valor menor a 10'
-        }
-    },
-    submitHandler: function (res) {
-        console.log("================ Registrar solicitud de beca ===============");
+        submitHandler: function (res) {
+            console.log("================ Registrar solicitud de beca ===============");
 
-        let dataUpdateSolicitud = {
-            name: "updateSolicitud",
-            param: getFormData($("#formUpdateSolicitud"))
-        }
-
-        console.log(dataUpdateSolicitud);
-        request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-
-            if (res.hasOwnProperty('error')) {
-                alert(res.error.message);
-                return;
+            let dataUpdateSolicitud = {
+                name: "updateSolicitud",
+                param: getFormData($("#formUpdateSolicitud"))
             }
 
-            if (!res.response.status >= 200 && !res.response.status < 300) {
-                mostrarRequestAlerResult(res.response.status);
-                return;
-            }
-
-            let status = res.response.status;
-
-            if (!status) {
-                alert('Se ha generado un error comuniquese al area de becas!')
-                return;
-            }
-
-            let dataGetSolicitudById = {
-                name: "getSolicitudById",
-                param: {
-                    idSolicitud: dataUpdateSolicitud.param.idSolicitud
-                }
-            }
-
-            console.log(dataGetSolicitudById);
-
-            request('/educacion/Api/apiSolicitudes.php', dataGetSolicitudById, function (res) {
+            console.log(dataUpdateSolicitud);
+            request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
 
                 if (res.hasOwnProperty('error')) {
                     alert(res.error.message);
                     return;
                 }
 
+                if (!res.response.status >= 200 && !res.response.status < 300) {
+                    mostrarRequestAlerResult(res.response.status);
+                    return;
+                }
+
+                let status = res.response.status;
+
+                if (!status) {
+                    alert('Se ha generado un error comuniquese al area de becas!')
+                    return;
+                }
+
+                let dataGetSolicitudById = {
+                    name: "getSolicitudById",
+                    param: {
+                        idSolicitud: dataUpdateSolicitud.param.idSolicitud
+                    }
+                }
+
+                console.log(dataGetSolicitudById);
+
+                request('/educacion/Api/apiSolicitudes.php', dataGetSolicitudById, function (res) {
+
+                    if (res.hasOwnProperty('error')) {
+                        alert(res.error.message);
+                        return;
+                    }
 
 
-                customizeConfirm("Se ha completado su registro, puede imprimir su solicitud", true)
-                    .then(result => {
-                        if (result === null) {
-                            return
-                        }
-                        location.href = 'https://uriangato.gob.mx/'
-                    }).catch(result => {
-                        console.log(result);
-                    })
 
-                createSolicitudPdf(res.response.result[0]);
+                    customizeConfirm("Se ha completado su registro, puede imprimir su solicitud", true)
+                        .then(result => {
+                            if (result === null) {
+                                return
+                            }
+                            location.href = 'https://uriangato.gob.mx/'
+                        }).catch(result => {
+                            console.log(result);
+                        })
+
+                    createSolicitudPdf(res.response.result[0]);
+                }, auxToken[0]);
+
             }, auxToken[0]);
-
-        }, auxToken[0]);
-    }
-});
+        }
+    });
+}
 
 
 const responseUsersFunction = (page, perPage) => {

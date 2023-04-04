@@ -1,6 +1,6 @@
 
 <?php $step = (int)$_GET["step"]?>
-<ul id="navBarSolicitudHeader" class="nav nav-tabs">
+<ul id="navBarSolicitudHeader" class="nav nav-tabs mb-4">
   <li class="nav-item">
     <!-- href="../alumnos/addAlumno.php?step=0" -->
     <a class="nav-link <?php if($step === 0){ echo "active";}?>">Datos del Alumno</a>
