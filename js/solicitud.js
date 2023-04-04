@@ -25,7 +25,7 @@ function syncronizarFormSolicitud(folio){
     
 const strFormInject = '<form id="formUpdateSolicitud">'
                     
-+       `<input type='hidden' value=\"${folio} \" id='folio'>`
++       `<input type='hidden' name="idSolicitud"  value=\"${folio}\" id='folio'>`
 
 +       '<div class="form-group">'
 +            '<label>Nivel de Estudios</label>'
@@ -48,6 +48,8 @@ const strFormInject = '<form id="formUpdateSolicitud">'
 +       '</button>'
 
 + '</form>';
+
+
     $('#injectedForm').append(strFormInject);
 
     $('#formUpdateSolicitud').validate({
@@ -78,6 +80,7 @@ const strFormInject = '<form id="formUpdateSolicitud">'
                 name: "updateSolicitud",
                 param: getFormData($("#formUpdateSolicitud"))
             }
+
 
             console.log(dataUpdateSolicitud);
             request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
