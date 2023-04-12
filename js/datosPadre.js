@@ -130,13 +130,22 @@ $(function () {
     formDatoisDone('idPadre',2);
 });
 
+/**
+ * regex for a phone number i dont gonna used anymore
+ * regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' */
+
 function syncronizarFormDatosPadre(hiddenInputFolio){
     $('#injectedForm').append(hiddenInputFolio+strFormInject);
     $('#formAddDatosPadre').validate({
         rules: {
             file: { required: true },
             nombre: { required: true },
-            telefono: { regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' },
+            telefono: {  
+                required:true,
+                number:true,
+                minlength:7,
+                maxlength:10
+            },
             fechaNacimiento: { required: true },
             curp: {
                 regexCurp: '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
@@ -160,6 +169,12 @@ function syncronizarFormDatosPadre(hiddenInputFolio){
         messages: {
             file: { required : "Seleccione el archivo"},
             nombre: { required: 'Agrege el nombre' },
+            telefono:{
+                required:'Agrega el numero de telefono',
+                number:'solo se aceptan numeros',
+                minlength:'el numero es muy corto',
+                maxlength:'el numero esta incorrecto es muy largo'
+            },
             calle: { required: 'Agrege la calle' },
             no: { required: 'Agrege el numero' },
             colonia: { required: 'Agrege la colonia' },
