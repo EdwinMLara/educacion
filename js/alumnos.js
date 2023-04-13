@@ -175,6 +175,7 @@ function syncronizarForm (){
                     }
     
                     let folio = res.response.result;
+                    window.localStorage.setItem('current_curp', data.param.curp);
                     res.response.status ? location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
                 },auxToken[0]);
             },auxToken[0]);
@@ -201,7 +202,8 @@ const checkIfCurpExist = (e) => {
             curp: $("input[name='curp']").val()
         }
     }
-    console.log(dataCheckCurp);
+
+    window.localStorage.setItem('current_curp', dataCheckCurp.param.curp);
 
     request('/educacion/Api/apiAlumnos.php', dataCheckCurp, function (res) {
         console.log("Revisar Curp");

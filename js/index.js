@@ -872,15 +872,14 @@ const formDatoisDone = (idKeyNameForm,step) => {
                     return;
 
                 if (key === "file") {
-                    var visor = new FileReader();
                     const targetElement = document.querySelector('#iframeContainer');
                     blobPdf[0] = datos[key];
                     targetElement.src = datos[key];
-                    visor.readAsDataURL(datos[key]);
+                    return;
                 }
-                console.log(key);
 
                 let input = $(`input[name="${key}"]`);
+                
                 if (input.attr('type') !== undefined){
                     input.val(datos[key]);
                     return

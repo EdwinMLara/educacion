@@ -124,8 +124,11 @@ $(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const folio = urlParams.get('folio');
     const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
-
-    syncronizarFormDatosPadre(hiddenInputFolio);
+    
+    const current_curp = window.localStorage.getItem('current_curp');
+    console.log(current_curp);
+    
+    syncronizarFormDatosPadre(hiddenInputFolio,current_curp);
     
     formDatoisDone('idPadre',2);
 });
@@ -134,8 +137,20 @@ $(function () {
  * regex for a phone number i dont gonna used anymore
  * regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' */
 
-function syncronizarFormDatosPadre(hiddenInputFolio){
+function syncronizarFormDatosPadre(hiddenInputFolio,current_curp){
     $('#injectedForm').append(hiddenInputFolio+strFormInject);
+
+    $.validator.addMethod(
+        "curpPadreAlumno",
+        function (value, element, current_curp) {
+            console.log(current_curp,"  ",value); 
+            /*if (current_curp.localeCompare(value) === 0)
+                return true;*/
+            return false;
+        },
+        "Esta es la curp del alumno"
+    );
+
     $('#formAddDatosPadre').validate({
         rules: {
             file: { required: true },
@@ -154,7 +169,8 @@ function syncronizarFormDatosPadre(hiddenInputFolio){
                     + '(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)'
                     + '[B-DF-HJ-NP-TV-Z]{3}'
                     + '[0-9A-Z]{1}'
-                    + '[0-9]{1}$'
+                    + '[0-9]{1}$',
+                curpPadreAlumno: current_curp
             },
             calle: { required: true },
             no: { required: true },
