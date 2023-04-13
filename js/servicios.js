@@ -1,6 +1,6 @@
 const auxToken = [];
 const strFormInject = '<form id="formAddServicios">'
-                    +  '<div class="row">'
+                    +  '<div class="row mb-4">'
                     +      '<div class="col-sm-8 ">'
 
                     +          '<div class="form-group mb-4">'
