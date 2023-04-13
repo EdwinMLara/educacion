@@ -27,7 +27,7 @@
             $this->calle = $calle;
             $this->no = $no;
             $this->colonia = $colonia;
-            $this->calle = $cp;
+            $this->cp = $cp;
             $this->municipio = $municipio;
             $this->gradoEstudios = $gradoEstudios;
             $this->trabajo6Meses = $trabajo6Meses;
