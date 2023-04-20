@@ -1,5 +1,5 @@
 <?php
-    require_once("../share/modalConfirm.php");
+    require_once("../share/verificacionCorreoModal.php");
     require_once("../share/plantilla.php");
     require_once("../share/headerPlantillaLibraries.php");
 ?>

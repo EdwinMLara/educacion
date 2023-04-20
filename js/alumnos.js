@@ -1,47 +1,51 @@
 const auxToken = [];
 const strFormInject = '<form id="formAddAlumnos">'
 
-                    +  '<div class="row">'
-                    +      '<div class="col-sm-8 ">'
+    + '<div class="row">'
+    + '<div class="col-sm-8 ">'
 
-                    +          '<div class="form-group mb-4">'
-                    +              '<label for="inputGroupFile01">Acta de nacimiento en PDF</label>'
-                    +              '<div class="custom-file">' 
-                    +                   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
-                    +                   '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
-                    +              '</div>'
-                    +          '</div>'
+    + '<div class="form-group mb-4">'
+    + '<input type="text" class="form-control" name="curp" placeholder="Curp" onchange="checkIfCurpExist(this)">'
+    + '</div>'
 
-                    +          '<div class="form-group mb-4">'
-                    +              '<input type="text" class="form-control" name="curp" placeholder="Curp" onchange="checkIfCurpExist(this)">'
-                    +          '</div>'
+    + '<div class="form-group mb-4">'
+    + '<label for="inputGroupFile01">Acta de nacimiento en PDF</label>'
+    + '<div class="custom-file">'
+    + '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
+    + '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
+    + '</div>'
+    + '</div>'
 
-                    +          '<div class="form-group mb-4">'
-                    +              '<input type="text" class="form-control" name="nombre" placeholder="Nombre del estudiante">'
-                    +          '</div>'
+    + '<div class="form-group mb-4">'
+    + '<input type="text" class="form-control" name="correo" placeholder="Correo">'
+    + '</div>'
 
-                    +          '<div class="form-group mb-4">'
-                    +              '<label>Fecha de nacimiento</label>'
-                    +              '<input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">'
-                    +          '</div>'
+    + '<div class="form-group mb-4">'
+    + '<input type="text" class="form-control" name="nombre" placeholder="Nombre del estudiante">'
+    + '</div>'
 
-                    +      '</div>'
+    + '<div class="form-group mb-4">'
+    + '<label>Fecha de nacimiento</label>'
+    + '<input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">'
+    + '</div>'
 
-                    +      '<div class="col-sm-4">'
-                    +          '<div style="height: 90%; background-color: rgba(255,0,0,0.1);">'
-                    +              '<iframe id="iframeContainer" class="w-100 h-100" src="" title="Evidencia"> </iframe>'                    
-                    +          '</div>'
-                    +      '</div>'
-                    +  '</div>'
+    + '</div>'
 
-                    +  '<div class="row"> '
-                    +      '<div class="col-sm">'
-                    +          '<button type="submit" class="btn btn-primary btn-user btn-block">'
-                    +              'Registrar Alumno'                    
-                    +          '</button>'
-                    +      '</div>'
-                    +  '</div>'
-                    + '</form>';
+    + '<div class="col-sm-4">'
+    + '<div style="height: 90%; background-color: rgba(255,0,0,0.1);">'
+    + '<iframe id="iframeContainer" class="w-100 h-100" src="" title="Evidencia"> </iframe>'
+    + '</div>'
+    + '</div>'
+    + '</div>'
+
+    + '<div class="row"> '
+    + '<div class="col-sm">'
+    + '<button type="submit" class="btn btn-primary btn-user btn-block">'
+    + 'Registrar Alumno'
+    + '</button>'
+    + '</div>'
+    + '</div>'
+    + '</form>';
 
 
 $(function () {
@@ -84,6 +88,7 @@ $(function () {
             console.log(xhr, resp, text);
         }
     });
+
 });
 
 /** Mi curp para probar
@@ -101,13 +106,17 @@ const strRegexCurp = '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
     + '[0-9A-Z]{1}'
     + '[0-9]{1}$';
 
-function syncronizarForm (){
+function syncronizarForm() {
     $('#injectedForm').append(strFormInject);
 
     $('#formAddAlumnos').validate({
         onkeyup: false,
         rules: {
             file: { required: true },
+            correo: {
+                required: true,
+                email: true
+            },
             curp: { regexCurp: strRegexCurp },
             nombre: {
                 required: true,
@@ -116,7 +125,11 @@ function syncronizarForm (){
             fechaNacimiento: { required: true }
         },
         messages: {
-            file: { required : "Seleccione el archivo"},
+            file: { required: "Seleccione el archivo" },
+            correo: {
+                required: "Agregar el email",
+                email: 'el correo es invalido'
+            },
             nombre: {
                 required: 'Agrege el nombre del alumno....',
                 minlength: 'Nombre completo por favor'
@@ -125,7 +138,7 @@ function syncronizarForm (){
         },
         submitHandler: function (form) {
             console.log("================ Registrar alumno para solicitar beca ===============");
-    
+
             let data = {
                 name: "addAlumno",
                 param: {
@@ -133,21 +146,21 @@ function syncronizarForm (){
                     file: blobPdf[0]
                 }
             }
-    
+
             request('/educacion/Api/apiAlumnos.php', data, function (res) {
                 console.log(res);
                 if (res.hasOwnProperty('error')) {
                     alert(res.error.message);
                     return;
                 }
-    
+
                 if (!res.response.status) {
                     mostrarRequestAlerResult(res.response.status);
                     return;
                 }
                 let inserted = res.response.result;
                 console.log(inserted);
-    
+
                 let dataSolicitud = {
                     name: "addSolicitude",
                     param: {
@@ -163,9 +176,9 @@ function syncronizarForm (){
                         fecha: new Date().toISOString().slice(0, 10)
                     }
                 }
-    
+
                 console.log(dataSolicitud);
-    
+
                 request('/educacion/Api/apiSolicitudes.php', dataSolicitud, function (res) {
                     console.log(res);
                     if (res.hasOwnProperty('error')) {
@@ -173,15 +186,15 @@ function syncronizarForm (){
                         expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
                         return;
                     }
-    
+
                     let folio = res.response.result;
                     window.localStorage.setItem('current_curp', data.param.curp);
                     res.response.status ? location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
-                },auxToken[0]);
-            },auxToken[0]);
+                }, auxToken[0]);
+            }, auxToken[0]);
         }
     });
-    
+
 }
 
 
@@ -190,7 +203,7 @@ function syncronizarForm (){
 const checkIfCurpExist = (e) => {
     console.log("================ revisar si ya existe la curp ===============")
     const globalRegex = new RegExp(strRegexCurp, 'g');
-    
+
     if (!globalRegex.test(e.value)) {
         console.log("curp no valida");
         return
@@ -207,7 +220,6 @@ const checkIfCurpExist = (e) => {
 
     request('/educacion/Api/apiAlumnos.php', dataCheckCurp, function (res) {
         console.log("Revisar Curp");
-        console.log(res);
 
         if (res.hasOwnProperty('error')) {
             alert(res.error.message);
@@ -225,52 +237,98 @@ const checkIfCurpExist = (e) => {
         $("input[name='nombre']").val(check[0].nombre);
         $("input[name='fechaNacimiento']").val(check[0].fechaNacimiento);
 
-        if (!confirm('Ya hay una Solicitud ligada a esta CURP, desea continuar con el llenado'))
-            return
 
-        let dataGetSolicitud = {
-            name: "getSolicitudByIdAlumno",
+        verificarCorreo(3, auxToken[0])
+            .then((result) => {
+                console.log(result);
+
+                let dataGetSolicitud = {
+                    name: "getSolicitudByIdAlumno",
+                    param: {
+                        idAlumno: check[0].idAlumno
+                    }
+                }
+
+                request('/educacion/Api/apiSolicitudes.php', dataGetSolicitud, function (res) {
+        
+                    if (res.hasOwnProperty('error')) {
+                        alert(res.error.message);
+                        return;
+                    }
+        
+                    let Solicitud = res.response.result;
+        
+                    if (parseInt(Solicitud.idEscuela) < 0) {
+                        location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${Solicitud.idSolicitud}`
+                        return
+                    }
+                    if (parseInt(Solicitud.idPadre) < 0) {
+                        location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${Solicitud.idSolicitud}`
+                        return;
+                    }
+         
+                    if (parseInt(Solicitud.idIngresosFamiliares) < 0) {
+                        location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${Solicitud.idSolicitud}`
+                        return
+                    }
+         
+                    if (parseInt(Solicitud.idServicios) < 0) {
+                        location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${Solicitud.idSolicitud}`;
+                        return
+                    }
+         
+                    if (parseInt(Solicitud.idRequisitosAdicionales) < 0) {
+                        location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${Solicitud.idSolicitud}`
+                        return
+                    }
+        
+                    (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada');
+                }, auxToken[0]);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, auxToken[0]);
+}
+
+const verificarCorreo = async (idAlumno, token) => {
+    return new Promise((resolve, reject) => {
+        let modalVerification = $('#modalCorreoVerificacion');
+        modalVerification.css({
+            "top": "200px"
+        });
+        modalVerification.modal('toggle');
+
+        let dataCorreoVerificacion = {
+            name: "correoVerificacion",
             param: {
-                idAlumno: check[0].idAlumno
+                idAlumno
             }
         }
 
-        request('/educacion/Api/apiSolicitudes.php', dataGetSolicitud, function (res) {
-            console.log(res);
+        request('/educacion/Api/apiSolicitudes.php', dataCorreoVerificacion, function (res) {
+            if (res.response.status == 200) {
 
-            if (res.hasOwnProperty('error')) {
-                alert(res.error.message);
-                return;
+                $("#verificar-acepted-button").on("click", function (clickEvent) {
+
+
+
+                    let userValidationvalue = $("input[name='validationKey']").val();
+                    if (userValidationvalue.localeCompare(res.response.result.validationKey) === 0)
+                        resolve("Se ha verificado correctamente")
+                    else {
+                        clickEvent.preventDefault();
+                        clickEvent.stopPropagation();
+                        $("#alert").append('<div class="alert alert-danger"><strong>Error!</strong> La verificacion es incorrecta </div>')
+                    }
+                });
+
+                $("#verificar-rejected-button").on("click", function () {
+                    reject("se ha cancelado la verificacion")
+                });
             }
+        }, token);
 
-            let Solicitud = res.response.result;
-            console.log(Solicitud);
-
-            if (parseInt(Solicitud.idEscuela) < 0) {
-                location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${Solicitud.idSolicitud}`
-                return
-            }
-            if (parseInt(Solicitud.idPadre) < 0) {
-                location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${Solicitud.idSolicitud}`
-                return;
-            }
-
-            if (parseInt(Solicitud.idIngresosFamiliares) < 0) {
-                location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${Solicitud.idSolicitud}`
-                return
-            }
-
-            if (parseInt(Solicitud.idServicios) < 0) {
-                location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${Solicitud.idSolicitud}`;
-                return
-            }
-
-            if (parseInt(Solicitud.idRequisitosAdicionales) < 0) {
-                location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${Solicitud.idSolicitud}`
-                return
-            }
-
-            (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada');
-        },auxToken[0]);
-    },auxToken[0]);
+    });
 }

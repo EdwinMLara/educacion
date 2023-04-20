@@ -70,18 +70,32 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgxMjU1M
     "name":"getSolicitudByIdAlumno",
     "param":{
         "idAlumno":45
-    }
+    }   
 }
 
 ### get solicitud by id
 
 post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgxMzI2MTEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3ODEzODYxMSwidXNlcklkIjoiMSJ9._e7dIwLahOc0TgYwfXbTWjYCgQrtu0PmbmUM8ixxwts
-
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODIwMDY0OTgsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY4MjAxMjQ5OCwidXNlcklkIjoiMSJ9.ikNt22gjU92uKIpyWZWwIY0nKbkvi7KwSmLZCqFTNSk
 {
     "name":"getSolicitudById",
         "param":{
         "idSolicitud":"25"
+    }
+}
+
+
+### correoVerificacion with id de alumno
+## password mail mjhcxuqmqfusfnoc
+
+post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODIwMDY0OTgsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY4MjAxMjQ5OCwidXNlcklkIjoiMSJ9.ikNt22gjU92uKIpyWZWwIY0nKbkvi7KwSmLZCqFTNSk
+
+{
+    "name":"correoVerificacion",
+        "param":{
+        "idAlumno":3
     }
 }

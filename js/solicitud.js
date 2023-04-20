@@ -346,6 +346,9 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
             return;
         }
 
+        if(key === "validacionKey")
+            return
+
         if (key === "file") {
             //dataURL.replace('data:', '').replace(/^.+,/, '');
             $('#labelFile').html(`<h6>${nameFile}</h6>`);
