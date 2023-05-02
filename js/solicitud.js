@@ -219,6 +219,7 @@ const paginar = (page) => {
     }
 
     request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page, perPage), token);
+
 }
 
 /**hacer funcion para actualizar el status de pendiente a acceptada o rechazada

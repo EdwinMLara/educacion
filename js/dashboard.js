@@ -52,6 +52,40 @@ const config = {
 const ctxTest = document.getElementById('myChart').getContext('2d');
 const chartTest = new Chart(ctxTest, config);
 
+const BECASTOTALES = [0,0,0];
+
+const dataPie = {
+    labels: ['Aceptadas', 'Rechazadas', 'Pendientes'],
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: BECASTOTALES,
+        backgroundColor:['#59E03E','#FF2929','#DDB14D']
+      }
+    ]
+  };
+
+
+const configPie = {
+    type: 'pie',
+    data: dataPie,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Chart.js Pie Chart'
+        }
+      }
+    },
+  };
+
+const ctxPie = document.getElementById('myPieChart').getContext('2d');
+const chartPie = new Chart(ctxPie, configPie);
+
 $(function () {
     console.log("dashboard");
     let dataRequest = {
@@ -65,7 +99,6 @@ $(function () {
             return;
         }
 
-        console.log(res);
         let datos = res.response.result[0];
 
         let usuarios = $('#dashboardUsuarios').empty();
@@ -91,7 +124,7 @@ $(function () {
     }
 
     request('/educacion/Api/apiSolicitudes.php', dataRequestSolicitudes, function (res) {
-        console.log(res);
+
         let solicitudes = res.response.result;
         let sortedDates = solicitudes.reduce((acumulador, solicitud) => {
 
@@ -154,7 +187,18 @@ $(function () {
             return acumulador;
         }, BECAS);
 
+        const aceptadasTotales = BECAS.aceptadas.reduce((aceptadas,aceptada) => aceptadas + aceptada);
+        const rechazadasTotales = BECAS.rechazadas.reduce((rechazadas,rechazada) => rechazadas + rechazada);
+        const pendientesTotales = BECAS.pendientes.reduce((pendientes,pendiente) => pendientes + pendiente);
+
+        BECASTOTALES[0] = aceptadasTotales;
+        BECASTOTALES[1] = rechazadasTotales;
+        BECASTOTALES[2] = pendientesTotales;
+
+        console.log(BECASTOTALES)
+
         chartTest.update();
+        chartPie.update();
         console.log(sortedDates)
     }, token);
 });
