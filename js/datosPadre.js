@@ -144,8 +144,8 @@ function syncronizarFormDatosPadre(hiddenInputFolio,current_curp){
         "curpPadreAlumno",
         function (value, element, current_curp) {
             console.log(current_curp,"  ",value); 
-            /*if (current_curp.localeCompare(value) === 0)
-                return true;*/
+            if (current_curp.localeCompare(value) === 0)
+                return true;
             return false;
         },
         "Esta es la curp del alumno"
