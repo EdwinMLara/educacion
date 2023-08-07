@@ -304,12 +304,30 @@ class SolicitudesRouter extends RestApi
 
         $query = "SELECT * FROM `alumnos` WHERE idAlumno = " . $idAlumno;
         $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
+
+
+        
         
 
         $to      = $alumno[0]->email;
-        $subject = 'Correo de verificación para registro de Beca';
-        $message = $palabra_aleatoria;
+        $nombre  = $alumno[0]->nombre; 
+        $subject = 'Correo de verificación para registro de Beca Uriangato';
+
+        $message = '
+        <html>
+            <head>
+                <title>Verificacion de correo</title>
+            </head>
+            <body>
+                <h2 style="font-weight: bold;">Solicitud de Becas Municipales</h2></br>
+                <h4>Hola <span style="font-weight: bold; color: red;" >'.$nombre.'</span> tu palabra de verificación es: </h4> </br>
+                <p>'.$palabra_aleatoria.'</p>
+            </body>
+        </html>
+        ';
+
         $headers = 'From: emlara35@gmail.com' . "\r\n" .
+            'Content-Type: text/html; charset=UTF-8'. "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
         $mailResult = mail($to, $subject, $message, $headers);
