@@ -23,7 +23,7 @@ $(function () {
 function syncronizarFormSolicitud(folio){
 
     
-const strFormInject = '<form id="formUpdateSolicitud">'
+const strFormInject = '<form id="formUpdateSolicitud" autocomplete="off">'
                     
 +       `<input type='hidden' name="idSolicitud"  value=\"${folio}\" id='folio'>`
 

@@ -1,6 +1,6 @@
 //falta agregar las funciones de actulizar y eliminar 
 const auxToken = [];
-const strFormInject = '<form id="formAddEscuelas">'
+const strFormInject = '<form id="formAddEscuelas" autocomplete="off">'
     + '<div class="row">'
     + '<div class="col-sm-8 ">'
     + '<div class="form-group mb-4">'

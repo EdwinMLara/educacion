@@ -1,6 +1,6 @@
 const auxToken = [];
 
-const strFormInject = '<form id="formAddRequisitosAdicionales">'
+const strFormInject = '<form id="formAddRequisitosAdicionales" autocomplete="off">'
                     
                     +       '<div class="form-group">'
                     +           '<label>La escuela esta dentro del municipio</label>'

@@ -1,6 +1,6 @@
 const auxToken = [];
 
-const strFormInject = '<form id="formAddDatosPadre">'
+const strFormInject = '<form id="formAddDatosPadre" autocomplete="off">'
                     +  '<div class="row">'
                     +      '<div class="col-sm-8 ">'
 

@@ -1,5 +1,5 @@
 const auxToken = [];
-const strFormInject = '<form id="formAddAlumnos">'
+const strFormInject = '<form id="formAddAlumnos" autocomplete="off">'
 
     + '<div class="row">'
     + '<div class="col-sm-8 ">'
