@@ -2,7 +2,6 @@
  * 1 .- la primera vez la solucione con la url tenia una absoluta y la combie a la relativa
  * 2 .- la segunda vez que se genero el error era porque no habia pasado el token
 */
-
 const auxToken = [];
 let solicitudes = [];
 
@@ -50,7 +49,12 @@ const strFormInject = '<form id="formUpdateSolicitud" autocomplete="off">'
 + '</form>';
 
 
-    $('#injectedForm').append(strFormInject);
+    let inject = $('#injectedForm')
+
+    if (inject === undefined)
+        return;
+
+    inject.append(strFormInject);
 
     $('#formUpdateSolicitud').validate({
         rules: {
@@ -445,3 +449,7 @@ $("input[name=search]").on('change', function () {
 
     request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page, perPage), token);
 });
+
+$('#descargar').on('click',function (){
+    console.log("descargar");
+})
