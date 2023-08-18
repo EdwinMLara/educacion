@@ -306,9 +306,6 @@ class SolicitudesRouter extends RestApi
         $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
 
 
-        
-        
-
         $to      = $alumno[0]->email;
         $nombre  = $alumno[0]->nombre; 
         $subject = 'Correo de verificación para registro de Beca Uriangato';
@@ -336,6 +333,57 @@ class SolicitudesRouter extends RestApi
             $this->returnResponse(SUCESS_RESPONSE,[
                 "mail" => $mailResult,
                 "validationKey" => $palabra_aleatoria
+            ]);
+        else
+            $this->throwError(UPDATED_ERROR, "A ocurrido en error con el correo");
+    }
+
+    public function correoRespuestaAceptacionBeca(){
+        $id_solicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $statusBeca = $this->validateParameter('statusBeca', $this->param["statusBeca"], INTEGER) ;
+        $respuesta = $this->validateParameter('respuesta',$this->param["respuesta"],STRING);
+
+        
+        $solicitud = $this->service->getByField("idSolicitud",$id_solicitud);
+        $query = "SELECT * FROM `alumnos` WHERE idAlumno = " . $solicitud->idAlumno;
+        $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
+
+        $to = $alumno[0]->email;
+        $subject = 'Resultado Solicitudes Becas Municipio de Uriangato';
+        $nombre = $alumno[0]->nombre;
+        $statusMessageRespuesta = "";
+        $link = "";
+        
+        if($statusBeca){
+            $statusMessageRespuesta = "Nos complace informale que su solicitud de beca ha si aceptada";
+            $link = '<a href="https://www.uriangato.com/formato?folio=URF-'.$id_solicitud.'">Descargar Formato</a>';
+        }else{
+            $statusMessageRespuesta = "Lamentamos informarle que su solicitud ha sido rechazada, debido ha QUE:";
+        }
+
+        $message = '
+        <html>
+            <head>
+                <title>Resultado Beca Uriangato</title>
+            </head>
+            <body>
+                <h2 style="font-weight: bold;">Solicitud de Becas Municipales</h2></br>
+                <h5> Apreciable <span style="font-weight: bold; color: red;" >'.$nombre.'</span> '.$statusMessageRespuesta.'</h5> </br>
+                <h5>'.$respuesta.'<h5> <br/>
+                '.$link.'
+            </body>
+        </html>
+        ';
+
+        $headers = 'From: emlara35@gmail.com' . "\r\n" .
+            'Content-Type: text/html; charset=UTF-8'. "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        $mailResult = mail($to, $subject, $message, $headers);
+    
+        if($mailResult)
+            $this->returnResponse(SUCESS_RESPONSE,[
+                "mail" => $mailResult
             ]);
         else
             $this->throwError(UPDATED_ERROR, "A ocurrido en error con el correo");
