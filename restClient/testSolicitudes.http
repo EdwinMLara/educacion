@@ -50,7 +50,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjY5NzY2M
 
 post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzU4NzU4OTYsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY3NTg4MTg5NiwidXNlcklkIjoiMSJ9.uR_08rz4Sn5K_wQ9KEfYKQdpFfY50PpAaFXAjN2fw9c
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTIwMzM2MjEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY5MjAzOTYyMSwidXNlcklkIjoiMSJ9.7NTxuRv_4wcoZN_Z09y_RAXy2y5IoFzI8VS2kUAGtNc
 
 {
     "name":"getSolicitudesPaginate",
@@ -98,4 +98,19 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTE0MzE1N
         "param":{
         "idAlumno":3
     }
+}
+
+### correoVerificacion de aceptacion de rechazo
+
+post http://localhost/educacion/Api/apiSolicitudes.php HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTIwMzM2MjEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY5MjAzOTYyMSwidXNlcklkIjoiMSJ9.7NTxuRv_4wcoZN_Z09y_RAXy2y5IoFzI8VS2kUAGtNc
+
+{
+    "name":"correoRespuestaAceptacionBeca",
+    "param":{
+            "idSolicitud":3,
+            "statusBeca":0,
+            "respuesta":"Su solicitud se encuentra incompleta"
+        }
 }
