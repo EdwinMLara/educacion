@@ -451,5 +451,23 @@ $("input[name=search]").on('change', function () {
 });
 
 $('#descargar').on('click',function (){
-    console.log("descargar");
+    let folio = $("input[name=folio]").val();
+
+    let pattern = /(URI)-\d{2}-\d+/g;
+    let result = pattern.test(folio);
+
+    if(!result){
+        alert(`El folio ${folio} es invalido!`);
+        return;
+    }
+    /** regex para validar folio del tipo URI-n */
+    let id = folio.split("-");
+    let data = {
+        name:"",
+        param:{
+            folio: parseInt(id[1])
+        }
+    }
+    console.log(data);
+    /*request('/educacion/Api/apiSolicitudes.php',data,function (){},token)*/
 })

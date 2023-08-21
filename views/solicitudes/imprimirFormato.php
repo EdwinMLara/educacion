@@ -39,7 +39,7 @@
 						<h2 class="main_title heading mb-15">Formato de aceptacion de Becas <span>Municipales</span> </h2>
 					</div>
 					<div> 
-                        <input type="hidden" value="<?php echo $_GET['folio'];?>">
+                        <input type="hidden" name="folio" value="<?php echo $_GET['folio'];?>">
 						<div class="d-flex justify-content-center"> 
 							<button id="descargar" class="btn btn-primary btn-user mx-auto">
 								Descargar Formato
