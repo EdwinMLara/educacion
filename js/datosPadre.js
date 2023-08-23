@@ -5,7 +5,7 @@ const strFormInject = '<form id="formAddDatosPadre" autocomplete="off">'
                     +      '<div class="col-sm-8 ">'
 
                     +          '<div class="form-group mb-4">'
-                    +              '<label for="inputGroupFile01">Constancia de estudios o Boleta en PDF</label>'
+                    +              '<label for="inputGroupFile01">Credencial de Lector</label>'
                     +              '<div class="custom-file">' 
                     +                   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
                     +                   '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
