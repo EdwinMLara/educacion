@@ -463,11 +463,26 @@ $('#descargar').on('click',function (){
     /** regex para validar folio del tipo URI-n */
     let id = folio.split("-");
     let data = {
-        name:"",
+        name:"getSolicitudById",
         param:{
-            folio: parseInt(id[1])
+            idSolicitud: id[2]
         }
     }
     console.log(data);
-    /*request('/educacion/Api/apiSolicitudes.php',data,function (){},token)*/
+    request('/educacion/Api/apiSolicitudes.php',data,function (res){
+        console.log(res);
+        if (res.hasOwnProperty('error')) {
+            let expiredToken = res.error.status;            
+            return
+        }
+
+        if (res.response.status === 204) {
+            alert(res.response.result);
+            return;
+        }
+
+        const solicitud = res.response.result[0];
+        createSolicitudPdf(solicitud);
+
+    },token)
 })
