@@ -196,6 +196,7 @@ const responseUsersFunction = (page, perPage) => {
                 + `<td class="d-flex justify-content-around">`
                 + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
                 + `<button type="button"  onClick="print(${index})" class="btn btn-warning"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
+                + `<button type="button"  onClick="" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`
                 + '</td>'
                 + '</tr>';
         });
