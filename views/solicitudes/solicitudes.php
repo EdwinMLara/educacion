@@ -28,6 +28,9 @@ if ($login) {
 
     //cargando Modal
     require_once("../share/modalConfirm.php");
+
+    //cargando Modal Respuesta
+    require_once("./enviarRespuestaModal.php");
 ?>
 
     <!-- Begin Page Content -->
