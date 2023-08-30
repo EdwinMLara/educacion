@@ -4,6 +4,7 @@
 */
 const auxToken = [];
 let solicitudes = [];
+const currentIdSolicitud = [];
 
 
 $(function () {
@@ -196,7 +197,7 @@ const responseUsersFunction = (page, perPage) => {
                 + `<td class="d-flex justify-content-around">`
                 + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
                 + `<button type="button"  onClick="print(${index})" class="btn btn-warning"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
-                + `<button type="button"  onClick="" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`
+                + `<button type="button"  onClick="referenciaIdSolicitud(${solicitud.idSolicitud})" data-toggle="modal" data-target="#enviarRespuestaModal" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`
                 + '</td>'
                 + '</tr>';
         });
@@ -486,4 +487,60 @@ $('#descargar').on('click',function (){
         createSolicitudPdf(solicitud);
 
     },token)
-})
+});
+
+const referenciaIdSolicitud = (idSolicitud) => {
+    $("#alert").empty();
+    $("input[name=motivo]").val("");
+    currentIdSolicitud[0] = idSolicitud;
+}
+
+const enviarRespuesta = (value) =>{
+    const succesAlert = `<div class="alert alert-success" role="alert">
+                            Se ha enviado la notificacion!
+                        </div>`;
+
+    const errorAlert =  `<div class="alert alert-danger" role="alert">
+                            This is a danger alert—check it out!
+                        </div>`;
+    
+    const respuestaInput = $("input[name=motivo]");
+    let valueRespuesta = respuestaInput.val();
+
+    let result = "";
+
+    if(valueRespuesta.length < 5)
+        result = "La respuesta es muy corta"
+
+    if(valueRespuesta.localeCompare("") === 0)
+        result = "Agrege su respuesta"
+    
+    if(result.length > 1){
+        respuestaInput.trigger( "focus" );
+        $("#validationMotivo").text(result);
+        return
+    }else{
+        $("#validationMotivo").text("");
+    }
+
+    console.log(value);
+    let data = {
+        name : "correoRespuestaAceptacionBeca",
+        param:{
+            idSolicitud: currentIdSolicitud[0],
+            statusBeca: value,
+            respuesta:valueRespuesta
+        } 
+    }
+    console.log(data);
+    
+    $("#alert").html(succesAlert);
+}
+
+$('#aceptarBecaButton').on('click',function () {
+    enviarRespuesta(1);
+});
+
+$('#rechazarBecaButton').on('click',function () {
+    enviarRespuesta(0);
+})  
