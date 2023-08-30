@@ -145,8 +145,8 @@ function syncronizarFormDatosPadre(hiddenInputFolio,current_curp){
         function (value, element, current_curp) {
             console.log(current_curp,"  ",value); 
             if (current_curp.localeCompare(value) === 0)
-                return true;
-            return false;
+                return false;
+            return true;
         },
         "Esta es la curp del alumno"
     );
