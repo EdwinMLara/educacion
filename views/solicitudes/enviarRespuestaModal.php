@@ -9,6 +9,9 @@
             </div>
 
             <div class="modal-body">
+                <div id="alert">
+
+                </div>
 
                 <div class="form-group">
                     <label for="motivo"> Motivo de aceptacion o rechazo</label>
