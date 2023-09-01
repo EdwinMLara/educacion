@@ -63,8 +63,7 @@ class SolicitudesRouter extends RestApi
         }
     }
 
-    public function getSolicitudesPaginate()
-    {
+    public function getSolicitudesPaginate(){
         $page = $this->validateParameter('page', $this->param["page"], INTEGER);
         $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
 
@@ -381,10 +380,12 @@ class SolicitudesRouter extends RestApi
 
         $mailResult = mail($to, $subject, $message, $headers);
     
-        if($mailResult)
+        if($mailResult){
+            $this->service->updateByValue("notificado",1,"idSolicitud",$id_solicitud);
             $this->returnResponse(SUCESS_RESPONSE,[
                 "mail" => $mailResult
             ]);
+        }
         else
             $this->throwError(UPDATED_ERROR, "A ocurrido en error con el correo");
     }

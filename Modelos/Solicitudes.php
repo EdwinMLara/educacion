@@ -15,11 +15,11 @@ class Solicitudes
             case 3:
                 $this->__construct3($listArgs[0], $listArgs[1], $listArgs[2]);
                 break;
-            case 10:
-                $this->__construct10($listArgs[0], $listArgs[1], $listArgs[2], $listArgs[3], $listArgs[4], $listArgs[5], $listArgs[6], $listArgs[7], $listArgs[8], $listArgs[9]);
-                break;
             case 11:
-                $this->__construct11($listArgs[0], $listArgs[1], $listArgs[2], $listArgs[3], $listArgs[4], $listArgs[5], $listArgs[6], $listArgs[7],$listArgs[8], $listArgs[9], $listArgs[10]);
+                $this->__construct11($listArgs[0], $listArgs[1], $listArgs[2], $listArgs[3], $listArgs[4], $listArgs[5], $listArgs[6], $listArgs[7], $listArgs[8], $listArgs[9], $listArgs[10]);
+                break;
+            case 12:
+                $this->__construct12($listArgs[0], $listArgs[1], $listArgs[2], $listArgs[3], $listArgs[4], $listArgs[5], $listArgs[6], $listArgs[7],$listArgs[8], $listArgs[9], $listArgs[10], $listArgs[11]);
                 break;
             default:
                 throw new Exception('Error al crear el constructor');
@@ -37,7 +37,7 @@ class Solicitudes
         $this->promedioReciente = $promedioReciente;
     }
 
-    public function __construct10($idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente,$status,$fecha){
+    public function __construct11($idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente,$status,$notificado,$fecha){
         $this->idAlumno = $idAlumno;
         $this->idEscuela = $idEscuela;
         $this->idPadre = $idPadre;
@@ -47,10 +47,11 @@ class Solicitudes
         $this->nivelEstudios = $nivelEstudios;
         $this->promedioReciente = $promedioReciente;
         $this->status = $status;
+        $this->notificado = $notificado;
         $this->fecha = $fecha;
     }
 
-    public function __construct11($idSolicitud,$idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente,$status,$fecha){
+    public function __construct12($idSolicitud,$idAlumno, $idEscuela, $idPadre, $idIngresosFamilialares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente,$status,$notificado,$fecha){
         $this->idSolicitud = $idSolicitud;
         $this->idAlumno = $idAlumno;
         $this->idEscuela = $idEscuela;
@@ -61,6 +62,7 @@ class Solicitudes
         $this->nivelEstudios = $nivelEstudios;
         $this->promedioReciente = $promedioReciente;
         $this->status = $status;
+        $this->notificado = $notificado;
         $this->fecha = $fecha;
     }
 }
