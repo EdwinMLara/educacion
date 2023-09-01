@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="motivo"> Motivo de aceptacion o rechazo</label>
+                    <label for="motivo"> Motivo de rechazo de Beca</label>
                     <input type="text" name="motivo" class="form-control" placeholder="Respuesta">
                     <div id="validationMotivo" class="invalid-feedback d-block">
                         
@@ -23,8 +23,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="aceptarBecaButton" class="btn btn-primary">Aceptar</button>
-                <button type="button" id="rechazarBecaButton" class="btn btn-secondary">Rechazar</button>
+                <button type="button" id="aceptarBecaButton" class="btn btn-primary">Enviar</button>
+                <!--<button type="button" id="rechazarBecaButton" class="btn btn-secondary">Rechazar</button>-->
             </div>
         </div>
     </div>

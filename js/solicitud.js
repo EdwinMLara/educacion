@@ -18,6 +18,9 @@ $(function () {
     
     paginar(1);
     formDatoisDone(null, 6);
+
+    /**Prueba aceptar beca */
+    //enviarRespuesta(1);
 });
 
 function syncronizarFormSolicitud(folio){
@@ -171,6 +174,7 @@ const responseUsersFunction = (page, perPage) => {
             let escuela = solicitud.idEscuela.length > 0 ? solicitud.idEscuela[0].nombre : 'NO-REGISTRADO';
             let padre = solicitud.idPadre.length > 0 ? solicitud.idPadre[0].nombre : 'NO-REGISTRADO';
             let colorStatus = "";
+            let buttonSendNotificacion = "";
 
             const expr = solicitud.status;
             switch (solicitud.status) {
@@ -181,7 +185,8 @@ const responseUsersFunction = (page, perPage) => {
                     colorStatus = "bg-warning"
                     break;
                 case 'rechazada':
-                    colorStatus = "bg-danger"
+                    colorStatus = "bg-danger";
+                    buttonSendNotificacion = `<button type="button"  onClick="referenciaIdSolicitud(${solicitud.idSolicitud})" data-toggle="modal" data-target="#enviarRespuestaModal" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`;
                     break;
                 default:
                     console.log(`Sorry, we are out of ${expr}.`);
@@ -197,7 +202,7 @@ const responseUsersFunction = (page, perPage) => {
                 + `<td class="d-flex justify-content-around">`
                 + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
                 + `<button type="button"  onClick="print(${index})" class="btn btn-warning"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
-                + `<button type="button"  onClick="referenciaIdSolicitud(${solicitud.idSolicitud})" data-toggle="modal" data-target="#enviarRespuestaModal" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`
+                + buttonSendNotificacion
                 + '</td>'
                 + '</tr>';
         });
@@ -322,6 +327,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
                             }
                             let response = result ? 'aceptada' : 'rechazada';
                             updateCampo(indiceSolicitud, step, "apiSolicitudes.php", "updateSolicitudByKeyandValue", { idSolicitud }, 'status', response);
+                            response.localeCompare('aceptada') ? enviarRespuesta(1) : null
                         }).catch(result => {
                             console.log(result);
                         })
@@ -504,8 +510,10 @@ const enviarRespuesta = (value) =>{
                             This is a danger alert—check it out!
                         </div>`;
     
-    const respuestaInput = $("input[name=motivo]");
-    let valueRespuesta = respuestaInput.val();
+    const respuestaInput = !value && $("input[name=motivo]");
+    let valueRespuesta =  respuestaInput ?  respuestaInput.val() : "Nos complace informale que su beca ha sido aceptada";
+    
+    console.log(valueRespuesta);
 
     let result = "";
 
@@ -538,9 +546,9 @@ const enviarRespuesta = (value) =>{
 }
 
 $('#aceptarBecaButton').on('click',function () {
-    enviarRespuesta(1);
+    enviarRespuesta(0);
 });
 
-$('#rechazarBecaButton').on('click',function () {
+/*$('#rechazarBecaButton').on('click',function () {
     enviarRespuesta(0);
-})  
+})*/
