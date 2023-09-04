@@ -381,10 +381,9 @@ class SolicitudesRouter extends RestApi
         $mailResult = mail($to, $subject, $message, $headers);
     
         if($mailResult){
-            $this->service->updateByValue("notificado",1,"idSolicitud",$id_solicitud);
-            $this->returnResponse(SUCESS_RESPONSE,[
-                "mail" => $mailResult
-            ]);
+            if($this->service->updateByValue("notificado",1,"idSolicitud",$id_solicitud))
+                $this->returnResponse(SUCESS_RESPONSE,[ "mail" => $mailResult]);
+            $this->throwError(UPDATED_ERROR,"Error al actualizar el status notificado");
         }
         else
             $this->throwError(UPDATED_ERROR, "A ocurrido en error con el correo");
