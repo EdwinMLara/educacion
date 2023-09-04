@@ -186,7 +186,8 @@ const responseUsersFunction = (page, perPage) => {
                     break;
                 case 'rechazada':
                     colorStatus = "bg-danger";
-                    buttonSendNotificacion = `<button type="button"  onClick="referenciaIdSolicitud(${solicitud.idSolicitud})" data-toggle="modal" data-target="#enviarRespuestaModal" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`;
+                    if(!solicitud.notificado)
+                        buttonSendNotificacion = `<button type="button"  onClick="referenciaIdSolicitud(${solicitud.idSolicitud})" data-toggle="modal" data-target="#enviarRespuestaModal" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`;
                     break;
                 default:
                     console.log(`Sorry, we are out of ${expr}.`);
@@ -236,7 +237,7 @@ const paginar = (page) => {
 /**hacer funcion para actualizar el status de pendiente a acceptada o rechazada
 */
 
-const detallesSolicitud = async (indiceSolicitud, step = 1) => {
+const detallesSolicitud = async (indiceSolicitud, step = 1) => {    
     console.log('--------- Mostrar Destalles de Solicitud -------------');
 
     let idSolicitud = parseInt(solicitudes[indiceSolicitud].idSolicitud);
@@ -507,7 +508,7 @@ const enviarRespuesta = (value) =>{
                         </div>`;
 
     const errorAlert =  `<div class="alert alert-danger" role="alert">
-                            This is a danger alert—check it out!
+                            Error consulta al departamento de Tecnologias
                         </div>`;
     
     const respuestaInput = !value && $("input[name=motivo]");
@@ -540,9 +541,26 @@ const enviarRespuesta = (value) =>{
             respuesta:valueRespuesta
         } 
     }
-    console.log(data);
     
-    $("#alert").html(succesAlert);
+    request('/educacion/Api/apiSolicitudes.php',data,function (res){
+        console.log(res);
+
+        if (res.hasOwnProperty('error')) {
+            $("#alert").html(errorAlert);
+            let expiredToken = res.error.status;
+            expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
+            return
+        }
+
+        if (res.response.status === 204) {
+            alert(res.response.result);
+            return;
+        }
+
+        $("#alert").html(succesAlert);
+
+    },token);
+    
 }
 
 $('#aceptarBecaButton').on('click',function () {
