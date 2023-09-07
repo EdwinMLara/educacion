@@ -2,11 +2,36 @@
  * 1 .- la primera vez la solucione con la url tenia una absoluta y la combie a la relativa
  * 2 .- la segunda vez que se genero el error era porque no habia pasado el token
 */
+
+/**
+ * Array with an string token
+ * @type {Array<String>}
+ */
 const auxToken = [];
+
+/**
+ * Array with the applications objects
+ * @type {Array<Object>}
+ */
 let solicitudes = [];
+
+/**
+ * Array with the current applications id
+ * @type {Array<integer>}  
+ */
 const currentIdSolicitud = [];
 
-
+/**
+ * @param {Function} 
+ * 
+ * it's lunched once the page is loaded
+ * 1.- Carga el token del almacenamiento local
+ * 2.- Obtiene el folio de la solicitud presente en la URL
+ * 3.- Inyecta el formulario para terminar de llenar la solicitud  mediante la funcion syncronizarFormSolicitud()
+ * 4.- Manda llamar la funcion paginar(1) en la pagina 1
+ * 5.- Revisa su el formulacion ya ha sido llenado con la funcion formDatoisDone()
+ * 
+ */
 $(function () {
     console.log('solicitud');
     auxToken[0] = window.localStorage.getItem('auxToken');
@@ -23,6 +48,17 @@ $(function () {
     //enviarRespuesta(1);
 });
 
+
+/**
+ * it used to inyect the form into the webpage, afther the inyection the validate object is 
+ * linked to the form when the submit button is pressed it make a request to update values 
+ * if the response is succeced make another request to get the request object and create the 
+ * pdf format with the values 
+ * 
+ * 
+ * @param {Integer} folio -- es el id de la solicitud y se utiliza para pegar a una cadena y crear folio 
+ * @returns {Function}
+ */
 function syncronizarFormSolicitud(folio){
 
     
@@ -146,8 +182,18 @@ const strFormInject = '<form id="formUpdateSolicitud" autocomplete="off">'
     });
 }
 
-
+/**
+ * It's kind of middelware
+ * @param {Integer} page 
+ * @param {Integer} perPage 
+ * @returns 
+ */
 const responseUsersFunction = (page, perPage) => {
+    /**
+     * It used to control de an http response and show in a table the applications data
+     * @param { Array<Object>}
+     */
+
     return function (res) {
         console.log(res);
 
@@ -186,7 +232,7 @@ const responseUsersFunction = (page, perPage) => {
                     break;
                 case 'rechazada':
                     colorStatus = "bg-danger";
-                    if(!solicitud.notificado)
+                    if(!parseInt(solicitud.notificado))
                         buttonSendNotificacion = `<button type="button"  onClick="referenciaIdSolicitud(${solicitud.idSolicitud})" data-toggle="modal" data-target="#enviarRespuestaModal" class="btn btn-success"><i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i></button>`;
                     break;
                 default:
@@ -215,6 +261,11 @@ const responseUsersFunction = (page, perPage) => {
 };
 
 
+/**
+ * it's used to make a reload when something changes
+ * @param {Integer} page 
+ * @returns 
+ */
 const paginar = (page) => {
     console.log("=============  Leer solicitudes Paginando =============");
     let perPage = $("#selectPerPage :selected").val();
@@ -234,9 +285,13 @@ const paginar = (page) => {
 
 }
 
-/**hacer funcion para actualizar el status de pendiente a acceptada o rechazada
-*/
-
+/**
+ * it's used to make a look into the application in detail
+ * 
+ * @param {interger} indiceSolicitud -- it's the index array which contains the application object 
+ * @param {interger} step -- the application object in breaking into a peaces which is shown by steps
+ * @returns 
+ */
 const detallesSolicitud = async (indiceSolicitud, step = 1) => {    
     console.log('--------- Mostrar Destalles de Solicitud -------------');
 
@@ -382,11 +437,26 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     $('#modalBodySolicitud').append(formHMTL);
 }
 
+/**
+ * it's used to know what value of the applications array is needed and therefore get the object application  
+ * @param {interger} indiceSolicitud -- it's the index array which contains the application object   
+ */
 const print = async (indiceSolicitud) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
     createSolicitudPdf(solicitudes[indiceSolicitud]);
 }
 
+/**
+ * it's used to update any field over the application
+ * 
+ * @param {Integer} indiceSolicitud -- it's the index array to identify the applicacion object in the response array
+ * @param {Integer} step -- it's used to know in which part of the applications object is the user 
+ * @param {String} api -- it's the api name that contains the values will be updated
+ * @param {String} method -- it's the method name that belong to the api
+ * @param {Integer} id -- it's the value id that need to be updated 
+ * @param {String} key -- it's the attribute name has to be updated
+ * @param {String} value -- it's the new value
+ */
 const updateCampo = (indiceSolicitud, step, api, method, id, key, value) => {
 
     let data = {
@@ -431,6 +501,12 @@ const updateCampo = (indiceSolicitud, step, api, method, id, key, value) => {
     }, token, false);
 }
 
+
+/**
+ * Here we are binding an input box and attaching the onchange event with the jQuery sintax
+ * this function is used to make a filter over the applications objects base on the student name 
+ * @param {Function}
+ */
 $("input[name=search]").on('change', function () {
     let buscar = $(this).val();
 
@@ -459,6 +535,12 @@ $("input[name=search]").on('change', function () {
     request('/educacion/Api/apiSolicitudes.php', data, responseUsersFunction(page, perPage), token);
 });
 
+
+/**
+ * Here we are binding an button and attaching the onclick event with the jQuery sintax
+ * it's used to create a pdf file with the applications data
+ * @param {Function}
+ */
 $('#descargar').on('click',function (){
     let folio = $("input[name=folio]").val();
 
@@ -496,12 +578,21 @@ $('#descargar').on('click',function (){
     },token)
 });
 
+/**
+ * It's used to update the global variable of the current applications
+ * @param {Integer} idSolicitud 
+ */
 const referenciaIdSolicitud = (idSolicitud) => {
     $("#alert").empty();
     $("input[name=motivo]").val("");
     currentIdSolicitud[0] = idSolicitud;
 }
 
+/**
+ * 
+ * @param {Boolean} value -- It's the value response, true if the application was accepted otherwise false in this case 1 and 0 is used to represent the true and false 
+ * @returns 
+ */
 const enviarRespuesta = (value) =>{
     const succesAlert = `<div class="alert alert-success" role="alert">
                             Se ha enviado la notificacion!
@@ -569,4 +660,11 @@ $('#aceptarBecaButton').on('click',function () {
 
 /*$('#rechazarBecaButton').on('click',function () {
     enviarRespuesta(0);
-})*/
+})
+
+SELECT reservation.date_at AS fecha, CONCAT(medic.name,medic.lastname) as Medico, COUNT(reservation.id) AS Consultas
+FROM reservation
+INNER JOIN medic
+ON medic.id = reservation.medic_id
+WHERE reservation.medic_id = 4 AND reservation.date_at BETWEEN '2023-07-01' AND '2023-07-31' 
+GROUP BY reservation.date_at */
