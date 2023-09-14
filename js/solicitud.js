@@ -1,6 +1,5 @@
 /**wrong number of segmentes, regularmente  es problema en la peticion
- * 1 .- la primera vez la solucione con la url tenia una absoluta y la combie a la relativa
- * 2 .- la segunda vez que se genero el error era porque no habia pasado el token
+problema del token
 */
 
 /**
