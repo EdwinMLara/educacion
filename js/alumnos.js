@@ -1,58 +1,89 @@
+/** Mi curp para probar
+ * LAEE920717HMCRSD09
+ * EIMH700908MDFSRL09
+ * 
+ * 
+ * CHECAR LA VALIDACION DE TIPO DE DATOS
+ * =================================================================
+ */
+
+
+
+/**
+ * Array with an string token
+ * @type {Array<String>}
+ */
 const auxToken = [];
+
+/**
+ * it's a string which contains the form to store a new applications
+ * it will be injected over the div with the id injectedForm
+ * @type {String}
+ */
 const strFormInject = '<form id="formAddAlumnos" autocomplete="off">'
 
     + '<div class="row">'
     + '<div class="col-sm-8 ">'
 
     + '<div class="form-group mb-4">'
-    + '<input type="text" class="form-control" name="curp" placeholder="Curp" onchange="checkIfCurpExist(this)">'
+    +   '<input type="text" class="form-control" name="curp" placeholder="Curp" onchange="checkIfCurpExist(this)">'
     + '</div>'
 
     + '<div class="form-group mb-4">'
-    + '<label for="inputGroupFile01">Acta de nacimiento en PDF</label>'
-    + '<div class="custom-file">'
-    + '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
-    + '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
-    + '</div>'
-    + '</div>'
-
-    + '<div class="form-group mb-4">'
-    + '<input type="text" class="form-control" name="correo" placeholder="Correo">'
+    +   '<label for="inputGroupFile01">Acta de nacimiento en PDF</label>'
+    +   '<div class="custom-file">'
+    +   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
+    +       '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
+    +   '</div>'
     + '</div>'
 
     + '<div class="form-group mb-4">'
-    + '<input type="text" class="form-control" name="nombre" placeholder="Nombre del estudiante">'
+    +   '<input type="text" class="form-control" name="email" placeholder="Correo">'
     + '</div>'
 
     + '<div class="form-group mb-4">'
-    + '<label>Fecha de nacimiento</label>'
-    + '<input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">'
+    +   '<input type="text" class="form-control" name="nombre" placeholder="Nombre del estudiante">'
+    + '</div>'
+
+    + '<div class="form-group mb-4">'
+    +   '<label>Fecha de nacimiento</label>'
+    +   '<input type="date" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento">'
     + '</div>'
 
     + '</div>'
 
     + '<div class="col-sm-4">'
-    + '<div style="height: 90%; background-color: rgba(255,0,0,0.1);">'
-    + '<iframe id="iframeContainer" class="w-100 h-100" src="" title="Evidencia"> </iframe>'
-    + '</div>'
-    + '</div>'
+    +    '<div style="height: 90%; background-color: rgba(255,0,0,0.1);">'
+    +       '<iframe id="iframeContainer" class="w-100 h-100" src="" title="Evidencia"> </iframe>'
+    +       '</div>'
+    +       '</div>'
     + '</div>'
 
     + '<div class="row"> '
     + '<div class="col-sm">'
     + '<button type="submit" class="btn btn-primary btn-user btn-block">'
-    + 'Registrar Alumno'
+    +   'Registrar Alumno'
     + '</button>'
     + '</div>'
     + '</div>'
     + '</form>';
 
-
+/**
+ * it's onReady() function 
+ * Once the page es loaded, so the form is injected and just afther that,
+ * a token si gotten in order to be able to get the permission to register
+ */
 $(function () {
     console.log("alumnos");
-
+    obtenerToken();
     syncronizarForm();
+});
 
+/**
+ * This make a request to the users's api, where a default user is used to generate a token 
+ * and the token is stored in global variable called auxToken  
+ */
+const obtenerToken = () => {   
     let data = {
         name: "generateToken",
         param: {
@@ -80,6 +111,7 @@ $(function () {
 
             if (res.hasOwnProperty('response')) {
                 auxToken[0] = res.response.result.token;
+                console.log(`auxtoke : ${auxToken[0]}`);
                 window.localStorage.setItem('auxToken', res.response.result.token);
                 return;
             }
@@ -88,16 +120,13 @@ $(function () {
             console.log(xhr, resp, text);
         }
     });
+}
 
-});
 
-/** Mi curp para probar
- * LAEE920717HMCRSD09
- * EIMH700908MDFSRL09
- * 
- * CHECAR LA VALIDACION DE TIPO DE DATOS
+/**
+ * it's a regex to validate curp field
+ * @type {String}
  */
-
 const strRegexCurp = '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
     + '[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])'
     + '[HM]{1}'
@@ -105,6 +134,23 @@ const strRegexCurp = '[A-Z]{1}[AEIOU]{1}[A-Z]{2}'
     + '[B-DF-HJ-NP-TV-Z]{3}'
     + '[0-9A-Z]{1}'
     + '[0-9]{1}$';
+
+/**
+ * it's a function to inject the string with html form and attach the validate object 
+ * the second step is make a request to register a student that want to make the applications
+ * and it's importan to know that a trigger is lunched which is shown below 
+ * 
+ * 
+DELIMITER 
+|
+    CREATE TRIGGER insertSolicitud AFTER INSERT ON alumnos
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO solicitudes (idAlumno,idEscuela,idPadre,idIngresosFamiliares,idServicios,idRequisitosAdicionales,nivelEstudios,promedioReciente,`status`,notificado,fecha)
+        VALUES (NEW.idAlumno,NULL,NULL,NULL,NULL,NULL,'NO-REGISTRADO','NO-REGISTRADO','pendiente',0,now());
+    END; 
+|
+ */
 
 function syncronizarForm() {
     $('#injectedForm').append(strFormInject);
@@ -126,7 +172,7 @@ function syncronizarForm() {
         },
         messages: {
             file: { required: "Seleccione el archivo" },
-            correo: {
+            email: {
                 required: "Agregar el email",
                 email: 'el correo es invalido'
             },
@@ -146,6 +192,7 @@ function syncronizarForm() {
                     file: blobPdf[0]
                 }
             }
+            console.log(data);
 
             request('/educacion/Api/apiAlumnos.php', data, function (res) {
                 console.log(res);
@@ -159,38 +206,10 @@ function syncronizarForm() {
                     return;
                 }
                 let inserted = res.response.result;
-                console.log(inserted);
 
-                let dataSolicitud = {
-                    name: "addSolicitude",
-                    param: {
-                        idAlumno: inserted,
-                        idEscuela: -1,
-                        idPadre: -1,
-                        idIngresosFamiliares: -1,
-                        idServicios: -1,
-                        idRequisitosAdicionales: -1,
-                        nivelEstudios: "NO-REGISTRADO",
-                        promedioReciente: "NO-REGISTRADO",
-                        status: 'pendiente',
-                        fecha: new Date().toISOString().slice(0, 10)
-                    }
-                }
+                window.localStorage.setItem('current_curp', data.param.curp);
+                res.response.status ? location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&alumno=${inserted}` : mostrarRequestAlerResult(res.response.status);
 
-                console.log(dataSolicitud);
-
-                request('/educacion/Api/apiSolicitudes.php', dataSolicitud, function (res) {
-                    console.log(res);
-                    if (res.hasOwnProperty('error')) {
-                        let expiredToken = res.error.status;
-                        expiredToken === 301 ? location.href = `/educacion/views/login.php` : alert(res.error.message);
-                        return;
-                    }
-
-                    let folio = res.response.result;
-                    window.localStorage.setItem('current_curp', data.param.curp);
-                    res.response.status ? location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
-                }, auxToken[0]);
             }, auxToken[0]);
         }
     });
@@ -199,9 +218,14 @@ function syncronizarForm() {
 
 
 
-
+/**
+ * it's lunched when the curp input changes and it check the out if exist  
+ * @param {ChangeEvent<HTMLInputElement} e 
+ * @returns 
+ */
 const checkIfCurpExist = (e) => {
-    console.log("================ revisar si ya existe la curp ===============")
+    console.log("================ revisar si ya existe la curp ===============");
+
     const globalRegex = new RegExp(strRegexCurp, 'g');
 
     if (!globalRegex.test(e.value)) {
@@ -209,17 +233,21 @@ const checkIfCurpExist = (e) => {
         return
     }
 
+    let curp = $("input[name='curp']").val();
+
     let dataCheckCurp = {
         name: "getByCurp",
         param: {
-            curp: $("input[name='curp']").val()
+            curp
         }
     }
 
-    window.localStorage.setItem('current_curp', dataCheckCurp.param.curp);
+    console.log(dataCheckCurp);
+    window.localStorage.setItem('current_curp',curp);
 
     request('/educacion/Api/apiAlumnos.php', dataCheckCurp, function (res) {
         console.log("Revisar Curp");
+        console.log(res);
 
         if (res.hasOwnProperty('error')) {
             alert(res.error.message);
@@ -232,6 +260,7 @@ const checkIfCurpExist = (e) => {
 
         if (!(res.response.status === 200))
             return;
+
         let check = res.response.result;
 
         $("input[name='nombre']").val(check[0].nombre);
@@ -291,6 +320,14 @@ const checkIfCurpExist = (e) => {
 
     }, auxToken[0]);
 }
+
+/**
+ * When an applications is started and not finished a email verificacion is needed in order to make sure
+ * is the same person who a accesing again so an email is sending to the register email linked to an curp
+ * @param {Integer} idAlumno -- it's the alumno
+ * @param {String} token  -- token with the right permision to make a request
+ * @returns {Promise} -- it's a promise to verifica the word that was sended to the register email
+ */
 
 const verificarCorreo = async (idAlumno, token) => {
     return new Promise((resolve, reject) => {
