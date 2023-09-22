@@ -3,8 +3,7 @@ class Solicitudes
 {
     public String $idSolicitud = "autoincrement";
 
-    public function __construct()
-    {
+    public function __construct(){
         $listArgs = func_get_args()[0];
         $numArgs = count($listArgs);
 
