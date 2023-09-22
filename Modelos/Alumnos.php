@@ -6,7 +6,6 @@
         public String $nombre = "";
         public String $fechaNacimiento = "";
         public String $file = "";
-        public String $validacionKey = "";
 
         public function __construct(){
             $listArgs = func_get_args()[0];
@@ -17,10 +16,10 @@
                     $this->__constructUpdate($listArgs[0],$listArgs[1]);
                     break;
                 case 5:
-                    $this->__construct6($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4]);
+                    $this->__construct5($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4]);
                     break;
-                case 7:
-                    $this->__construct7($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6]);
+                case 6:
+                    $this->__construct6($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5]);
                     break;
                 default:
                     throw new Exception('Error al crear el constructor Alumnos');
@@ -31,22 +30,21 @@
 
         }
 
-        public function __construct6($curp,$correo,$nombre,$fechaNacimiento,$file){
+        public function __construct5($curp,$email,$nombre,$fechaNacimiento,$file){
             $this->curp = $curp;
-            $this->email = $correo;
+            $this->email = $email;
             $this->nombre = $nombre;
             $this->fechaNacimiento = $fechaNacimiento;
             $this->file = $file;
         }
 
-        public function __construct7($idAlumno,$curp,$correo,$nombre,$fechaNacimiento,$file,$validacionKey){
+        public function __construct6($idAlumno,$curp,$email,$nombre,$fechaNacimiento,$file){
             $this->idAlumno = $idAlumno;
             $this->curp = $curp;
-            $this->email = $correo;
+            $this->email = $email;
             $this->nombre = $nombre;
             $this->fechaNacimiento = $fechaNacimiento;
             $this->file = $file;
-            $this->validacionKey = $validacionKey;
         }
     }
 ?>
