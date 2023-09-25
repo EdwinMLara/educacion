@@ -81,29 +81,41 @@ class SolicitudesRouter extends RestApi
 
             $max = sizeof($paginatesSolicitudes);
             for ($i = 0; $i < $max; $i++) {
-                $query = "SELECT * FROM `alumnos` WHERE idAlumno = " . $paginatesSolicitudes[$i]->idAlumno;
-                $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
-                $paginatesSolicitudes[$i]->idAlumno = $alumno;
+                if($paginatesSolicitudes[$i]->idAlumno !=  null){
+                    $query = "SELECT * FROM `alumnos` WHERE idAlumno = " . $paginatesSolicitudes[$i]->idAlumno;
+                    $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
+                    $paginatesSolicitudes[$i]->idAlumno = $alumno;
+                }
 
-                $query = "SELECT * FROM `escuela` WHERE idEscuela = " . $paginatesSolicitudes[$i]->idEscuela;
-                $escuela = $this->service->getByQueryTableModel($query, "Escuela");
-                $paginatesSolicitudes[$i]->idEscuela = $escuela;
+                if($paginatesSolicitudes[$i]->idEscuela !=  null){
+                    $query = "SELECT * FROM `escuela` WHERE idEscuela = " . $paginatesSolicitudes[$i]->idEscuela;
+                    $escuela = $this->service->getByQueryTableModel($query, "Escuela");
+                    $paginatesSolicitudes[$i]->idEscuela = $escuela;
+                }
 
-                $query = "SELECT * FROM `padre` WHERE idPadre = " . $paginatesSolicitudes[$i]->idPadre;
-                $datosPadre = $this->service->getByQueryTableModel($query, "Padre");
-                $paginatesSolicitudes[$i]->idPadre = $datosPadre;
+                if($paginatesSolicitudes[$i]->idPadre !=  null){
+                    $query = "SELECT * FROM `padre` WHERE idPadre = " . $paginatesSolicitudes[$i]->idPadre;
+                    $datosPadre = $this->service->getByQueryTableModel($query, "Padre");
+                    $paginatesSolicitudes[$i]->idPadre = $datosPadre;
+                }
 
-                $query = "SELECT * FROM `ingresosfamiliares` WHERE idIngresosFamiliares = " . $paginatesSolicitudes[$i]->idIngresosFamiliares;
-                $ingresosFamiliares = $this->service->getByQueryTableModel($query, "IngresosFamiliares");
-                $paginatesSolicitudes[$i]->idIngresosFamiliares = $ingresosFamiliares;
+                if($paginatesSolicitudes[$i]->idIngresosFamiliares !=  null){
+                    $query = "SELECT * FROM `ingresosfamiliares` WHERE idIngresosFamiliares = " . $paginatesSolicitudes[$i]->idIngresosFamiliares;
+                    $ingresosFamiliares = $this->service->getByQueryTableModel($query, "IngresosFamiliares");
+                    $paginatesSolicitudes[$i]->idIngresosFamiliares = $ingresosFamiliares;
+                }
 
-                $query = "SELECT * FROM `servicios` WHERE idservicios = " . $paginatesSolicitudes[$i]->idServicios;
-                $servicios = $this->service->getByQueryTableModel($query, "Servicios");
-                $paginatesSolicitudes[$i]->idServicios = $servicios;
+                if($paginatesSolicitudes[$i]->idServicios !=  null){
+                    $query = "SELECT * FROM `servicios` WHERE idservicios = " . $paginatesSolicitudes[$i]->idServicios;
+                    $servicios = $this->service->getByQueryTableModel($query, "Servicios");
+                    $paginatesSolicitudes[$i]->idServicios = $servicios;
+                }
 
-                $query = "SELECT * FROM `requisitosadicionales` WHERE idRequisitosAdicionales = " . $paginatesSolicitudes[$i]->idRequisitosAdicionales;
-                $requisitosAdicionales = $this->service->getByQueryTableModel($query, "RequisitosAdicionales");
-                $paginatesSolicitudes[$i]->idRequisitosAdicionales = $requisitosAdicionales;
+                if($paginatesSolicitudes[$i]->idRequisitosAdicionales !=  null){
+                    $query = "SELECT * FROM `requisitosadicionales` WHERE idRequisitosAdicionales = " . $paginatesSolicitudes[$i]->idRequisitosAdicionales;
+                    $requisitosAdicionales = $this->service->getByQueryTableModel($query, "RequisitosAdicionales");
+                    $paginatesSolicitudes[$i]->idRequisitosAdicionales = $requisitosAdicionales;
+                }
             }
             $this->returnResponse(SUCESS_RESPONSE, $response);
         } else if (empty($solicitudes)) {

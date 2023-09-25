@@ -215,9 +215,9 @@ const responseUsersFunction = (page, perPage) => {
 
         let trHTML = '';
         solicitudes.forEach((solicitud, index) => {
-            let alumno = solicitud.idAlumno.length > 0 ? solicitud.idAlumno[0].nombre : 'NO-REGISTRADO';
-            let escuela = solicitud.idEscuela.length > 0 ? solicitud.idEscuela[0].nombre : 'NO-REGISTRADO';
-            let padre = solicitud.idPadre.length > 0 ? solicitud.idPadre[0].nombre : 'NO-REGISTRADO';
+            let alumno = solicitud.idAlumno != null ? solicitud.idAlumno[0].nombre : 'NO-REGISTRADO';
+            let escuela = solicitud.idEscuela != null ? solicitud.idEscuela[0].nombre : 'NO-REGISTRADO';
+            let padre = solicitud.idPadre != null ? solicitud.idPadre[0].nombre : 'NO-REGISTRADO';
             let colorStatus = "";
             let buttonSendNotificacion = "";
 
