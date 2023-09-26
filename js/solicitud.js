@@ -507,15 +507,15 @@ const updateCampo = (indiceSolicitud, step, api, method, id, key, value) => {
  * @param {Function}
  */
 $("input[name=search]").on('change', function () {
+    let perPage = $("#selectPerPage :selected").val();
+    if (perPage === undefined)
+        return;
+
     let buscar = $(this).val();
 
     let page = 1;
 
     console.log("=============  Leer solicitudes Paginando =============");
-    let perPage = $("#selectPerPage :selected").val();
-
-    if (perPage === undefined)
-        return;
 
     if (buscar.localeCompare('') == 0) {
         paginar(1);
