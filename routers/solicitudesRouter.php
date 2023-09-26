@@ -128,7 +128,8 @@ class SolicitudesRouter extends RestApi
     public function getSolicitudByIdAlumno()
     {
         $idAlumno = $this->validateParameter("idAlumno", $this->param["idAlumno"], INTEGER);
-        if ($result = $this->service->getByField("idAlumno", $idAlumno)) {
+        $result = $this->service->getByField("idAlumno", $idAlumno);
+        if ($result) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
             $this->throwError(CREATED_ERROR, $result);
@@ -136,7 +137,7 @@ class SolicitudesRouter extends RestApi
     }
 
     public function updateSolicitudByKeyandValue()
-    {
+    {  
         $idSolicitud = $this->validateParameter('idSolicitud', $this->param["idSolicitud"], INTEGER);
         $key = $this->validateParameter('key', $this->param["key"], STRING);
         $value = $this->validateParameter('value', $this->param["value"], STRING);
@@ -211,29 +212,41 @@ class SolicitudesRouter extends RestApi
         $solicitud = $this->service->getByQueryTable($query);
 
         if ($solicitud) {
-            $query = "SELECT * FROM `alumnos` WHERE idAlumno = " . $solicitud[0]->idAlumno;
+            if($solicitud[0]->idAlumno !=  null){
+                $query = "SELECT * FROM `alumnos` WHERE idAlumno = " . $solicitud[0]->idAlumno;
                 $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
                 $solicitud[0]->idAlumno = $alumno;
+            }
 
+            if($solicitud[0]->idEscuela !=  null){
                 $query = "SELECT * FROM `escuela` WHERE idEscuela = " . $solicitud[0]->idEscuela;
                 $escuela = $this->service->getByQueryTableModel($query, "Escuela");
                 $solicitud[0]->idEscuela = $escuela;
+            }
 
+            if($solicitud[0]->idPadre !=  null){
                 $query = "SELECT * FROM `padre` WHERE idPadre = " . $solicitud[0]->idPadre;
                 $datosPadre = $this->service->getByQueryTableModel($query, "Padre");
                 $solicitud[0]->idPadre = $datosPadre;
+            }
 
+            if($solicitud[0]->idIngresosFamiliares !=  null){
                 $query = "SELECT * FROM `ingresosfamiliares` WHERE idIngresosFamiliares = " . $solicitud[0]->idIngresosFamiliares;
                 $ingresosFamiliares = $this->service->getByQueryTableModel($query, "IngresosFamiliares");
                 $solicitud[0]->idIngresosFamiliares = $ingresosFamiliares;
+            }
 
+            if($solicitud[0]->idServicios !=  null){
                 $query = "SELECT * FROM `servicios` WHERE idservicios = " . $solicitud[0]->idServicios;
                 $servicios = $this->service->getByQueryTableModel($query, "Servicios");
                 $solicitud[0]->idServicios = $servicios;
+            }
 
+            if($solicitud[0]->idRequisitosAdicionales !=  null){
                 $query = "SELECT * FROM `requisitosadicionales` WHERE idRequisitosAdicionales = " . $solicitud[0]->idRequisitosAdicionales;
                 $requisitosAdicionales = $this->service->getByQueryTableModel($query, "RequisitosAdicionales");
                 $solicitud[0]->idRequisitosAdicionales = $requisitosAdicionales;
+            }
             $this->returnResponse(SUCESS_RESPONSE,$solicitud);
         } else if (empty($solicitudes)) {
             $this->returnResponse(SUCESS_EMPTY, "no hay solicitudes registradas");
@@ -308,15 +321,13 @@ class SolicitudesRouter extends RestApi
     public function correoVerificacion(){
         $idAlumno = $this->validateParameter('idAlumno', $this->param["idAlumno"], INTEGER);
 
-        $palabras = array('Beca', 'Alumno', 'Correo', 'Verificacion', 'Uriangato'); // Un array de palabras para elegir
+        $palabras = array('Beca', 'Alumno', 'email', 'Verificacion', 'Uriangato'); // Un array de palabras para elegir
         $palabra_aleatoria = str_shuffle($palabras[array_rand($palabras)]); // Selecciona una palabra aleatoria del array y la reordena
         $longitud_aleatoria = rand(5, 10); // Genera una longitud aleatoria entre 5 y 10 caracteres
         $palabra_aleatoria = substr($palabra_aleatoria, 0, $longitud_aleatoria); // Obtiene una subcadena aleatoria de la longitud deseada
 
         $query = "SELECT * FROM `alumnos` WHERE idAlumno = " . $idAlumno;
         $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
-
-
         $to      = $alumno[0]->email;
         $nombre  = $alumno[0]->nombre; 
         $subject = 'Correo de verificación para registro de Beca Uriangato';

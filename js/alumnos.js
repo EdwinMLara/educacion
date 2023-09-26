@@ -219,7 +219,8 @@ function syncronizarForm() {
 
 
 /**
- * it's lunched when the curp input changes and it check the out if exist  
+ * it's lunched when the curp input changes and it check the out if exist 
+ * if the curp exist it call the method verificarCorreo() 
  * @param {ChangeEvent<HTMLInputElement} e 
  * @returns 
  */
@@ -242,12 +243,11 @@ const checkIfCurpExist = (e) => {
         }
     }
 
-    console.log(dataCheckCurp);
     window.localStorage.setItem('current_curp',curp);
 
     request('/educacion/Api/apiAlumnos.php', dataCheckCurp, function (res) {
-        console.log("Revisar Curp");
-        console.log(res);
+        //console.log("Revisar Curp");
+        //console.log(res);
 
         if (res.hasOwnProperty('error')) {
             alert(res.error.message);
@@ -267,18 +267,20 @@ const checkIfCurpExist = (e) => {
         $("input[name='fechaNacimiento']").val(check[0].fechaNacimiento);
 
 
-        verificarCorreo(3, auxToken[0])
+        verificarCorreo(check[0].idAlumno, auxToken[0])
             .then((result) => {
                 console.log(result);
 
-                let dataGetSolicitud = {
+                let dataGetSolicitudByIdAlumno = {
                     name: "getSolicitudByIdAlumno",
                     param: {
                         idAlumno: check[0].idAlumno
                     }
                 }
 
-                request('/educacion/Api/apiSolicitudes.php', dataGetSolicitud, function (res) {
+                //console.log(dataGetSolicitudByIdAlumno)
+                request('/educacion/Api/apiSolicitudes.php', dataGetSolicitudByIdAlumno, function (res) {
+                    //console.log(res);
         
                     if (res.hasOwnProperty('error')) {
                         alert(res.error.message);
@@ -287,26 +289,27 @@ const checkIfCurpExist = (e) => {
         
                     let Solicitud = res.response.result;
         
-                    if (parseInt(Solicitud.idEscuela) < 0) {
+                    if (Solicitud.idEscuela === null) {
                         location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${Solicitud.idSolicitud}`
                         return
                     }
-                    if (parseInt(Solicitud.idPadre) < 0) {
+
+                    if (Solicitud.idPadre === null) {
                         location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${Solicitud.idSolicitud}`
                         return;
                     }
          
-                    if (parseInt(Solicitud.idIngresosFamiliares) < 0) {
+                    if (Solicitud.idIngresosFamiliares === null) {
                         location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${Solicitud.idSolicitud}`
                         return
                     }
          
-                    if (parseInt(Solicitud.idServicios) < 0) {
+                    if (Solicitud.idServicios === null) {
                         location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${Solicitud.idSolicitud}`;
                         return
                     }
          
-                    if (parseInt(Solicitud.idRequisitosAdicionales) < 0) {
+                    if (Solicitud.idRequisitosAdicionales === null) {
                         location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${Solicitud.idSolicitud}`
                         return
                     }
@@ -330,6 +333,7 @@ const checkIfCurpExist = (e) => {
  */
 
 const verificarCorreo = async (idAlumno, token) => {
+    //console.log("correo de verificacion");
     return new Promise((resolve, reject) => {
         let modalVerification = $('#modalCorreoVerificacion');
         modalVerification.css({
@@ -345,6 +349,7 @@ const verificarCorreo = async (idAlumno, token) => {
         }
 
         request('/educacion/Api/apiSolicitudes.php', dataCorreoVerificacion, function (res) {
+            //console.log(res);
             if (res.response.status == 200) {
 
                 $("#verificar-acepted-button").on("click", function (clickEvent) {
