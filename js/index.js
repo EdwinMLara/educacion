@@ -1,11 +1,22 @@
+/**
+ * @type {String}
+ */
 const token = window.localStorage.getItem('token');
 console.log(`token: ${token}`);
 
+/**
+ * it could be Administrador or Agente
+ * @type {String} 
+ */
 const typeCount = window.localStorage.getItem('tipoCuenta');
 
 //const currentUrl = window.location.pathname;
 //console.log(currentUrl);
 
+
+/**
+ * @type {String}
+ */
 const username = window.localStorage.getItem('username');
 
 if (username !== null && username.length > 0) {
@@ -14,6 +25,12 @@ if (username !== null && username.length > 0) {
 }
 
 
+/**
+ * it is used to convert and html form in a json object
+ * 
+ * @param {HTMLFormElement} $form 
+ * @returns {Object}
+ */
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
@@ -25,12 +42,23 @@ function getFormData($form) {
     return indexed_array;
 }
 
+/**
+ * it used to inject a div with the messages if the actions user has done succesfully
+ * @param {Integer} status 
+ */
 function mostrarRequestAlerResult(status) {
     let trueResponse = '<div class="alert alert-success"><strong>Success!</strong> Se ha Actualizado correctamente al usuario.</div>';
     let falseResponse = '<div class="alert alert-danger"><strong>Error!</strong> Algo ha salido mal al actualizar el usuario.</div>';
     status === 200 ? $("#alert").append(trueResponse) : $("#alert").append(falseResponse);
 }
 
+/**
+ * it's a funtion do inject a overall paginator 
+ * @param {Integer} numDatos -- it's the number total data to pagine
+ * @param {Integer} page -- it's the current page
+ * @param {Integer} perPage -- it's the number data to show per page
+ * @param {String} strNameFunctionPaginate -- it's an string with the name of a function to bind with the onclick event  
+ */
 function insertStrPaginador(numDatos, page, perPage, strNameFunctionPaginate) {
 
     let paginas = parseInt(numDatos / perPage);
@@ -90,11 +118,24 @@ function insertStrPaginador(numDatos, page, perPage, strNameFunctionPaginate) {
     }
 }
 
+
+/**
+ * it's a jQuery selector binded by id with the name selectPerPage attaching a onchange event if it change 
+ * the system repage
+ * @param {String} 
+ * @param {Function} 
+ */
 $("#selectPerPage").on('change', function () {
     console.log("========= Repaginar =====");
     paginar(1);
 });
 
+
+/**
+ * its inject the drawer in funciton of type of acount
+ * the string must be Admnistrador or Agente it's 
+ * @param {String} typeCount 
+ */
 const typeCounts = (typeCount) => {
     let administradorJ = $("#sideBarAdministracion").empty();
     let solicitudesJ = $("#sideBarSolicitudes").empty();
@@ -107,7 +148,7 @@ const typeCounts = (typeCount) => {
         + "<div class='bg-white py-2 collapse-inner rounded'>"
         + "<h6 class='collapse-header'>Informatica:</h6>"
         + "<a class='collapse-item' href='/educacion/views/usuarios/usuarios.php'>Usuarios</a>";
-    +"</div>"
+        +"</div>"
         + "</div>";
 
     let htmlSolicitudes = "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseUtilities' aria-expanded='true' aria-controls='collapseUtilities'>"
@@ -124,8 +165,14 @@ const typeCounts = (typeCount) => {
     (typeCount == "agente" || typeCount == "administrador") && solicitudesJ.append(htmlSolicitudes);
 }
 
-/** type request is used when we want to show somethig like we gonna paginate the user */
-
+/**
+ * this funciton is used to make request to the Apis
+ * @param {String} url 
+ * @param {Object} data 
+ * @param {Function} callback 
+ * @param {String} token 
+ * @param {Boolean} typeRequest 
+ */
 async function request(url, data, callback, token, typeRequest = true) {
     let strData = JSON.stringify(data);
     $.ajax({
@@ -149,9 +196,8 @@ async function request(url, data, callback, token, typeRequest = true) {
         }
     });
 }
-
-/**Forma de agregar un metodo al objeto validador con la finalidad de validar la curp
- * utilizando una expresion regular
+/**
+ * regex to validate a phone number
  */
 $.validator.addMethod(
     "regexPhone",
@@ -164,7 +210,9 @@ $.validator.addMethod(
     },
     "Ejemplo numero de telefono : 445-457-5022"
 );
-
+/**
+ * this is the way to add a curp validation through a regular expresion
+ */
 $.validator.addMethod(
     "regexCurp",
     function (value, element, regexp) {
@@ -177,6 +225,11 @@ $.validator.addMethod(
     "La curp no es valida"
 );
 
+/**
+ * 
+ * @param {String} url -- it's an absolute route to an image 
+ * @returns {String} -- it the image converte in base64 string
+ */
 const getBase64FromUrl = async (url) => {
     const data = await fetch(url);
     const blob = await data.blob();
@@ -192,13 +245,19 @@ const getBase64FromUrl = async (url) => {
     return await promise.then(str => str);
 }
 
+/**
+ * 
+ * @param {Object} solicitud -- its an applications object only work it is complete
+ * @param {String} fecha -- it's the management period work
+ * @returns 
+ */
 const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     console.log(solicitud);
 
     /**Esta imagen tiene error */
-    let img = await getBase64FromUrl('/educacion/img/logo uriangato.png');
+    let img = getBase64FromUrl('/educacion/img/logo uriangato.png');
 
-    let img2 = await getBase64FromUrl('/educacion/img/logo_sombra.png');
+    let img2 = getBase64FromUrl('/educacion/img/logo_sombra.png');
 
     //  ================   Datos Alumno ====================
     if (!(solicitud.idAlumno.length > 0))
@@ -746,6 +805,12 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     pdfMake.createPdf(docDefinition).open();
 }
 
+/**
+ * it's a customize alert
+ * @param {String} question -- it's the question to appear over the alert
+ * @param {Boolean} buttonReject -- if this is true the cancel button is shown  
+ * @returns 
+ */
 const customizeConfirm = async (question, buttonReject = false) => {
     return new Promise((resolve, reject) => {
         let modalConfirm = $('#modalConfirm');
@@ -844,19 +909,19 @@ const formDatoisDone = (idKeyNameForm,step) => {
         let datos;
         switch (step) {
             case 1:
-                datos = res.response.result[0].idEscuela[0];
+                datos = res.response.result[0].idEscuela !== null ? res.response.result[0].idEscuela : null;
                 break;
             case 2:
-                datos = res.response.result[0].idPadre[0];
+                datos = res.response.result[0].idPadre !== null ? res.response.result[0].idPadre : null;
                 break;
             case 3:
-                datos = res.response.result[0].idIngresosFamiliares[0];
+                datos = res.response.result[0].idIngresosFamiliares !== null ? res.response.result[0].idIngresosFamiliares : null ;
                 break;
             case 4:
-                datos = res.response.result[0].idServicios[0];
+                datos = res.response.result[0].idServicios !== null ? res.response.result[0].idServicios : null;
                 break;
             case 5:
-                datos = res.response.result[0].idRequisitosAdicionales[0];
+                datos = res.response.result[0].idRequisitosAdicionales !== null ? res.response.result[0].idServicios : null;
                 break;
             case 6:
                 res.response.result[0].nivelEstudios.localeCompare("NO-REGISTRAD") !== 0 && $(`option[value="${res.response.result[0].nivelEstudios}"]`).prop("selected",'selected').trigger('change');
@@ -865,6 +930,9 @@ const formDatoisDone = (idKeyNameForm,step) => {
             default:
                 break;
         }
+
+        if(datos === null)
+            return
 
         if (typeof datos === 'object' && datos.hasOwnProperty(idKeyNameForm)) {
             Object.keys(datos).forEach(function (key) {
@@ -892,5 +960,5 @@ const formDatoisDone = (idKeyNameForm,step) => {
 
 
 
-    }, auxToken[0]);
+    }, auxToken[0],false);
 }
