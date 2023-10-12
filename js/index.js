@@ -255,9 +255,10 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     console.log(solicitud);
 
     /**Esta imagen tiene error */
-    let img = getBase64FromUrl('/educacion/img/logo uriangato.png');
 
-    let img2 = getBase64FromUrl('/educacion/img/logo_sombra.png');
+    //let img = getBase64FromUrl('http://educacion/img/logo uriangato.png');
+
+    //let img2 = getBase64FromUrl('http://localhost/educacion/img/logo_sombra.png');
 
     //  ================   Datos Alumno ====================
     if (!(solicitud.idAlumno.length > 0))
@@ -356,12 +357,7 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
         content: [
             {
                 alignment: 'center',
-                columns: [
-                    {
-                        image: img2,
-                        width: 50,
-                        height: 50
-                    },
+                columns: [                
                     [{
                         style: 'header',
                         text: `FORMATO DE SOLICITUD DE BECA MUNICIPAL`
@@ -370,13 +366,6 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                         style: 'subheader',
                         text: `AYUNTAMIENTO ${fecha}`
                     }, `Folio : ${folio}`]
-
-                    ,
-                    {
-                        image: img2,
-                        width: 50,
-                        height: 50
-                    }
                 ],
 
             },
