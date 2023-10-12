@@ -210,7 +210,7 @@ function syncronizarForm() {
                 window.localStorage.setItem('current_curp', data.param.curp);
                 res.response.status ? location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&alumno=${inserted}` : mostrarRequestAlerResult(res.response.status);
 
-            }, auxToken[0]);
+            }, auxToken[0],false);
         }
     });
 
