@@ -295,6 +295,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     console.log('--------- Mostrar Destalles de Solicitud -------------');
 
     let idSolicitud = parseInt(solicitudes[indiceSolicitud].idSolicitud);
+    currentIdSolicitud[0] = idSolicitud;
 
     let formHMTL = '<form class="formLogin" id="formLogin">';
     let finFormHTML = '</form> </div>';
@@ -382,7 +383,7 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
                             }
                             let response = result ? 'aceptada' : 'rechazada';
                             updateCampo(indiceSolicitud, step, "apiSolicitudes.php", "updateSolicitudByKeyandValue", { idSolicitud }, 'status', response);
-                            response.localeCompare('aceptada') ? enviarRespuesta(1) : null
+                            response.localeCompare('aceptada') === 0 ? enviarRespuesta(1) : null
                         }).catch(result => {
                             console.log(result);
                         })
@@ -543,8 +544,10 @@ $("input[name=search]").on('change', function () {
 $('#descargar').on('click',function (){
     let folio = $("input[name=folio]").val();
 
-    let pattern = /(URI)-\d{2}-\d+/g;
+    let pattern = /(URF)-\d{2}-\d+/g;
     let result = pattern.test(folio);
+    
+    console.log(result);
 
     if(!result){
         alert(`El folio ${folio} es invalido!`);
@@ -552,10 +555,11 @@ $('#descargar').on('click',function (){
     }
     /** regex para validar folio del tipo URI-n */
     let id = folio.split("-");
+    console.log(id);
     let data = {
         name:"getSolicitudById",
         param:{
-            idSolicitud: id[2]
+            idSolicitud: id[1]
         }
     }
     console.log(data);
@@ -622,7 +626,7 @@ const enviarRespuesta = (value) =>{
         $("#validationMotivo").text("");
     }
 
-    console.log(value);
+    
     let data = {
         name : "correoRespuestaAceptacionBeca",
         param:{
@@ -631,6 +635,8 @@ const enviarRespuesta = (value) =>{
             respuesta:valueRespuesta
         } 
     }
+
+    console.log(data);
     
     request('/educacion/Api/apiSolicitudes.php',data,function (res){
         console.log(res);
@@ -649,12 +655,13 @@ const enviarRespuesta = (value) =>{
 
         $("#alert").html(succesAlert);
 
-    },token);
+    },token,false);
     
 }
 
 $('#aceptarBecaButton').on('click',function () {
     enviarRespuesta(0);
+    paginar(1);
 });
 
 /*$('#rechazarBecaButton').on('click',function () {
