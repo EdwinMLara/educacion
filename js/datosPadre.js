@@ -246,8 +246,8 @@ function syncronizarFormDatosPadre(hiddenInputFolio,current_curp){
 
                     let status = res.response.status;
                     status ? location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${folio}` : mostrarRequestAlerResult(status)
-                },auxToken[0]);
-            },auxToken[0]);
+                },auxToken[0],false);
+            },auxToken[0],false);
         }
     });
 }

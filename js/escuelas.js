@@ -82,7 +82,7 @@ $(function () {
     console.log("escuelas");
     auxToken[0] = window.localStorage.getItem('auxToken');
 
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search); 
     const folio = urlParams.get('folio');
     const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
 
@@ -178,8 +178,8 @@ function syncronizarFormEscuelas(hiddenInputFolio) {
 
                     let status = res.response.status;
                     status ? location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
-                }, auxToken[0]);
-            }, auxToken[0]);
+                }, auxToken[0],false);
+            }, auxToken[0],false);
         }
     });
 }
