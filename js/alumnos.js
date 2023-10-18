@@ -417,8 +417,7 @@ const verificarCorreo = async (idAlumno, token) => {
 
 
                     let userValidationvalue = $("input[name='validationKey']").val();
-                    // userValidationvalue.localeCompare(res.response.result.validationKey) === 0
-                    if (true)
+                    if (userValidationvalue.localeCompare(res.response.result.validationKey) === 0)
                         resolve("Se ha verificado correctamente")
                     else {
                         clickEvent.preventDefault();
