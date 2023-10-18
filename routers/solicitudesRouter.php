@@ -18,18 +18,19 @@ class SolicitudesRouter extends RestApi
 
     public function addSolicitude()
     {
-        $idAlumno = $this->validateParameter('idAlumno', $this->param['idAlumno'], INTEGER);
-        $idEscuela = $this->validateParameter('idEscuela', $this->param['idEscuela'], INTEGER);
-        $idPadre = $this->validateParameter('idPadre', $this->param['idPadre'], INTEGER);
-        $idIngresosFamiliares = $this->validateParameter('idIngresosFamiliares', $this->param['idIngresosFamiliares'], INTEGER);
-        $idServicios = $this->validateParameter('idServicios', $this->param['idServicios'], INTEGER);
-        $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales', $this->param['idRequisitosAdicionales'], INTEGER);
+        $idAlumno = $this->validateParameter('idAlumno', $this->param['idAlumno'], STRING);
+        $idEscuela = $this->validateParameter('idEscuela', $this->param['idEscuela'], STRING);
+        $idPadre = $this->validateParameter('idPadre', $this->param['idPadre'], STRING);
+        $idIngresosFamiliares = $this->validateParameter('idIngresosFamiliares', $this->param['idIngresosFamiliares'], STRING);
+        $idServicios = $this->validateParameter('idServicios', $this->param['idServicios'], STRING);
+        $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales', $this->param['idRequisitosAdicionales'], STRING);
         $nivelEstudios = $this->validateParameter('nivelEstudios', $this->param["nivelEstudios"], STRING);
         $promedioReciente = $this->validateParameter('promedioReciente', $this->param["promedioReciente"], STRING);
         $status = $this->validateParameter('status', $this->param["status"], STRING);
+        $notificado = $this->validateParameter('notificado',$this->param["notificado"],INTEGER);
         $fecha = $this->validateParameter("fecha", $this->param["fecha"], STRING);
 
-        $arguments = array($idAlumno, $idEscuela, $idPadre, $idIngresosFamiliares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente, $status, $fecha);
+        $arguments = array($idAlumno, $idEscuela, $idPadre, $idIngresosFamiliares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente, $status, $notificado, $fecha);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
@@ -128,9 +129,10 @@ class SolicitudesRouter extends RestApi
     public function getSolicitudByIdAlumno()
     {
         $idAlumno = $this->validateParameter("idAlumno", $this->param["idAlumno"], INTEGER);
-        $result = $this->service->getByField("idAlumno", $idAlumno);
+        $query = "SELECT * FROM `solicitudes` WHERE idAlumno = $idAlumno ORDER BY idSolicitud DESC";
+        $result = $this->service->getByQueryTable($query);
         if ($result) {
-            $this->returnResponse(SUCESS_RESPONSE, $result);
+            $this->returnResponse(SUCESS_RESPONSE, $result[0]);
         } else {
             $this->throwError(CREATED_ERROR, $result);
         }
