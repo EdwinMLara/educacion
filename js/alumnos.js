@@ -159,7 +159,7 @@ function syncronizarForm() {
         onkeyup: false,
         rules: {
             file: { required: true },
-            correo: {
+            email: {
                 required: true,
                 email: true
             },
