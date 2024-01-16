@@ -173,8 +173,8 @@ function syncronizarForm() {
         messages: {
             file: { required: "Seleccione el archivo" },
             email: {
-                required: "Agregar el email",
-                email: 'el correo es invalido'
+                required: "Agrege su correo",
+                email: 'El correo es invalido'
             },
             nombre: {
                 required: 'Agrege el nombre del alumno....',
