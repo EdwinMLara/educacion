@@ -9,6 +9,7 @@ class ServiciosRouter extends RestApi{
     }
 
     public function addServicios(){
+        $idAlumno = $this->validateParameter('idAlumno',$this->param["idAlumno"],INTEGER);
         $callesPavimentadas = $this->validateParameter('callesPavimentadas', $this->param["callesPavimentadas"], STRING);
         $drenaje = $this->validateParameter('drenaje',$this->param["drenaje"],STRING);
         $biblioteca = $this->validateParameter('biblioteca',$this->param["biblioteca"],STRING);
@@ -20,7 +21,7 @@ class ServiciosRouter extends RestApi{
         $juegosOCanchas = $this->validateParameter('juegosOCanchas',$this->param['juegosOCanchas'],STRING);
         $file = $this->validateParameter('file',$this->param["file"],STRING);
 
-        $arguments = array($callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas,$file);
+        $arguments = array($idAlumno,$callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas,$file);
         
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);

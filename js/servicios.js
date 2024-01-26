@@ -125,16 +125,13 @@ $(function () {
     console.log("servicios");
     auxToken[0] = window.localStorage.getItem('auxToken');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const folio = urlParams.get('folio');
-    const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
-    syncronizarFormServicios(hiddenInputFolio);
+    syncronizarFormServicios();
 
     formDatoisDone('idServicios',4);
 });
 
-function syncronizarFormServicios(hiddenInputFolio){
-    $('#injectedForm').append(hiddenInputFolio+strFormInject);
+function syncronizarFormServicios(){
+    $('#injectedForm').append(strFormInject);
     
     $("#formAddServicios").validate({
         rules: {
@@ -163,9 +160,16 @@ function syncronizarFormServicios(hiddenInputFolio){
         },
         submitHandler: function () {
             console.log("================ Registrar servicios alumno ===============");
+            const urlParams = new URLSearchParams(window.location.search); 
+            const idAlumno = urlParams.get('alumno');
+
             let data = {
                 name: "addServicios",
-                param: {...getFormData($("#formAddServicios")),file:blobPdf[0] }
+                param: {
+                    idAlumno,
+                    ...getFormData($("#formAddServicios")),
+                    file:blobPdf[0]
+                }
             }
 
             console.log(data);
@@ -182,29 +186,10 @@ function syncronizarFormServicios(hiddenInputFolio){
                     return;
                 }
 
-                let folio = parseInt($('#folio').val());
-                let inserted = res.response.result;
-                console.log(inserted);
+                let status = res.response.status;
+                status ? location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&alumno=${idAlumno}` : mostrarRequestAlerResult(status)
 
-                let dataUpdateSolicitud = {
-                    name: "updateSolicitudIdServicios",
-                    param: {
-                        idSolicitud: folio,
-                        idServicios: inserted
-                    }
-                }
-
-                request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-                    console.log(res);
-                    if (res.hasOwnProperty('error')) {
-                        alert(res.error.message);
-                        return;
-                    }
-
-                    let status = res.response.status;
-                    status ? location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${folio}` : mostrarRequestAlerResult(status)
-                },auxToken[0]);
-            },auxToken[0]);
+            },auxToken[0],false);
         }
     });
 }

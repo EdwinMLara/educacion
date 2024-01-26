@@ -62,8 +62,6 @@ function syncronizarFormSolicitud(folio){
 
     
 const strFormInject = '<form id="formUpdateSolicitud" autocomplete="off">'
-                    
-+       `<input type='hidden' name="idSolicitud"  value=\"${folio}\" id='folio'>`
 
 +       '<div class="form-group">'
 +            '<label>Nivel de Estudios</label>'
@@ -117,13 +115,17 @@ const strFormInject = '<form id="formUpdateSolicitud" autocomplete="off">'
             }
         },
         submitHandler: function (res) {
-            console.log("================ Registrar solicitud de beca ===============");
+
+            const urlParams = new URLSearchParams(window.location.search); 
+            const idAlumno = urlParams.get('alumno');
 
             let dataUpdateSolicitud = {
-                name: "updateSolicitud",
-                param: getFormData($("#formUpdateSolicitud"))
+                name: "updateSolicitudByIdAlumno",
+                param:{
+                    idAlumno, 
+                    ...getFormData($("#formUpdateSolicitud"))
+                }
             }
-
 
             console.log(dataUpdateSolicitud);
             request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
@@ -136,34 +138,9 @@ const strFormInject = '<form id="formUpdateSolicitud" autocomplete="off">'
                 if (!res.response.status >= 200 && !res.response.status < 300) {
                     mostrarRequestAlerResult(res.response.status);
                     return;
-                }
+                } 
 
-                let status = res.response.status;
-
-                if (!status) {
-                    alert('Se ha generado un error comuniquese al area de becas!')
-                    return;
-                }
-
-                let dataGetSolicitudById = {
-                    name: "getSolicitudById",
-                    param: {
-                        idSolicitud: dataUpdateSolicitud.param.idSolicitud
-                    }
-                }
-
-                console.log(dataGetSolicitudById);
-
-                request('/educacion/Api/apiSolicitudes.php', dataGetSolicitudById, function (res) {
-
-                    if (res.hasOwnProperty('error')) {
-                        alert(res.error.message);
-                        return;
-                    }
-
-
-
-                    customizeConfirm("Se ha completado su registro, puede imprimir su solicitud", true)
+                customizeConfirm("Se ha completado su registro, le enviaremos un correo una vez su solicitud haya revisada GRACIAS POR SU SOLICITUD", true)
                         .then(result => {
                             if (result === null) {
                                 return
@@ -172,9 +149,6 @@ const strFormInject = '<form id="formUpdateSolicitud" autocomplete="off">'
                         }).catch(result => {
                             console.log(result);
                         })
-
-                    createSolicitudPdf(res.response.result[0]);
-                }, auxToken[0]);
 
             }, auxToken[0]);
         }

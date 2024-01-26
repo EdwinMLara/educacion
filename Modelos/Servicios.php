@@ -1,6 +1,7 @@
 <?php
     class Servicios{
         public String $idServicios = "autoincrement";
+        public String $idAlumno = "";
         public String $callesPavimentadas = "";
         public String $drenaje = "";
         public String $biblioteca = "";
@@ -17,18 +18,19 @@
             $numArgs = count($listArgs);
 
             switch($numArgs){
-                case 10:
-                    $this->__construct10($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9]);
-                    break;
                 case 11:
                     $this->__construct11($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10]);
+                    break;
+                case 12:
+                    $this->__construct12($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11]);
                     break;
                 default:
                     throw new Exception('Error al crear el constructor servicios');
             }
         }
 
-        public function __construct10($callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas,$file){
+        public function __construct11($idAlumno,$callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas,$file){
+            $this->idAlumno = $idAlumno;
             $this->callesPavimentadas = $callesPavimentadas;
             $this->drenaje = $drenaje;
             $this->biblioteca = $biblioteca;
@@ -41,8 +43,9 @@
             $this->file = $file;
         }
 
-        public function __construct11($idServicios,$callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas,$file){
+        public function __construct12($idServicios,$idAlumno,$callesPavimentadas,$drenaje,$biblioteca,$recoleccionBasura,$alumbradoPublico,$telefonoPublico,$transportePublico,$aguaPotable,$juegosOCanchas,$file){
             $this->idServicios = $idServicios;
+            $this->idAlumno = $idAlumno;
             $this->callesPavimentadas = $callesPavimentadas;
             $this->drenaje = $drenaje;
             $this->biblioteca = $biblioteca;

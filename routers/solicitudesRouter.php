@@ -24,13 +24,9 @@ class SolicitudesRouter extends RestApi
         $idIngresosFamiliares = $this->validateParameter('idIngresosFamiliares', $this->param['idIngresosFamiliares'], STRING);
         $idServicios = $this->validateParameter('idServicios', $this->param['idServicios'], STRING);
         $idRequisitosAdicionales = $this->validateParameter('idRequisitosAdicionales', $this->param['idRequisitosAdicionales'], STRING);
-        $nivelEstudios = $this->validateParameter('nivelEstudios', $this->param["nivelEstudios"], STRING);
-        $promedioReciente = $this->validateParameter('promedioReciente', $this->param["promedioReciente"], STRING);
-        $status = $this->validateParameter('status', $this->param["status"], STRING);
-        $notificado = $this->validateParameter('notificado',$this->param["notificado"],INTEGER);
         $fecha = $this->validateParameter("fecha", $this->param["fecha"], STRING);
 
-        $arguments = array($idAlumno, $idEscuela, $idPadre, $idIngresosFamiliares, $idServicios, $idRequisitosAdicionales, $nivelEstudios, $promedioReciente, $status, $notificado, $fecha);
+        $arguments = array($idAlumno, $idEscuela, $idPadre, $idIngresosFamiliares, $idServicios, $idRequisitosAdicionales,$fecha);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {
@@ -38,15 +34,18 @@ class SolicitudesRouter extends RestApi
         }
     }
 
-    public function updateSolicitud()
+    public function updateSolicitudByIdAlumno()
     {
-        $idSolicitud = $this->validateParameter('idSolicitud', $this->param["idSolicitud"], INTEGER);
+        $idAlumno = $this->validateParameter('idAlumno', $this->param["idAlumno"], INTEGER);
         $nivelEstudios = $this->validateParameter('nivelEstudios', $this->param["nivelEstudios"], STRING);
         $promedioReciente = $this->validateParameter('promedioReciente', $this->param["promedioReciente"], STRING);
 
-        $arguments = array($idSolicitud, $nivelEstudios, $promedioReciente);
-        if ($updated = $this->service->update($arguments, $idSolicitud)) {
-            $this->returnResponse(SUCESS_RESPONSE, $updated);
+        $query = "UPDATE `solicitudes`  SET `nivelEstudios`='$nivelEstudios',`promedioReciente`='$promedioReciente' WHERE idAlumno = $idAlumno and (fecha < DATE_ADD(now(),INTERVAL 90 DAY))";
+
+        $result = $this->service->updateByTableQuery($query);
+
+        if ($result) {
+            $this->returnResponse(SUCESS_RESPONSE,$result);
         } else {
             $this->throwError(UPDATED_ERROR, "An error has been ocurred");
         }

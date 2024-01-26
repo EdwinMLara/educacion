@@ -7,18 +7,19 @@
             $numArgs = count($listArgs);
 
             switch($numArgs){
-                case 9:
-                    $this->__construct9($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8]);
-                    break;
                 case 10:
                     $this->__construct10($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9]);
+                    break;
+                case 11:
+                    $this->__construct11($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10]);
                     break;
                 default:
                     throw new Exception('Error al crear el constructor Escuela');
             }
         }
 
-        public function __construct9($nombre,$calle,$no,$colonia,$municipio,$cp,$telefono,$tipoInstitucion,$file){
+        public function __construct10($idAlumno,$nombre,$calle,$no,$colonia,$municipio,$cp,$telefono,$tipoInstitucion,$file){
+            $this->idAlumno = $idAlumno;
             $this->nombre = $nombre;
             $this->calle = $calle;
             $this->no = $no;
@@ -30,8 +31,9 @@
             $this->file = $file;
         }
 
-        public function __construct10($idEscuela,$nombre,$calle,$no,$colonia,$municipio,$cp,$telefono,$tipoInstitucion,$file){
+        public function __construct11($idEscuela,$idAlumno,$nombre,$calle,$no,$colonia,$municipio,$cp,$telefono,$tipoInstitucion,$file){
             $this->idEscuela = $idEscuela;
+            $this->idAlumno = $idAlumno;
             $this->nombre = $nombre;
             $this->calle = $calle;
             $this->no = $no;

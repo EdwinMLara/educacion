@@ -9,6 +9,7 @@ class DatosPadreRouter extends RestApi{
     }
 
     public function addDatosPadre(){
+        $idAlumno = $this->validateParameter('idAlumno',$this->param["idAlumno"],INTEGER);
         $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
         $telefeno = $this->validateParameter("telefono",$this->param["telefono"],STRING);
         $fechaNacimiento = $this->validateParameter("fechaNacimiento",$this->param["fechaNacimiento"],STRING);
@@ -24,7 +25,7 @@ class DatosPadreRouter extends RestApi{
         $seguroMedico = $this->validateParameter("seguroMedico",$this->param["seguroMedico"],STRING);
         $file = $this->validateParameter('file',$this->param["file"],STRING); 
 
-        $arguments = array($curp,$nombre,$telefeno,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file);
+        $arguments = array($idAlumno,$curp,$nombre,$telefeno,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {

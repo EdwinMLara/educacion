@@ -9,6 +9,7 @@ class IngresosFamiliaresRouter extends RestApi{
     }
 
     public function addIngresosFamiliares(){
+        $idAlumno = $this->validateParameter('idAlumno',$this->param["idAlumno"],INTEGER);
         $ingresoPapa = $this->validateParameter('ingresoPapa', $this->param["ingresoPapa"],STRING);
         $ingresoMama = $this->validateParameter('ingresoMama', $this->param["ingresoMama"], STRING);
         $ingresoHermanos = $this->validateParameter('ingresoHermanos', $this->param["ingresoHermanos"], STRING);
@@ -16,7 +17,7 @@ class IngresosFamiliaresRouter extends RestApi{
         $personaDependientes = $this->validateParameter('personasDependientes', $this->param["personasDependientes"], STRING);
         $file = $this->validateParameter('file',$this->param["file"],STRING); 
 
-        $arguments = array($ingresoPapa,$ingresoMama,$ingresoHermanos,$ingresosAbuelos,$personaDependientes,$file);
+        $arguments = array($idAlumno,$ingresoPapa,$ingresoMama,$ingresoHermanos,$ingresosAbuelos,$personaDependientes,$file);
         
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);

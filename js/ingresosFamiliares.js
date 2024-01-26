@@ -68,17 +68,14 @@ $(function () {
     console.log("Ingresos Familiares");
     auxToken[0] = window.localStorage.getItem('auxToken');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const folio = urlParams.get('folio');
-    const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
-    syncronizarFormFamiliares(hiddenInputFolio);
+    syncronizarFormFamiliares();
 
     formDatoisDone('idIngresosFamiliares',3);
 })
 
 
-function syncronizarFormFamiliares(hiddenInputFolio){
-    $('#injectedForm').append(hiddenInputFolio+strFormInject);
+function syncronizarFormFamiliares(){
+    $('#injectedForm').append(strFormInject);
     
     $('#formIngresosFamiliares').validate({
         rules: {
@@ -99,9 +96,17 @@ function syncronizarFormFamiliares(hiddenInputFolio){
         },
         submitHandler: function () {
             console.log("================== Registrar Ingresos Familiares ================= ");
+
+            const urlParams = new URLSearchParams(window.location.search); 
+            const idAlumno = urlParams.get('alumno');
+
             let data = {
                 name: "addIngresosFamiliares",
-                param: {...getFormData($("#formIngresosFamiliares")),file: blobPdf[0] }
+                param: {
+                    idAlumno,
+                    ...getFormData($("#formIngresosFamiliares")),
+                    file: blobPdf[0] 
+                }
             }
             console.log(data);
 
@@ -117,31 +122,8 @@ function syncronizarFormFamiliares(hiddenInputFolio){
                     return;
                 }
 
-                let folio = parseInt($('#folio').val());
-                let inserted = res.response.result;
-                console.log(inserted);
-
-                let dataUpdateSolicitud = {
-                    name: "updateSolicitudIdIngresosFamiliares",
-                    param: {
-                        idSolicitud: folio,
-                        idIngresosFamiliares: inserted
-                    }
-                }
-
-                console.log(dataUpdateSolicitud);
-
-
-                request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-                    console.log(res);
-                    if (res.hasOwnProperty('error')) {
-                        alert(res.error.message);
-                        return;
-                    }
-
-                    let status = res.response.status;
-                    status ? location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${folio}` : mostrarRequestAlerResult(status)
-                },auxToken[0]);
+                let status = res.response.status;
+                    status ? location.href = `/educacion/views/servicios/addServicios.php?step=4&alumno=${idAlumno}` : mostrarRequestAlerResult(status)
         },auxToken[0]);
         }
     });

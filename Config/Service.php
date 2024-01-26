@@ -44,6 +44,10 @@ class Service implements RepositoryCrud
         return $this->consulta->updatePropertyFromTableByValue($this->typeService,$property,$value,$propertyIdName,$id);
     }
 
+    public function updateByTableQuery($query){
+        return $this->consulta->updateByQuery($this->typeService,$query);
+    }
+
     public function delete($field, $id)
     {
         try {

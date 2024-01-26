@@ -317,10 +317,6 @@ const checkIfCurpExist = (e) => {
                                 idIngresosFamiliares:`${check[0].idRequisitosAdicionales}`,
                                 idServicios:`${check[0].idServicios}`,
                                 idRequisitosAdicionales:`${check[0].idRequisitosAdicionales}`,
-                                nivelEstudios:"NO-REGISTRADO",
-                                promedioReciente:"NO-REGISTRADO",
-                                status:"pendiente",
-                                notificado:0,
                                 fecha:"now()"
                             }
                         }
@@ -343,37 +339,37 @@ const checkIfCurpExist = (e) => {
 
                             let idSolicitud = res.response.result
 
-                            location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${idSolicitud}`;
+                            location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&alumno=${check[0].idAlumno}`;
                             return;
                         },auxToken[0],false);
                     }
         
                     if (Solicitud.idEscuela === null) {
-                        location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&folio=${Solicitud.idSolicitud}`
+                        location.href = `/educacion/views/escuelas/addEscuelas.php?step=1&alumno=${check[0].idAlumno}`
                         return
                     }
 
                     if (Solicitud.idPadre === null) {
-                        location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${Solicitud.idSolicitud}`
+                        location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&alumno=${check[0].idAlumno}`
                         return;
                     }
          
                     if (Solicitud.idIngresosFamiliares === null) {
-                        location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${Solicitud.idSolicitud}`
+                        location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&alumno=${check[0].idAlumno}`
                         return
                     }
          
                     if (Solicitud.idServicios === null) {
-                        location.href = `/educacion/views/servicios/addServicios.php?step=4&folio=${Solicitud.idSolicitud}`;
+                        location.href = `/educacion/views/servicios/addServicios.php?step=4&alumno=${check[0].idAlumno}`;
                         return
                     }
          
                     if (Solicitud.idRequisitosAdicionales === null) {
-                        location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&folio=${Solicitud.idSolicitud}`
+                        location.href = `/educacion/views/requisitosAdicionales/addRequisitosAdicionales.php?step=5&alumno=${check[0].idAlumno}`
                         return
                     }
         
-                    (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${Solicitud.idSolicitud}` : alert('Su solicitud ya ha sido completada');
+                    (Solicitud.nivelEstudios == "NO-REGISTRADO" || Solicitud.promedioReciente == "NO-REGISTRADO") ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&alumno=${check[0].idAlumno}` : alert('Su solicitud ya ha sido completada');
 
                 }, auxToken[0],false);
             })

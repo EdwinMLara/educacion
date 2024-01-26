@@ -121,14 +121,10 @@ $(function () {
     console.log("datos Padre");
     auxToken[0] = window.localStorage.getItem('auxToken');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const folio = urlParams.get('folio');
-    const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
-    
     const current_curp = window.localStorage.getItem('current_curp');
     console.log(current_curp);
     
-    syncronizarFormDatosPadre(hiddenInputFolio,current_curp);
+    syncronizarFormDatosPadre(current_curp);
     
     formDatoisDone('idPadre',2);
 });
@@ -137,8 +133,8 @@ $(function () {
  * regex for a phone number i dont gonna used anymore
  * regexPhone: '[0-9]{3}-[0-9]{3}-[0-9]{4}' */
 
-function syncronizarFormDatosPadre(hiddenInputFolio,current_curp){
-    $('#injectedForm').append(hiddenInputFolio+strFormInject);
+function syncronizarFormDatosPadre(current_curp){
+    $('#injectedForm').append(strFormInject);
 
     $.validator.addMethod(
         "curpPadreAlumno",
@@ -204,9 +200,15 @@ function syncronizarFormDatosPadre(hiddenInputFolio,current_curp){
         submitHandler: function () {
             console.log("================== Registrar Datos del Padre ================= ");
 
+            const urlParams = new URLSearchParams(window.location.search); 
+            const idAlumno = urlParams.get('alumno');
+
             let data = {
                 name: "addDatosPadre",
-                param: { ...getFormData($("#formAddDatosPadre")), file: blobPdf[0] }
+                param: {
+                    idAlumno,
+                    ...getFormData($("#formAddDatosPadre")), file: blobPdf[0] 
+                }
             }
 
             console.log(data);
@@ -225,28 +227,9 @@ function syncronizarFormDatosPadre(hiddenInputFolio,current_curp){
                     return;
                 }
 
-                let folio = parseInt($('#folio').val());
-                let inserted = res.response.result;
-                console.log(inserted);
+                let status = res.response.status;
+                status ? location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&alumno=${idAlumno}` : mostrarRequestAlerResult(status)
 
-                let dataUpdateSolicitud = {
-                    name: "updateSolicitudIdPadre",
-                    param: {
-                        idSolicitud: folio,
-                        idPadre: inserted
-                    }
-                }
-
-                request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-                    console.log(res);
-                    if (res.hasOwnProperty('error')) {
-                        alert(res.error.message);
-                        return;
-                    }
-
-                    let status = res.response.status;
-                    status ? location.href = `/educacion/views/ingresosFamiliares/addIngresosFamiliares.php?step=3&folio=${folio}` : mostrarRequestAlerResult(status)
-                },auxToken[0],false);
             },auxToken[0],false);
         }
     });

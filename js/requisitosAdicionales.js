@@ -115,17 +115,13 @@ $(function (){
     console.log("requisitos Adicionales");
     auxToken[0] = window.localStorage.getItem('auxToken');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const folio = urlParams.get('folio');
-    const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
-    syncronizarFormRequisitosAdicionales(hiddenInputFolio);
-
+    syncronizarFormRequisitosAdicionales();
 
     formDatoisDone('idRequisitosAdicionales',5);
 })
 
-function syncronizarFormRequisitosAdicionales(hiddenInputFolio){
-    $('#injectedForm').append(hiddenInputFolio+strFormInject);
+function syncronizarFormRequisitosAdicionales(){
+    $('#injectedForm').append(strFormInject);
         $('#formAddRequisitosAdicionales').validate({
             rules:{
                 escuelaDentroMunicipio:{required:true},
@@ -153,9 +149,17 @@ function syncronizarFormRequisitosAdicionales(hiddenInputFolio){
             },
             submitHandler:function (){
                 console.log("================ Registrar requisitos Adicionales ===============");
+
+                const urlParams = new URLSearchParams(window.location.search); 
+                const idAlumno = urlParams.get('alumno');
+
                 let data = {
                     name:"addRequisitosAdicionales",
-                    param:getFormData($("#formAddRequisitosAdicionales"))
+                    param:{
+                        idAlumno,
+                        ...getFormData($("#formAddRequisitosAdicionales"))
+                    }
+                    
                 }
                 console.log(data);
 
@@ -171,28 +175,9 @@ function syncronizarFormRequisitosAdicionales(hiddenInputFolio){
                         return;
                     }
 
-                    let folio = parseInt($('#folio').val());
-                    let inserted = res.response.result;
-                    console.log(inserted);
+                    let status = res.response.status;
+                    status ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&alumno=${idAlumno}` : mostrarRequestAlerResult(status)
 
-                    let dataUpdateSolicitud = {
-                        name: "updateSolicitudIdRequisitosAdicionales",
-                        param: {
-                            idSolicitud: folio,
-                            idRequisitosAdicionales: inserted
-                        }
-                    }
-
-                    request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-                        console.log(res);
-                        if (res.hasOwnProperty('error')) {
-                            alert(res.error.message);
-                            return;
-                        }
-
-                        let status = res.response.status;
-                        status ? location.href = `/educacion/views/solicitudes/updateSolicitud.php?step=6&folio=${folio}` : mostrarRequestAlerResult(status)
-                    },auxToken[0]);
                 },auxToken[0]);
             }
         });

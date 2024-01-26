@@ -89,6 +89,13 @@ class Consulta extends ConexionBaseDatos{
         }
     }
 
+    public function updateByQuery($table,$query){
+        if($this->tableExists($table)){
+            $this->con->query($query);
+            return ($this->con->affected_rows === 1) ? true : false;
+        }
+    }
+
 
     public function deleteByTable($table,$field,$id){
         if($this->tableExists($table)){

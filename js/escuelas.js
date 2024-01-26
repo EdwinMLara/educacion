@@ -1,4 +1,21 @@
 //falta agregar las funciones de actulizar y eliminar 
+
+
+/**
+ * 
+ * CREATE PROCEDURE UpdateIdEscuelaFromSolicitudes
+    @idSolicitud INT,
+    @newIdEscuela INT
+AS
+BEGIN
+    UPDATE solicitudes
+    SET idEscuela = @newIdEscuela
+    WHERE ID = @idSolicitud;
+END;
+ * 
+
+
+ */
 const auxToken = [];
 const strFormInject = '<form id="formAddEscuelas" autocomplete="off">'
     + '<div class="row">'
@@ -82,12 +99,7 @@ $(function () {
     console.log("escuelas");
     auxToken[0] = window.localStorage.getItem('auxToken');
 
-    const urlParams = new URLSearchParams(window.location.search); 
-    const folio = urlParams.get('folio');
-    const hiddenInputFolio = `<input type='hidden' value=\"${folio}\" id='folio'>`;
-
-
-    syncronizarFormEscuelas(hiddenInputFolio);
+    syncronizarFormEscuelas();
 
     if ($('#bodyEscuelasTable').length)
         readEscuelasPaginadas(1);
@@ -95,8 +107,8 @@ $(function () {
     formDatoisDone('idEscuela', 1);
 });
 
-function syncronizarFormEscuelas(hiddenInputFolio) {
-    $('#injectedForm').append(hiddenInputFolio + strFormInject);
+function syncronizarFormEscuelas() {
+    $('#injectedForm').append(strFormInject);
 
     $("#formAddEscuelas").validate({
         rules: {
@@ -133,19 +145,22 @@ function syncronizarFormEscuelas(hiddenInputFolio) {
         },
         submitHandler: function () {
             console.log("================ Agregar Escuela ===============");
+            const urlParams = new URLSearchParams(window.location.search); 
+            const idAlumno = parseInt(urlParams.get('alumno'));
+
             let data = {
                 name: "addEscuela",
                 param: {
+                    idAlumno: idAlumno,
                     ...getFormData($("#formAddEscuelas")),
                     file: blobPdf[0]
                 }
             }
 
             console.log(data);
-
-
             request('/educacion/Api/apiEscuelas.php', data, function (res) {
                 console.log(res);
+
                 if (res.hasOwnProperty('error')) {
                     alert(res.error.message);
                     return
@@ -156,29 +171,9 @@ function syncronizarFormEscuelas(hiddenInputFolio) {
                     return;
                 }
 
-                let folio = parseInt($('#folio').val());
-                let inserted = res.response.result;
+                let status = res.response.status;
+                status ? location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&alumno=${idAlumno}` : mostrarRequestAlerResult(res.response.status);
 
-                let dataUpdateSolicitud = {
-                    name: "updateSolicitudIdEscuela",
-                    param: {
-                        idSolicitud: folio,
-                        idEscuela: inserted
-                    }
-                }
-
-                console.log(dataUpdateSolicitud);
-
-                request('/educacion/Api/apiSolicitudes.php', dataUpdateSolicitud, function (res) {
-                    console.log(res);
-                    if (res.hasOwnProperty('error')) {
-                        alert(res.error.message);
-                        return;
-                    }
-
-                    let status = res.response.status;
-                    status ? location.href = `/educacion/views/datosPadre/addDatosPadre.php?step=2&folio=${folio}` : mostrarRequestAlerResult(res.response.status);
-                }, auxToken[0],false);
             }, auxToken[0],false);
         }
     });
