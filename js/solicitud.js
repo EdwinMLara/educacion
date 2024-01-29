@@ -384,10 +384,13 @@ const detallesSolicitud = async (indiceSolicitud, step = 1) => {
     let id = -1;
 
     Object.keys(detallesSolicitudToShow).forEach(function (key, index) {
-        if (index === 0) {
+        if (index === 0 ) {
             id = detallesSolicitudToShow[key];
             return;
         }
+
+        if(index === 1 && key !== "curp")
+            return;
 
         if(key === "validacionKey")
             return
