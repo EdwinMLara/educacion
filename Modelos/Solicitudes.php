@@ -21,8 +21,12 @@ class Solicitudes
                 $this->__construct12($listArgs[0], $listArgs[1], $listArgs[2], $listArgs[3], $listArgs[4], $listArgs[5], $listArgs[6], $listArgs[7],$listArgs[8], $listArgs[9], $listArgs[10], $listArgs[11]);
                 break;
             default:
-                throw new Exception('Error al crear el constructor');
+                $this->__construct1();
         }
+    }
+
+    public function __construct1(){
+        
     }
 
     public function __constructUpdateSolicitudEscuela($idSolicitud, $value){
