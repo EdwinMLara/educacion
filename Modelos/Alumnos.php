@@ -22,8 +22,14 @@
                     $this->__construct6($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5]);
                     break;
                 default:
-                    throw new Exception('Error al crear el constructor Alumnos');
+                    $this->__construct1($listArgs[0],$listArgs[1],$listArgs[2]);
             }
+        }
+
+        public function __construct1($nombre,$curp,$email){
+            $this->curp = $curp;
+            $this->email = $email;
+            $this->nombre = $nombre;
         }
 
         public function __constructUpdate(){
