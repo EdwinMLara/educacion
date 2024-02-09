@@ -14,8 +14,13 @@
                     $this->__construct11($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10]);
                     break;
                 default:
-                    throw new Exception('Error al crear el constructor Escuela');
+                    $this->__construct1($listArgs[0],$listArgs[1]);
             }
+        }
+
+        public function __construct1($nombre,$municipio){
+            $this->nombre = $nombre;
+            $this->municipio = $municipio;
         }
 
         public function __construct10($idAlumno,$nombre,$calle,$no,$colonia,$municipio,$cp,$telefono,$tipoInstitucion,$file){
