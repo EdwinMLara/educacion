@@ -63,6 +63,49 @@ class SolicitudesRouter extends RestApi
         }
     }
 
+    public function getSolicitudesFilter(){
+        $fecha=$this->validateParameter("fecha",$this->param["fecha"],STRING);
+        $nivelEstudios =$this->validateParameter("nivelEstudios",$this->param["nivelEstudios"],STRING);
+        $status=$this->validateParameter("status",$this->param["status"],STRING);
+
+        $query = "SELECT * FROM `solicitudes` WHERE nivelEstudios = '$nivelEstudios' and `status` = '$status' AND fecha >= '$fecha'";
+
+        $solicitudes = $this->service->getByQueryTable($query);
+
+        if($solicitudes){
+            $numSolicitudes = count($solicitudes);
+            
+            $response = new stdClass();
+            $response->total = $numSolicitudes;
+            $response->solicitudes = $solicitudes;
+
+            $max = sizeof($solicitudes);
+            for ($i = 0; $i < $max; $i++) {
+
+                if($solicitudes[$i]->idAlumno !=  null){
+                    $query = "SELECT `nombre`, `curp` , `email` FROM `alumnos` WHERE idAlumno = " . $solicitudes[$i]->idAlumno;
+                    $alumno = $this->service->getByQueryTableModel($query, "Alumnos");
+                    
+                    $solicitudes[$i]->idAlumno = $alumno;
+                }
+
+                if($solicitudes[$i]->idEscuela !=  null){
+                    $query = "SELECT `nombre`, `municipio` FROM `escuela` WHERE idEscuela = " . $solicitudes[$i]->idEscuela;
+                    $escuela = $this->service->getByQueryTableModel($query, "Escuela");
+                    $solicitudes[$i]->idEscuela = $escuela;
+                }
+            }
+
+            $this->returnResponse(SUCESS_RESPONSE, $solicitudes);
+
+        }else if(empty($solicitudes)){
+            return $this->returnResponse(SUCESS_EMPTY,"No se encontraron resultados con esos parametros.");
+        }else{
+            $this->throwError('GET_ERROR', "An error has been ocurren to paginate de users");
+        }
+
+    }
+    
     public function getSolicitudesPaginate(){
         $page = $this->validateParameter('page', $this->param["page"], INTEGER);
         $perPage = $this->validateParameter('perPage', $this->param['perPage'], INTEGER);
