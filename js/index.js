@@ -305,6 +305,8 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
         let [key, value] = entry;
         if (key == 'idServicios')
             return
+        if (key == 'idAlumno')
+            return
         let objAux = value == 'si' ? { style: 'tableContainSelected', text: key } : { style: '', text: key }
         serviciosColumna1.push(objAux);
     });
@@ -351,7 +353,7 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
     let tipoApoyo = datosRequisitosAdicionales.tipoApoyo;
 
 
-    let folio = 'BMU-01'
+    let folio = `EDUU-${solicitud.idSolicitud}`;
     var docDefinition = {
         compress: true,
         content: [
@@ -419,6 +421,8 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                         [{ text: datosPadre.calle, style: 'tableContain' }, { text: datosPadre.no, style: 'tableContain' }, { text: datosPadre.colonia, style: 'tableContain' }, { text: datosPadre.cp, style: 'tableContain' }, { text: datosPadre.municipio, style: 'tableContain' }],
                         [{ text: 'Grado de Estudios concluido', style: 'tableSubHeader', colSpan: 2 }, {}, { text: 'Ha tenido trabajo en los ultimos 3 meses', style: 'tableSubHeader', colSpan: 3 }, {}, {}],
                         [{ text: datosPadre.gradoEstudios, style: 'tableContain', colSpan: 2 }, {}, { text: datosPadre.trabajo6Meses, style: 'tableContain', colSpan: 3 }, {}, {}],
+                        [{ text: 'Nombre de alguna referencia', style: 'tableSubHeader', colSpan: 3 }, {}, {}, { text: 'Telefono de Referencia', style: 'tableSubHeader', colSpan: 2 }, {}],
+                        [{ text: datosPadre.referenciaNombre, style: 'tableContain', colSpan: 3 }, {}, {}, { text: datosPadre.referenciaTelefono, style: 'tableContain', colSpan: 2 }, {}],
                         [{ text: 'Numero de personas que trabajan en su Familia', style: 'tableSubHeader', colSpan: 4 }, {}, {}, {}, { text: 'Cuantas personas dependen del ingreso', style: 'tableSubHeader' }],
                         [{
                             style: 'listas',
@@ -713,20 +717,6 @@ const createSolicitudPdf = async (solicitud, fecha = "2021 - 2024") => {
                 style: 'subindice',
                 text: `en caso de que el alumno sea mayor de edad firmara la solicitud`
             }
-            ,
-            {
-                style: 'firma',
-                text: `____________________________________________________`
-            }
-            ,
-            {
-                style: 'subindice',
-                text: `C.JORGE LUIS HERNANDEZ TELLEZ`
-            },
-            {
-                style: 'subindice',
-                text: `Director de educacion y civismo`
-            }
         ],
         styles: {
             header: {
@@ -828,9 +818,9 @@ const blobPdf = [];
 const showPdf = async (e) => {
     let ruta = e.value;
     $("#fileLabel").html(ruta);
-    let extPermitidas = /(.pdf)$/i;
+    let extPermitidas = /(.pdf|.jpeg|.jpg|.png)$/i;
     if (!extPermitidas.exec(ruta)) {
-        alert('Asegurese de haber seleccionado un PDF');
+        alert('Asegurese de haber seleccionado un archivo valido');
         $("#fileLabel").html('');
         return;
     }
@@ -845,7 +835,7 @@ const showPdf = async (e) => {
 
         visor.onload = function (e) {
             console.log(e.target.result.length);
-            if (e.target.result.length > 2000000) {
+            if (e.target.result.length > 3000000) {
                 this.addedConfirm("El archivo es muy grande!", true)
                     .then(result => console.log(result))
                     .catch(err => console.log(err));

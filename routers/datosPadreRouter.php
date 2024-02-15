@@ -20,12 +20,14 @@ class DatosPadreRouter extends RestApi{
         $cp = $this->validateParameter("cp",$this->param["cp"],STRING);
         $municipio = $this->validateParameter("municipio",$this->param["municipio"],STRING);
         $gradoEstudios = $this->validateParameter("gradoEstudios",$this->param["gradoEstudios"],STRING);
+        $nombreReferencia = $this->validateParameter("nombreReferencia",$this->param["nombreReferencia"],STRING);
+        $referenciaTelefono = $this->validateParameter("referenciaTelefono",$this->param["referenciaTelefono"],STRING);
         $trabajo6Meses = $this->validateParameter("trabajo6Meses",$this->param["trabajo6Meses"],STRING);
         $motivoNoTrabajo = $this->validateParameter("motivoNoTrabajo",$this->param["motivoNoTrabajo"],STRING);
         $seguroMedico = $this->validateParameter("seguroMedico",$this->param["seguroMedico"],STRING);
         $file = $this->validateParameter('file',$this->param["file"],STRING); 
 
-        $arguments = array($idAlumno,$curp,$nombre,$telefeno,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file);
+        $arguments = array($idAlumno,$curp,$nombre,$telefeno,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$nombreReferencia,$referenciaTelefono,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file);
         if ($result = $this->service->create($arguments)) {
             $this->returnResponse(SUCESS_RESPONSE, $result);
         } else {

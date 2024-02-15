@@ -73,7 +73,6 @@ const paginar = (page) => {
         }
     }
     request('/educacion/Api/apiUsuarios.php', data, function (res) {
-        console.log(res);
 
         if (res.hasOwnProperty('error')) {
             let expiredToken = res.error.status;
@@ -97,7 +96,7 @@ const paginar = (page) => {
                             + `<button type="button" onclick="location.href=\'./updateUsuarios.php?idUsuarios=${user.idUsuarios}&username=${user.username}\'" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></button>`
                             + `<button type="button" onclick="deleteUsuario(${user.idUsuarios})" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>`
                             + '</td>';
-            console.log(user.username);
+
             if((user.username.localeCompare('EdwinMLara') != 0) && (user.username.localeCompare('auxtoken') != 0) ){
                 trHTML += buttomHTML;
             }

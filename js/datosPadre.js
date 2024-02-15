@@ -7,7 +7,7 @@ const strFormInject = '<form id="formAddDatosPadre" autocomplete="off">'
                     +          '<div class="form-group mb-4">'
                     +              '<label for="inputGroupFile01">Credencial de Lector</label>'
                     +              '<div class="custom-file">' 
-                    +                   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
+                    +                   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf, image/png, image/jpeg, image/jpg" onchange="showPdf(this)">'
                     +                   '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
                     +              '</div>'
                     +          '</div>'
@@ -108,6 +108,15 @@ const strFormInject = '<form id="formAddDatosPadre" autocomplete="off">'
                     +  '</div>'
                     + '</div>'
 
+
+                    +          '<div class="form-group">'
+                    +              '<input type="text" class="form-control" name="nombreReferencia" placeholder="Nombre de alguna referencia">'
+                    +          '</div>'
+
+                    +          '<div class="form-group">'
+                    +              '<input type="text" class="form-control" name="referenciaTelefono" placeholder="Telefono de referencia">'
+                    +          '</div>'
+
                     +  '<div class="row"> '
                     +      '<div class="col-sm">'
                     +          '<button type="submit" class="btn btn-primary btn-user btn-block">'
@@ -115,6 +124,7 @@ const strFormInject = '<form id="formAddDatosPadre" autocomplete="off">'
                     +          '</button>'
                     +      '</div>'
                     +  '</div>'
+
                     + '</form>';
 
 $(function () {
@@ -176,7 +186,14 @@ function syncronizarFormDatosPadre(current_curp){
             gradoEstudios: { required: true },
             trabajo6Meses: { required: true },
             motivoNoTrabajo: { required: true },
-            seguroMedico: { required: true }
+            seguroMedico: { required: true },
+            nombreReferencia:{required: true},
+            referenciaTelefono: {  
+                required:true,
+                number:true,
+                minlength:7,
+                maxlength:10
+            }
         },
         messages: {
             file: { required : "Seleccione el archivo"},
@@ -195,7 +212,13 @@ function syncronizarFormDatosPadre(current_curp){
             gradoEstudios: { required: 'Seleccione el grado de estudios' },
             trabajo6Meses: { required: 'Seleccione si ha trabajado el los ultimos 6 meses' },
             motivoNoTrabajo: { required: 'Agrege el motivo' },
-            seguroMedico: { required: 'Seleccione si cuenta con seguro medico' }
+            seguroMedico: { required: 'Seleccione si cuenta con seguro medico' },
+            nombreReferencia:{ required : 'Agrege un nombre de referencia'},
+            referenciaTelefono:{
+                required:'Agrega el numero de telefono de la referencia',
+                number:'solo se aceptan numeros',
+                minlength:'el numero es muy corto',
+                maxlength:'el numero esta incorrecto es muy largo'}
         },
         submitHandler: function () {
             console.log("================== Registrar Datos del Padre ================= ");

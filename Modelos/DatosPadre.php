@@ -8,18 +8,18 @@
             $numArgs = count($listArgs);
 
             switch($numArgs){
-                case 15:
-                    $this->__construct15($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13],$listArgs[14]);
+                case 17:
+                    $this->__construct15($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13],$listArgs[14],$listArgs[15],$listArgs[16]);
                     break;
-                case 16:
-                    $this->__construct16($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13],$listArgs[14],$listArgs[15]);
+                case 18:
+                    $this->__construct16($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13],$listArgs[14],$listArgs[15],$listArgs[16],$listArgs[17]);
                     break;
                 default:
                     throw new Exception('Error al crear el constructor Padre');
             }
         }
 
-        public function __construct15($idAlumno,$curp,$nombre,$telefono,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file){
+        public function __construct15($idAlumno,$curp,$nombre,$telefono,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$referenciaNombre,$referenciaTelefono,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file){
             $this->idAlumno = $idAlumno;
             $this->curp = $curp;
             $this->nombre = $nombre;
@@ -31,13 +31,15 @@
             $this->cp = $cp;
             $this->municipio = $municipio;
             $this->gradoEstudios = $gradoEstudios;
+            $this->referenciaNombre = $referenciaNombre;
+            $this->referenciaTelefono = $referenciaTelefono;
             $this->trabajo6Meses = $trabajo6Meses;
             $this->motivoNoTrabajo = $motivoNoTrabajo;
             $this->seguroMedico = $seguroMedico;
             $this->file = $file;
         }
 
-        public function __construct16($idPadre,$idAlumno,$curp,$nombre,$telefono,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file){
+        public function __construct16($idPadre,$idAlumno,$curp,$nombre,$telefono,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$referenciaNombre,$referenciaTelefono,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file){
             $this->idPadre = $idPadre;
             $this->idAlumno = $idAlumno;
             $this->curp = $curp;
@@ -50,6 +52,8 @@
             $this->cp = $cp;
             $this->municipio = $municipio;
             $this->gradoEstudios = $gradoEstudios;
+            $this->referenciaNombre = $referenciaNombre;
+            $this->referenciaTelefono = $referenciaTelefono;
             $this->trabajo6Meses = $trabajo6Meses;
             $this->motivoNoTrabajo = $motivoNoTrabajo;
             $this->seguroMedico = $seguroMedico;

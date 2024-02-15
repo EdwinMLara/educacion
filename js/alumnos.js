@@ -32,7 +32,7 @@ const strFormInject = '<form id="formAddAlumnos" autocomplete="off">'
     + '<div class="form-group mb-4">'
     +   '<label for="inputGroupFile01">Acta de nacimiento en PDF</label>'
     +   '<div class="custom-file">'
-    +   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf" onchange="showPdf(this)">'
+    +   '<input id="file" type="file" name="file" class="custom-file-input" accept="application/pdf, image/png, image/jpeg, image/jpg" onchange="showPdf(this)">'
     +       '<label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona el archivo</label>'
     +   '</div>'
     + '</div>'
@@ -213,7 +213,6 @@ function syncronizarForm() {
             }, auxToken[0],false);
         }
     });
-
 }
 
 

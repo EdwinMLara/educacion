@@ -167,6 +167,8 @@ const responseUsersFunction = (page, perPage) => {
      * @param { Array<Object>}
      */
 
+    console.log(typeCount);
+
     return function (res) {
         console.log(res);
 
@@ -212,6 +214,12 @@ const responseUsersFunction = (page, perPage) => {
                     console.log(`Sorry, we are out of ${expr}.`);
             }
 
+            let deleteButtonSolicitud = "";
+            if(typeCount == "administrador")
+                deleteButtonSolicitud = `<button type="button" onClick="deleteSolicitud(${solicitud.idSolicitud})" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i></button>`;
+
+
             trHTML += '<tr>'
                 + '<td>' + alumno + '</td>'
                 + '<td>' + escuela + '</td>'
@@ -220,9 +228,16 @@ const responseUsersFunction = (page, perPage) => {
                 + '<td>' + solicitud.promedioReciente + '</td>'
                 + `<td><div class="text-white text-center ${colorStatus}"> ${solicitud.status}</div></td>`
                 + `<td class="d-flex justify-content-around">`
-                + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
-                + `<button type="button"  onClick="print(${index})" class="btn btn-warning"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
-                + buttonSendNotificacion
+
+                    + `<button type="button"  data-toggle="modal" data-target="#detallesSolicitudModal" onClick="detallesSolicitud(${index})" class="btn btn-info btn-sm"><i class="fa fa-question fa-fw" aria-hidden="true"></i></button>`
+
+                    + `<button type="button"  onClick="print(${index})" class="btn btn-warning btn-sm"><i class="fa fa-print fa-fw" aria-hidden="true"></i></button>`
+
+                    + deleteButtonSolicitud
+
+                    + buttonSendNotificacion
+
+
                 + '</td>'
                 + '</tr>';
         });
@@ -641,9 +656,14 @@ $('#aceptarBecaButton').on('click',function () {
     paginar(1);
 });
 
+const deleteSolicitud = (idSolicitud) =>{
+    console.log(idSolicitud);
+}
+
 /*$('#rechazarBecaButton').on('click',function () {
     enviarRespuesta(0);
 })
+
 
 SELECT reservation.date_at AS fecha, CONCAT(medic.name,medic.lastname) as Medico, COUNT(reservation.id) AS Consultas
 FROM reservation
