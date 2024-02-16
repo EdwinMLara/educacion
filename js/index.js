@@ -819,23 +819,31 @@ const showPdf = async (e) => {
     let ruta = e.value;
     $("#fileLabel").html(ruta);
     let extPermitidas = /(.pdf|.jpeg|.jpg|.png)$/i;
+
     if (!extPermitidas.exec(ruta)) {
         alert('Asegurese de haber seleccionado un archivo valido');
         $("#fileLabel").html('');
         return;
     }
 
-    if (e.files && e.files[0]) {
-        var visor = new FileReader();
-        visor.addedConfirm = customizeConfirm;
+    if (!e.files && !e.files[0]) {
+        return;
+    }
 
+    let fileType = e.files[0].type;
+
+    let visor = new FileReader();
+    visor.addedConfirm = customizeConfirm;
+
+    if(fileType.localeCompare('application/pdf') == 0){
+        
         visor.onloadstart = function (e) {
             console.log("Iniciando carga");
         }
 
         visor.onload = function (e) {
-            console.log(e.target.result.length);
-            if (e.target.result.length > 3000000) {
+            //console.log(e.target.result.length);
+            if (e.target.result.length > 2000000) {
                 this.addedConfirm("El archivo es muy grande!", true)
                     .then(result => console.log(result))
                     .catch(err => console.log(err));
@@ -844,15 +852,75 @@ const showPdf = async (e) => {
             }
             const targetElement = document.querySelector('#iframeContainer');
             blobPdf[0] = e.target.result;
-            targetElement.src = e.target.result
+            targetElement.src = e.target.result;
         };
 
         visor.onloadend = function (e) {
-            console.log("Carga Finalizada");
+            console.log("Carga Finalizada PDF");
         }
 
-        console.log("mostrando");
         visor.readAsDataURL(e.files[0]);
+
+        return;
+    }
+
+    if(fileType.localeCompare('image/png') == 0 || fileType.localeCompare('image/jpeg') == 0){
+
+        visor.onloadstart = function (e) {
+            console.log("Iniciando carga");
+        }
+    
+        visor.onload = function (e) {
+    
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                const maxWidth = 800; // Max width for compressed image
+                const maxHeight = 600; // Max height for compressed image
+                
+                // Calculate new dimensions to maintain aspect ratio
+                let newWidth = img.width;
+                let newHeight = img.height;
+                if (img.width > maxWidth || img.height > maxHeight) {
+                    const aspectRatio = img.width / img.height;
+                    if (aspectRatio > 1) {
+                    newWidth = maxWidth;
+                    newHeight = maxWidth / aspectRatio;
+                    } else {
+                    newHeight = maxHeight;
+                    newWidth = maxHeight * aspectRatio;
+                    }
+                }
+                
+                // Set canvas dimensions
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                
+                // Draw the image onto the canvas with new dimensions
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                
+                // Get data URL of the compressed image
+                const compressedImage = canvas.toDataURL('image/jpeg', 1); // 0.7 is the quality (0.0 - 1.0)
+                
+                // Display the compressed image
+                const outputImg = document.querySelector('#iframeContainer');
+    
+                blobPdf[0] = compressedImage;
+                outputImg.src = compressedImage;
+            };
+            
+            img.src = e.target.result;
+        };
+    
+        visor.onloadend = function (e) {
+            console.log("Carga Finalizada IMG");
+        }
+    
+        visor.readAsDataURL(e.files[0]);
+
+        return;
     }
 }
 
