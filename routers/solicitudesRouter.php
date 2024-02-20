@@ -457,4 +457,14 @@ class SolicitudesRouter extends RestApi
         else
             $this->throwError(UPDATED_ERROR, "A ocurrido en error con el correo");
     }
+
+    public function deleteSolicitud(){
+        $id_solicitud = $this->validateParameter('idSolicitud',$this->param["idSolicitud"],INTEGER);
+        $result = $this->service->delete("idSolicitud", $id_solicitud);
+        if ($result) {
+            $this->returnResponse(SUCESS_RESPONSE, "The application has been deleted sucessfully.");
+        } else {
+            $this->throwError('DELETE_ERROR', "An has been ocurred to deleted the application.");
+        }
+    }
 }

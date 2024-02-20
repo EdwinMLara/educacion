@@ -657,7 +657,26 @@ $('#aceptarBecaButton').on('click',function () {
 });
 
 const deleteSolicitud = (idSolicitud) =>{
-    console.log(idSolicitud);
+    if(confirm('Desea eliminar la solicitud')){
+        let data = {
+            name: "deleteSolicitud",
+            param: {
+                idSolicitud:parseInt(idSolicitud)
+            }
+        }
+
+        console.log(data);
+
+        request('/educacion/Api/apiSolicitudes.php',data, function (res){
+            console.log(res);
+            if (!res.hasOwnProperty('error')) {
+                let status = res.response.status;
+                status === 200 ? paginar(1) : alert('Error al eliminar');
+            } else {
+                alert(res.error.message);
+            }
+        },token,false);
+    }
 }
 
 /*$('#rechazarBecaButton').on('click',function () {

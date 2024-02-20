@@ -1,5 +1,5 @@
 @hostname = localhost/educacion/Api
-@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc0MTc3MTEsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTcwNzQyMzcxMSwidXNlcklkIjoiMSJ9.BRWKqTvaPRYsOcuAgqBVkq8QNJ_ayr9tYCaWw8ZbsI0
+@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDgzNjA0MjgsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTcwODM2NjQyOCwidXNlcklkIjoiMSJ9.rRmC2SBxDyBYPTye3Viyt7Bo-ZDTK0HaxqWSe4mucGI
 ### solicitar los escuelas 
 
 post http://{{hostname}}/apiSolicitudes.php HTTP/1.1
@@ -134,5 +134,18 @@ Authorization: {{token}}
             "fecha":"2024-01-01",
             "nivelEstudios":"preparatoria",
             "status":"aceptada"
+        }
+}
+
+### eliminarSolicitud
+
+post http://{{hostname}}/apiSolicitudes.php HTTP/1.1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "name":"deleteSolicitud",
+    "param":{
+            "idSolicitud":32,
         }
 }
