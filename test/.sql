@@ -19,7 +19,7 @@ ALTER TABLE solicitudes
 ADD CONSTRAINT fk_solicitudes_escuelas
 FOREIGN KEY (idEscuela)
 REFERENCES escuelas(idEscuela)
-ON DELETE CASCADE;
+
 
 
 /*
@@ -28,7 +28,7 @@ se va agragar un disparador  para que cuando se inserte o actualice una solicitu
 
 DELIMITER 
 |
-    CREATE TRIGGER insertSolicitud AFTER INSERT ON alumno
+    CREATE TRIGGER insertSolicitud AFTER INSERT ON alumnos
     FOR EACH ROW
     BEGIN
         INSERT INTO solicitudes (idAlumno,idEscuela)
@@ -61,7 +61,7 @@ DELIMITER
 Prueba de insertar un alumno
 */
 
-INSERT INTO `alumno`(`nombre`) VALUES ('Edwin Miguel Lara Espinoza');
+INSERT INTO `alumnos`(`nombre`) VALUES ('Edwin Miguel Lara Espinoza');
 INSERT INTO `escuelas`( `idAlumno`, `nombre`) VALUES (1,'universidad de guanajuato');
 
 
@@ -85,3 +85,32 @@ DELIMITER
         
     END;;
 |
+
+
+
+/*
+INSERTAR ALUMNO 
+*/
+
+INSERT INTO `alumnos`(`curp`, `email`, `nombre`, `fechaNacimiento`, `file`) 
+VALUES ('LAEE920717HMCRSD09','em.laraespinoza@hotmail.com','Edwin Miguel Lara Espinoza','1992-07-17','base64:/')
+
+/*
+INSERTAR ESCUELA
+*/
+
+INSERT INTO `escuela`( `idAlumno`, `nombre`, `calle`, `no`, `colonia`, `municipio`, `cp`, `telefono`, `tipoInstitucion`, `file`) VALUES (34,'Universidad de Guanajauto','Av. universidad','s/n','Yacatitas','Yuriria','38980','4451107150','publica','base64/')
+
+
+/*
+INSERTAR  PADRE
+*/
+
+INSERT INTO `padre`(`idAlumno`, `curp`, `nombre`, `telefono`, `fechaNacimiento`, `calle`, `no`, `colonia`, `cp`, `municipio`, `gradoEstudios`, `referenciaNombre`, `referenciaTelefono`, `trabajo6meses`, `motivoNoTrabajo`, `seguroMedico`, `file`) VALUES (36,'LAGJ651118HDFRTN01','Juan Enrique Lara Gutierrez','4454581915','1965-11-18','2da privada 5 de febrero','87','niños heroes','38850','Moroleon','secundaria','Hilda Espinoza Moreono','4451107150','si','Sin motivo','Ninguno','base64/')
+
+/*
+INSERTAR INGRESOS FAMILIARES
+*/
+
+INSERT INTO `ingresosfamiliares`(`idAlumno`, `ingresoPapa`, `ingresoMama`, `ingresoHermanos`, `ingresoAbuelos`, `personasDependientes`, `file`) 
+VALUES (36,1000,1000,1000,6000,8,'base64')
