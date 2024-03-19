@@ -1,7 +1,5 @@
 /** Mi curp para probar
- * LAEE920717HMCRSD09
- * EIMH700908MDFSRL09
- * LAGJ651118HDFRTN01
+ 
  * 
  * CHECAR LA VALIDACION DE TIPO DE DATOS
  * =================================================================
