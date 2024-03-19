@@ -94,6 +94,12 @@ class SolicitudesRouter extends RestApi
                     $escuela = $this->service->getByQueryTableModel($query, "Escuela");
                     $solicitudes[$i]->idEscuela = $escuela;
                 }
+
+                if($solicitudes[$i]->idPadre !=  null){
+                    $query = "SELECT `nombre`, `curp`, `telefono` FROM `padre` WHERE idPadre = " . $solicitudes[$i]->idPadre;
+                    $datosPadre = $this->service->getByQueryTableModel($query, "Padre");
+                    $solicitudes[$i]->idPadre = $datosPadre;
+                }
             }
 
             $this->returnResponse(SUCESS_RESPONSE, $solicitudes);
@@ -419,12 +425,12 @@ class SolicitudesRouter extends RestApi
         $nombre = $alumno[0]->nombre;
         $statusMessageRespuesta = "";
         $link = "";
-        $servidor = "http://localhost/educacion/views/solicitudes/imprimirFormato.php";
-        $fecha = "2023";
+        $servidor = "https://educacion.uriangato.gob.mx/educacion/views/solicitudes/imprimirFormato.php";
+        $fecha = "2024";
         
         if($statusBeca){
             $statusMessageRespuesta = "Nos complace informale que su solicitud de beca ha si aceptada";
-            $link = '<a href="'.$servidor.'?folio=URF-'.$id_solicitud.'-'.$fecha.'">Descargar Formato</a>';
+            $link = '<a href="'.$servidor.'?folio=EDUU-'.$id_solicitud.'-'.$fecha.'">Descargar Formato</a>';
         }else{
             $statusMessageRespuesta = "Lamentamos informarle que su solicitud ha sido rechazada, debido ha QUE:";
         }
@@ -468,3 +474,4 @@ class SolicitudesRouter extends RestApi
         }
     }
 }
+ 

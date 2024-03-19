@@ -15,8 +15,16 @@
                     $this->__construct16($listArgs[0],$listArgs[1],$listArgs[2],$listArgs[3],$listArgs[4],$listArgs[5],$listArgs[6],$listArgs[7],$listArgs[8],$listArgs[9],$listArgs[10],$listArgs[11],$listArgs[12],$listArgs[13],$listArgs[14],$listArgs[15],$listArgs[16],$listArgs[17]);
                     break;
                 default:
-                    throw new Exception('Error al crear el constructor Padre');
+                    $this->__construct1($listArgs[0],$listArgs[1],$listArgs[2]);
+                    
             }
+        }
+
+        public function __construct1($nombre,$curp,$telefono)
+        {
+            $this->nombre = $nombre;
+            $this->curp = $curp;
+            $this->telefono = $telefono;
         }
 
         public function __construct15($idAlumno,$curp,$nombre,$telefono,$fechaNacimiento,$calle,$no,$colonia,$cp,$municipio,$gradoEstudios,$referenciaNombre,$referenciaTelefono,$trabajo6Meses,$motivoNoTrabajo,$seguroMedico,$file){
