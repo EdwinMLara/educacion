@@ -119,6 +119,7 @@ function syncronizarForm(){
                     
                     trHTML += ''
                     + '<tr>'
+                    +       '<td>' + `EDUU-${solicitud.idSolicitud}` + '</td>'
                     +       '<td>' + alumno + '</td>'
                     +       '<td>' + escuela + '</td>'
                     +       '<td>' + padre + '</td>'
@@ -254,13 +255,16 @@ function pdf(){
 
 function excel(){
     console.log('crear excel');
-    let strHeaders = "Folio,Alumno,Escuela,Padre,Nivel de Estudios,Estatus\n";
+    let strHeaders = "Folio,Alumno,curp,Escuela,Padre,curp Padre,Referencia Banco,Nivel de Estudios,Estatus\n";
 
     let status = reporte.params.status;
     let solicitudes = reporte.solicitudes;
 
     solicitudes.forEach((solicitud) => {
-        let strRow = `EDUU-${solicitud.idSolicitud},${solicitud.idAlumno[0].nombre}, ${solicitud.idEscuela[0].nombre},Padre Prueba,${solicitud.nivelEstudios},${status}\n`;
+        let auxBanco = solicitud.idPadre[0].curp;
+        let rfc = auxBanco.substr(0,10);
+
+        let strRow = `EDUU-${solicitud.idSolicitud},${solicitud.idAlumno[0].nombre},${solicitud.idAlumno[0].curp}, ${solicitud.idEscuela[0].nombre},${solicitud.idPadre[0].nombre},${solicitud.idPadre[0].curp},${rfc}000,${solicitud.nivelEstudios},${status}\n`;
         strHeaders += strRow;
     });
 
