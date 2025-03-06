@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-01-2024 a las 22:31:43
+-- Tiempo de generación: 05-03-2025 a las 18:09:29
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -79,7 +79,7 @@ CREATE TRIGGER `updateSolicitudIdEscuela` AFTER INSERT ON `escuela` FOR EACH ROW
 	
 	UPDATE solicitudes 
 	SET idEscuela = NEW.idEscuela 
-	WHERE idSolicitud = idSolicitud; 
+	WHERE idSolicitud = idSolicitudAux; 
 END
 $$
 DELIMITER ;
@@ -113,7 +113,7 @@ CREATE TRIGGER `updateSolicitudIdIngresosFamiliares` AFTER INSERT ON `ingresosfa
 	
 	UPDATE solicitudes 
 	SET idIngresosFamiliares = NEW.idIngresosFamiliares 
-	WHERE idSolicitud = idSolicitud; 
+	WHERE idSolicitud = idSolicitudAux; 
 END
 $$
 DELIMITER ;
@@ -137,6 +137,8 @@ CREATE TABLE `padre` (
   `cp` varchar(10) NOT NULL,
   `municipio` varchar(30) NOT NULL,
   `gradoEstudios` varchar(20) NOT NULL,
+  `referenciaNombre` varchar(50) NOT NULL,
+  `referenciaTelefono` varchar(20) NOT NULL,
   `trabajo6meses` varchar(5) NOT NULL,
   `motivoNoTrabajo` varchar(50) NOT NULL,
   `seguroMedico` varchar(20) NOT NULL,
@@ -155,7 +157,7 @@ CREATE TRIGGER `updateSolicitudPadre` AFTER INSERT ON `padre` FOR EACH ROW BEGIN
 	
 	UPDATE solicitudes 
 	SET idPadre = NEW.idPadre 
-	WHERE idSolicitud = idSolicitud; 
+	WHERE idSolicitud = idSolicitudAux; 
 END
 $$
 DELIMITER ;
@@ -193,7 +195,7 @@ CREATE TRIGGER `updateSolicitudRequisitosAdicionales` AFTER INSERT ON `requisito
 	
 	UPDATE solicitudes 
 	SET idRequisitosAdicionales = NEW.idRequisitosAdicionales
-	WHERE idSolicitud = idSolicitud; 
+	WHERE idSolicitud = idSolicitudAux; 
 END
 $$
 DELIMITER ;
@@ -231,7 +233,7 @@ CREATE TRIGGER `updateSolicitudServicios` AFTER INSERT ON `servicios` FOR EACH R
 	
 	UPDATE solicitudes 
 	SET idServicios = NEW.idServicios
-	WHERE idSolicitud = idSolicitud; 
+	WHERE idSolicitud = idSolicitudAux; 
 END
 $$
 DELIMITER ;
@@ -257,6 +259,28 @@ CREATE TABLE `solicitudes` (
   `fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Disparadores `solicitudes`
+--
+DELIMITER $$
+CREATE TRIGGER `eliminarTodoSolictud2` BEFORE DELETE ON `solicitudes` FOR EACH ROW BEGIN
+    	DECLARE idEscuelaAux,idPadreAux,idIngresosFamiliaresAux,idServiciosAux,idRequisitosAdicionalesAux INT;
+        
+        SELECT solicitudes.idEscuela,solicitudes.idPadre,
+        solicitudes.idIngresosFamiliares,solicitudes.idServicios, solicitudes.idRequisitosAdicionales 
+        INTO idEscuelaAux, idPadreAux, idIngresosFamiliaresAux, idServiciosAux, idRequisitosAdicionalesAux
+        FROM solicitudes WHERE solicitudes.idSolicitud = OLD.idSolicitud;
+        
+        DELETE FROM escuela WHERE idEscuela = idEscuelaAux;
+        DELETE FROM padre WHERE idPadre = idPadreAux;
+        DELETE FROM ingresosfamiliares WHERE idIngresosFamiliares = idIngresosFamiliaresAux;
+        DELETE FROM servicios WHERE idServicios = idServiciosAux;
+        DELETE FROM requisitosadicionales WHERE idRequisitosAdicionales = idRequisitosAdicionalesAux;
+        
+    END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -276,8 +300,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`idUsuarios`, `username`, `password`, `tipoCuenta`) VALUES
 (1, 'EdwinMLara', 'iHXAt3Q=', 'administrador'),
-(3, 'auxtoken', 'iHXAt3Q=', 'registro'),
-(7, 'Karen2', 'iHXAt3Tp', 'agente');
+(3, 'auxtoken', 'iHXAt3Q=', 'registro');
 
 --
 -- Índices para tablas volcadas
@@ -295,35 +318,35 @@ ALTER TABLE `alumnos`
 --
 ALTER TABLE `escuela`
   ADD PRIMARY KEY (`idEscuela`),
-  ADD KEY `idAlumno` (`idAlumno`);
+  ADD KEY `escuela_ibfk_1` (`idAlumno`);
 
 --
 -- Indices de la tabla `ingresosfamiliares`
 --
 ALTER TABLE `ingresosfamiliares`
   ADD PRIMARY KEY (`idIngresosFamiliares`),
-  ADD KEY `idAlumno` (`idAlumno`);
+  ADD KEY `ingresosfamiliares_ibfk_1` (`idAlumno`);
 
 --
 -- Indices de la tabla `padre`
 --
 ALTER TABLE `padre`
   ADD PRIMARY KEY (`idPadre`),
-  ADD KEY `idAlumno` (`idAlumno`);
+  ADD KEY `padre_ibfk_1` (`idAlumno`);
 
 --
 -- Indices de la tabla `requisitosadicionales`
 --
 ALTER TABLE `requisitosadicionales`
   ADD PRIMARY KEY (`idRequisitosAdicionales`),
-  ADD KEY `idAlumno` (`idAlumno`);
+  ADD KEY `requisitosadicionales_ibfk_1` (`idAlumno`);
 
 --
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
   ADD PRIMARY KEY (`idServicios`),
-  ADD KEY `idAlumno` (`idAlumno`);
+  ADD KEY `servicios_ibfk_1` (`idAlumno`);
 
 --
 -- Indices de la tabla `solicitudes`
@@ -331,11 +354,11 @@ ALTER TABLE `servicios`
 ALTER TABLE `solicitudes`
   ADD PRIMARY KEY (`idSolicitud`),
   ADD KEY `FK_alumnos` (`idAlumno`),
-  ADD KEY `idEscuela` (`idEscuela`),
-  ADD KEY `idPadre` (`idPadre`),
-  ADD KEY `idIngresosFamiliares` (`idIngresosFamiliares`),
-  ADD KEY `idServicios` (`idServicios`),
-  ADD KEY `idRequisitosAdicionales` (`idRequisitosAdicionales`);
+  ADD KEY `solicitudes_ibfk_1` (`idEscuela`),
+  ADD KEY `solicitudes_ibfk_2` (`idPadre`),
+  ADD KEY `solicitudes_ibfk_3` (`idIngresosFamiliares`),
+  ADD KEY `solicitudes_ibfk_4` (`idServicios`),
+  ADD KEY `solicitudes_ibfk_5` (`idRequisitosAdicionales`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -351,49 +374,49 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `escuela`
 --
 ALTER TABLE `escuela`
-  MODIFY `idEscuela` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idEscuela` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresosfamiliares`
 --
 ALTER TABLE `ingresosfamiliares`
-  MODIFY `idIngresosFamiliares` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idIngresosFamiliares` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `padre`
 --
 ALTER TABLE `padre`
-  MODIFY `idPadre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idPadre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `requisitosadicionales`
 --
 ALTER TABLE `requisitosadicionales`
-  MODIFY `idRequisitosAdicionales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idRequisitosAdicionales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `idServicios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idServicios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `idSolicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idSolicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
@@ -403,42 +426,42 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `escuela`
 --
 ALTER TABLE `escuela`
-  ADD CONSTRAINT `escuela_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`);
+  ADD CONSTRAINT `escuela_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `ingresosfamiliares`
 --
 ALTER TABLE `ingresosfamiliares`
-  ADD CONSTRAINT `ingresosfamiliares_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`);
+  ADD CONSTRAINT `ingresosfamiliares_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `padre`
 --
 ALTER TABLE `padre`
-  ADD CONSTRAINT `padre_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`);
+  ADD CONSTRAINT `padre_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `requisitosadicionales`
 --
 ALTER TABLE `requisitosadicionales`
-  ADD CONSTRAINT `requisitosadicionales_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`);
+  ADD CONSTRAINT `requisitosadicionales_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`);
+  ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  ADD CONSTRAINT `FK_alumnos` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`),
-  ADD CONSTRAINT `solicitudes_ibfk_1` FOREIGN KEY (`idEscuela`) REFERENCES `escuela` (`idEscuela`),
-  ADD CONSTRAINT `solicitudes_ibfk_2` FOREIGN KEY (`idPadre`) REFERENCES `padre` (`idPadre`),
-  ADD CONSTRAINT `solicitudes_ibfk_3` FOREIGN KEY (`idIngresosFamiliares`) REFERENCES `ingresosfamiliares` (`idIngresosFamiliares`),
-  ADD CONSTRAINT `solicitudes_ibfk_4` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idServicios`),
-  ADD CONSTRAINT `solicitudes_ibfk_5` FOREIGN KEY (`idRequisitosAdicionales`) REFERENCES `requisitosadicionales` (`idRequisitosAdicionales`);
+  ADD CONSTRAINT `FK_alumnos` FOREIGN KEY (`idAlumno`) REFERENCES `alumnos` (`idAlumno`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `solicitudes_ibfk_1` FOREIGN KEY (`idEscuela`) REFERENCES `escuela` (`idEscuela`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `solicitudes_ibfk_2` FOREIGN KEY (`idPadre`) REFERENCES `padre` (`idPadre`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `solicitudes_ibfk_3` FOREIGN KEY (`idIngresosFamiliares`) REFERENCES `ingresosfamiliares` (`idIngresosFamiliares`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `solicitudes_ibfk_4` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idServicios`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `solicitudes_ibfk_5` FOREIGN KEY (`idRequisitosAdicionales`) REFERENCES `requisitosadicionales` (`idRequisitosAdicionales`) ON DELETE SET NULL ON UPDATE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
