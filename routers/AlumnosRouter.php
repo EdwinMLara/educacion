@@ -10,7 +10,7 @@ class AlumnosRouter extends RestApi{
 
     public function addAlumno(){
         $curp = $this->validateParameter('curp', $this->param["curp"], STRING);
-        $email = $this->validateParameter('email', $this->param["email"], STRING);
+        $email = $this->validateParameter('correo', $this->param["correo"], STRING);
         $nombre = $this->validateParameter('nombre', $this->param["nombre"], STRING);
         $fechaNacimiento = $this->validateParameter('fechaNacimiento', $this->param["fechaNacimiento"], STRING);
         $file = $this->validateParameter('file',$this->param["file"],STRING); 

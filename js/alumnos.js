@@ -36,7 +36,7 @@ const strFormInject = '<form id="formAddAlumnos" autocomplete="off">'
     + '</div>'
 
     + '<div class="form-group mb-4">'
-    +   '<input type="text" class="form-control" name="email" placeholder="Correo">'
+    +   '<input type="text" class="form-control" name="correo" placeholder="Correo">'
     + '</div>'
 
     + '<div class="form-group mb-4">'
@@ -148,6 +148,33 @@ DELIMITER
         VALUES (NEW.idAlumno,NULL,NULL,NULL,NULL,NULL,'NO-REGISTRADO','NO-REGISTRADO','pendiente',0,now());
     END; 
 |
+
+* Here we're going to delete the trigger and add an store procedure in order to give support to avoid duplicate
+* records in the table alumnos once there is a previous request
+
+CREATE PROCEDURE addALumniRequest(IN p_curp VARCHAR(50), IN p_email VARCHAR(50), 
+                                  IN p_nombre VARCHAR(50), IN p_fechaNacimiento VARCHAR(50),
+                                  IN p_file MEDIUMBLOB)
+BEGIN
+	DECLARE v_alumni_id INT;
+    SELECT id INTO v_alumni_id FROM alumnos WHERE curp = p_curp LIMIT 1;
+    
+    IF v_alumni_id IS NULL THEN
+    	INSERT INTO alumnos (curp, email, nombre, fechaNacimiento, file) 
+        VALUES (p_curp, p_email, p_nombre, p_fechaNacimiento,p_file);
+        SET v_alumni_id = LAST_INSERT_ID();
+    END IF; 
+    
+    INSERT INTO solicitudes (idAlumno, idEscuela, idPadre, idIngresosFamiliares,
+                             idServicios, idRequisitosAdicionales, nivelEstudios, promedioReciente, 
+                             `status`, notificado, fecha)
+         			 VALUES (v_alumni_id, NULL, NULL, NULL, 
+                             NULL, NULL, 'NO-REGISTRADO', 'NO-REGISTRADO', 
+                             'pendiente', 0, now());
+END
+DELIMITER ;
+
+
  */
 
 function syncronizarForm() {
